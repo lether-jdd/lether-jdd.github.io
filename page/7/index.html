@@ -213,7 +213,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/babel/babel插件开发/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/babel/babel学习笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -227,7 +227,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/前端工程化相关/babel/babel插件开发/" class="post-title-link" itemprop="url">babel插件开发</a>
+            <a href="/2019/08/23/前端工程化相关/babel/babel学习笔记/" class="post-title-link" itemprop="url">babel学习笔记</a>
           
         </h1>
 
@@ -253,7 +253,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:35:21" itemprop="dateModified" datetime="2020-02-18T22:35:21+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 22:36:26" itemprop="dateModified" datetime="2020-02-18T22:36:26+08:00">2020-02-18</time>
               </span>
             
           
@@ -263,7 +263,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建/" itemprop="url" rel="index"><span itemprop="name">构建</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
 
                 
                 
@@ -282,7 +282,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>1 babel-plugin-add-module-exports  解决 require(xxx).default 带 default 的问题。<br>详见：<a href="https://www.npmjs.com/package/babel-plugin-add-module-exports" target="_blank" rel="noopener">https://www.npmjs.com/package/babel-plugin-add-module-exports</a><br>2</p>
+          <p>babel学习</p>
+<ul>
+<li><input checked disabled type="checkbox"> 1 presets：预设，其实就是插件集合，可自定义，怎么自定义就是发包到npm</li>
+<li><input disabled type="checkbox"> 2 资料：<a href="http://guoyongfeng.github.io/my-gitbook/03/toc-babel-runtime.html" target="_blank" rel="noopener">http://guoyongfeng.github.io/my-gitbook/03/toc-babel-runtime.html</a></li>
+<li><input disabled type="checkbox"> 3 babel-polyfill:<br>Babel 只是编译新的js语法，但是对于浏览器或别的环境尚未支持的一些新的APIs，就采用polyfill的方式进行模拟。怎么模拟？绑在原型链上？<br>问题：api和语法怎么界定?暂时讨论结果就是浏览器原生的要扩展的方法或什么，就是API，新的语法糖或别的就叫语法，babel翻译</li>
+<li><input disabled type="checkbox"> 4 babel-runtime：<br>Babel会将助手方法注入到每个文件的头部，所以为了统一管理，保持代码的清洁，使用babel-runtime,可以通过inport的方式引入方法而不是注入方法</li>
+<li><input disabled type="checkbox"> 5 怎么写一个babel插件<br>试验了一下，已完成</li>
+<li><input disabled type="checkbox"> 6 ast树解析网站<br><a href="https://astexplorer.net/" target="_blank" rel="noopener">https://astexplorer.net/</a></li>
+<li><input disabled type="checkbox"> 8 小例子：(删除不需要的导入)<br>  <a href="http://eux.baidu.com/blog/fe/how-to-write-babel-plugin" target="_blank" rel="noopener">http://eux.baidu.com/blog/fe/how-to-write-babel-plugin</a></li>
+<li><input disabled type="checkbox"> 9：cookbook<br><a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-paths" target="_blank" rel="noopener">https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-paths</a></li>
+</ul>
 
         
       
@@ -411,117 +421,6 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/babel/babel模块化相关/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/babel/babel模块化相关/" class="post-title-link" itemprop="url">babel模块化相关</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:35:25" itemprop="dateModified" datetime="2020-02-18T22:35:25+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1 babel将es6的模块化语言（import，export）转化成commonjs的模块化方式<br>还会给exports上加上__esModule  表示由 es6 转换来的 commonjs 输出</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(exports, <span class="string">"__esModule"</span>, &#123;</span><br><span class="line">  value: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br><span class="line">``` </span><br><span class="line">给模块的输出对象增加 __esModule 是为了将不符合 Babel 要求的 CommonJS 模块转换成符合要求的模块，这一点在 require 的时候体现出来。如果加载模块之后，发现加载的模块带着一个 __esModule 属性，Babel 就知道这个模块肯定是它转换过的，这样 Babel 就可以放心地从加载的模块中调用 exports.default 这个导出的对象，也就是 ES6 规定的默认导出对象，所以这个模块既符合 CommonJS 标准，又符合 Babel 对 ES6 模块化的需求。然而如果 __esModule 不存在，也没关系，Babel 在加载了一个检测不到 __esModule 的模块时，它就知道这个模块虽然符合 CommonJS 标准，但可能是一个第三方的模块，Babel 没有转换过它，如果以后直接调用 exports.default 是会出错的，所以现在就给它补上一个 default 属性，就干脆让 default 属性指向它自己就好了，这样以后就不会出错了。</span><br><span class="line"></span><br><span class="line">为什么转化后（0,fn()）这样执行是因为这样可以挂载在全局</span><br><span class="line"></span><br><span class="line">2 webpack</span><br><span class="line">webpack在对模块进行构建时会给模块放在函数里面，函数的传参视情况而定；</span><br><span class="line">对于函数的参数现在看来是在 /lib/module  下的这段代码中看是用哪个<span class="built_in">export</span></span><br><span class="line">```bash</span><br><span class="line">get <span class="function"><span class="title">exportsArgument</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> (this.buildInfo &amp;&amp; this.buildInfo.exportsArgument) || <span class="string">"exports"</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<p>exportsArgument 是在HarmonyDetectionParserPlugin插件中进行修改的。具体修改条件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const isStrictHarmony = parser.state.module.type === <span class="string">"javascript/esm"</span>;</span><br><span class="line">const isHarmony =</span><br><span class="line">  isStrictHarmony ||</span><br><span class="line">  ast.body.some(</span><br><span class="line">    statement =&gt;</span><br><span class="line">      statement.type === <span class="string">"ImportDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportDefaultDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportNamedDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportAllDeclaration"</span></span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
-
-<p>在FunctionModuleTemplatePlugin  插件中进行组装。<br>function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>)</p>
-<p>function(module, exports, <strong>webpack_require</strong>)</p>
-<p>3 transform-runtime | babel-runtime | babel-polyfill</p>
-<p>Babel 只是转换 syntax 层语法,所以需要 @babel/polyfill 来处理API兼容,又因为 polyfill 体积太大，所以通过 preset的 useBuiltIns 来实现按需加载,再接着为了满足 npm 组件开发的需要 出现了 @babel/runtime 来做隔离（因为会污染）</p>
-<p>在转换 ES2015 语法为 ECMAScript 5 的语法时，babel 会需要一些辅助函数，例如 _extend。babel 默认会将这些辅助函数内联到每一个 js 文件里，这样文件多的时候，项目就会很大。</p>
-<p>所以 babel 提供了 transform-runtime 来将这些辅助函数“搬”到一个单独的模块 babel-runtime 中，这样做能减小项目文件的大小。</p>
-<p>在webpack中，babel-plugin-transform-runtime 实际上是依赖babel-runtime<br>transform-runtime    默认引入了polyfill<br>babel-runtime和 babel-plugin-transform-runtime的区别是，相当一前者是手动挡而后者是自动挡，每当要转译一个api时都要手动加上require(‘babel-runtime’)，</p>
-<p>built-ins</p>
-<p>Babel 把 Javascript 语法 分为 syntax 和 api<br>api 指那些我们可以通过 函数重新覆盖的语法</p>
-<p>4  引入transform-runtime插件之后exports * 就报错<br>   1 可以注释掉Comment this line ‘defineProperty: “object/define-property”‘ in babel-plugin-transform-runtime/lib/definitions.js<br>   2 配置[“transform-runtime”, {<br>      “polyfill”: false<br>    }]<br>  3  “presets”: [<br>        { “plugins”: [ “transform-runtime” ] },<br>        {<br>            “passPerPreset”: false,<br>            “presets”: [ “es2015”, “stage-1” ]<br>        }<br>    ]</p>
-<p>5 为什么</p>
-<p>我们的模块已经被转成了cmd的形式，可是webpack还是按照es6的模式在处理</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpack-loader/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -621,6 +520,117 @@ loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle
 
 <p>为什么不能直接读取 html 文件而要用子编译器？因为 html 文件中可能依赖其他外部资源（比如 img 的src属性），所以加载 html 文件时仍然需要一个额外的完整的构建流程来完成这个任务，这个构建过程正好就包含了loader编辑的过程。<br>那么loader是在什么时候运行的呢？<br>参考<a href="https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10" target="_blank" rel="noopener">https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10</a>  文章的”loader运行时机部分“可知大概是在compilation的时候运行的，经过设置断点确实是在子编译器complication之后（但是没有跟到具体的方法）。<br><a href="https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10" target="_blank" rel="noopener">https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10</a>   这篇文章很详细的写了loader相关的内容，以后有机会可以看看</p>
 <p>关于子编辑器或更多webpack的相关<a href="https://cloud.tencent.com/developer/article/1030740" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1030740</a></p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/babel/babel模块化相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/babel/babel模块化相关/" class="post-title-link" itemprop="url">babel模块化相关</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:35:25" itemprop="dateModified" datetime="2020-02-18T22:35:25+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1 babel将es6的模块化语言（import，export）转化成commonjs的模块化方式<br>还会给exports上加上__esModule  表示由 es6 转换来的 commonjs 输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(exports, <span class="string">"__esModule"</span>, &#123;</span><br><span class="line">  value: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br><span class="line">``` </span><br><span class="line">给模块的输出对象增加 __esModule 是为了将不符合 Babel 要求的 CommonJS 模块转换成符合要求的模块，这一点在 require 的时候体现出来。如果加载模块之后，发现加载的模块带着一个 __esModule 属性，Babel 就知道这个模块肯定是它转换过的，这样 Babel 就可以放心地从加载的模块中调用 exports.default 这个导出的对象，也就是 ES6 规定的默认导出对象，所以这个模块既符合 CommonJS 标准，又符合 Babel 对 ES6 模块化的需求。然而如果 __esModule 不存在，也没关系，Babel 在加载了一个检测不到 __esModule 的模块时，它就知道这个模块虽然符合 CommonJS 标准，但可能是一个第三方的模块，Babel 没有转换过它，如果以后直接调用 exports.default 是会出错的，所以现在就给它补上一个 default 属性，就干脆让 default 属性指向它自己就好了，这样以后就不会出错了。</span><br><span class="line"></span><br><span class="line">为什么转化后（0,fn()）这样执行是因为这样可以挂载在全局</span><br><span class="line"></span><br><span class="line">2 webpack</span><br><span class="line">webpack在对模块进行构建时会给模块放在函数里面，函数的传参视情况而定；</span><br><span class="line">对于函数的参数现在看来是在 /lib/module  下的这段代码中看是用哪个<span class="built_in">export</span></span><br><span class="line">```bash</span><br><span class="line">get <span class="function"><span class="title">exportsArgument</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> (this.buildInfo &amp;&amp; this.buildInfo.exportsArgument) || <span class="string">"exports"</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>exportsArgument 是在HarmonyDetectionParserPlugin插件中进行修改的。具体修改条件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const isStrictHarmony = parser.state.module.type === <span class="string">"javascript/esm"</span>;</span><br><span class="line">const isHarmony =</span><br><span class="line">  isStrictHarmony ||</span><br><span class="line">  ast.body.some(</span><br><span class="line">    statement =&gt;</span><br><span class="line">      statement.type === <span class="string">"ImportDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportDefaultDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportNamedDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportAllDeclaration"</span></span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+
+<p>在FunctionModuleTemplatePlugin  插件中进行组装。<br>function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>)</p>
+<p>function(module, exports, <strong>webpack_require</strong>)</p>
+<p>3 transform-runtime | babel-runtime | babel-polyfill</p>
+<p>Babel 只是转换 syntax 层语法,所以需要 @babel/polyfill 来处理API兼容,又因为 polyfill 体积太大，所以通过 preset的 useBuiltIns 来实现按需加载,再接着为了满足 npm 组件开发的需要 出现了 @babel/runtime 来做隔离（因为会污染）</p>
+<p>在转换 ES2015 语法为 ECMAScript 5 的语法时，babel 会需要一些辅助函数，例如 _extend。babel 默认会将这些辅助函数内联到每一个 js 文件里，这样文件多的时候，项目就会很大。</p>
+<p>所以 babel 提供了 transform-runtime 来将这些辅助函数“搬”到一个单独的模块 babel-runtime 中，这样做能减小项目文件的大小。</p>
+<p>在webpack中，babel-plugin-transform-runtime 实际上是依赖babel-runtime<br>transform-runtime    默认引入了polyfill<br>babel-runtime和 babel-plugin-transform-runtime的区别是，相当一前者是手动挡而后者是自动挡，每当要转译一个api时都要手动加上require(‘babel-runtime’)，</p>
+<p>built-ins</p>
+<p>Babel 把 Javascript 语法 分为 syntax 和 api<br>api 指那些我们可以通过 函数重新覆盖的语法</p>
+<p>4  引入transform-runtime插件之后exports * 就报错<br>   1 可以注释掉Comment this line ‘defineProperty: “object/define-property”‘ in babel-plugin-transform-runtime/lib/definitions.js<br>   2 配置[“transform-runtime”, {<br>      “polyfill”: false<br>    }]<br>  3  “presets”: [<br>        { “plugins”: [ “transform-runtime” ] },<br>        {<br>            “passPerPreset”: false,<br>            “presets”: [ “es2015”, “stage-1” ]<br>        }<br>    ]</p>
+<p>5 为什么</p>
+<p>我们的模块已经被转成了cmd的形式，可是webpack还是按照es6的模式在处理</p>
 
         
       

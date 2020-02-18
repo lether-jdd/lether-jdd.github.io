@@ -213,7 +213,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/vue/vue相关/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/benchmark/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -227,7 +227,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/vue/vue相关/" class="post-title-link" itemprop="url">vue相关（编码习惯）</a>
+            <a href="/2019/08/23/前端工程化相关/benchmark/" class="post-title-link" itemprop="url">benchmark</a>
           
         </h1>
 
@@ -253,7 +253,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:28:43" itemprop="dateModified" datetime="2020-02-18T22:28:43+08:00">2020-02-18</time>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
               </span>
             
           
@@ -263,7 +263,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/测试/" itemprop="url" rel="index"><span itemprop="name">测试</span></a></span>
 
                 
                 
@@ -282,11 +282,212 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="1-computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数"><a href="#1-computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数" class="headerlink" title="1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数"></a>1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数</h1><p>computed有缓存<br>async computed插件<br>vue-rx 用这个可以实现，所以尤大大觉得不用支持<a href="https://github.com/vuejs/vue-rx/blob/master/README-CN.md" target="_blank" rel="noopener">https://github.com/vuejs/vue-rx/blob/master/README-CN.md</a></p>
-<h1 id="2-https-juejin-im-post-5be01d0ce51d450700084925（使用小技巧）"><a href="#2-https-juejin-im-post-5be01d0ce51d450700084925（使用小技巧）" class="headerlink" title="2 https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）"></a>2 <a href="https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）" target="_blank" rel="noopener">https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）</a></h1><h1 id="3-陆文总结"><a href="#3-陆文总结" class="headerlink" title="3 陆文总结"></a>3 陆文总结</h1><p>1 遵守Vue的单向数据流；<br>   不要直接修改 props，这样会使得数据的变化让人迷惑，难以维护；<br>   节制地使用 $parent 和 $children - 它们的主要目的是作为访问组件的应急方法（这里是文档中描述的，算是强调了不推荐用于访问数据），当你直接使用或者直接改变他们，同样会使得数据的变化让人迷惑，难以维护。<br>   推荐使用 props 传递数据，用 event 达到改变数据的目的，在复杂的场景下，（仔细）考虑（是否需要）引入Vuex<br>2 在data中添加的属性应该都是在template中使用的；<br>  不该把data看成”变量存储地”(例如你只是想声明一个变量用来在几个方法中公用)；因为这样除了会使得一些普通变量被vue添加了get跟set使得它不纯洁了(还浪费内存)，还使得data中的属性太多，使得业务逻辑变得不清晰了。<br>3 尽量少直接操作dom；<br>  当然有不得不这样做的场景，这里就另外思考是不是真的“不得不这样做”了），这与vue的理念不符，尽量使用vue的语法完成相关功能。（换句话说就是，是不是真的需要vue项目里引用jQuery呢？）<br>4 v-for尽量与key同时使用，并且尽量不要用index作key；否则，在你对v-for的数组进行更新操作的时候，很可能会有因为key的问题导致渲染出错。<br>   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">// App.vue</span><br><span class="line">   &lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">       &lt;son v-for=<span class="string">"(item, index) in list"</span> :key=<span class="string">"index"</span>&gt;&#123;&#123;item&#125;&#125;&lt;/son&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">   &lt;/template&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">   import Son from <span class="string">'./Son.vue'</span>;</span><br><span class="line">   <span class="built_in">export</span> default &#123;</span><br><span class="line">     <span class="function"><span class="title">data</span></span>() &#123;</span><br><span class="line">       <span class="built_in">return</span> &#123;</span><br><span class="line">         list: [<span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;, </span><br><span class="line">     components: &#123; Son &#125;,</span><br><span class="line">     <span class="function"><span class="title">mounted</span></span>() &#123;</span><br><span class="line">       // 延时1s，模拟点击事件</span><br><span class="line">       setTimeout(() =&gt; &#123;</span><br><span class="line">         this.list.unshift(<span class="string">'a'</span>);</span><br><span class="line">       &#125;, 1000);</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;;</span><br><span class="line">   &lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   // Son.vue</span><br><span class="line">   &lt;template&gt;</span><br><span class="line">     &lt;div ref=<span class="string">"item"</span>&gt;&lt;slot /&gt;&lt;/div&gt;</span><br><span class="line">   &lt;/template&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">   <span class="built_in">export</span> default &#123;</span><br><span class="line">     <span class="function"><span class="title">mounted</span></span>() &#123;</span><br><span class="line">       console.log(this.<span class="variable">$refs</span>.item);</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;;</span><br><span class="line">   &lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>5 避免 v-if 和 v-for 用在一起；<br>  这种场景下，我们一般是为了过滤某些项，推荐的做法是：<br>  使用计算属性计算出过滤后的列表；<br>  将v-if放在v-for之上。这是因为当 Vue 处理指令时，v-for 比 v-if 具有更高的优先级，所以哪怕我们只需要渲染列表中的几项，也会在重渲染的时候遍历整个列表，无论原本的几项是否发生改变。<br>6 节制地使用mixins，因为很可能只有你知道mixin了哪些方法；并且妙用指令，可以使得很多非业务类型的代码更清晰通用。<br>7 尽量少用 magic number，统一写到constant的文件中，实在项目忙想偷懒也简单写个注释吧</p>
-<h1 id="4-官方"><a href="#4-官方" class="headerlink" title="4 官方"></a>4 官方</h1><p><a href="https://cn.vuejs.org/v2/style-guide/#%E9%81%BF%E5%85%8D-v-if-%E5%92%8C-v-for-%E7%94%A8%E5%9C%A8%E4%B8%80%E8%B5%B7-%E5%BF%85%E8%A6%81" target="_blank" rel="noopener">https://cn.vuejs.org/v2/style-guide/#%E9%81%BF%E5%85%8D-v-if-%E5%92%8C-v-for-%E7%94%A8%E5%9C%A8%E4%B8%80%E8%B5%B7-%E5%BF%85%E8%A6%81</a></p>
+          <h1 id="benchmark"><a href="#benchmark" class="headerlink" title="benchmark"></a>benchmark</h1><p>可以用来做一些基准测试，用来比较不同代码的执行速度。例如要比较</p>
+<ul>
+<li>RegExp的test方法和String对象的indexOf方法查找字符串谁的速度更快</li>
+<li>循环时用let声明和var声明哪个更快</li>
+<li>apply和call的执行速度</li>
+</ul>
+<p>代码示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const Benchmark = require(<span class="string">'benchmark'</span>)</span><br><span class="line">const suite = new Benchmark.Suite;</span><br><span class="line"></span><br><span class="line">const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span><br><span class="line"></span><br><span class="line">// add tests</span><br><span class="line">suite.add(<span class="string">'let'</span>, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">let</span> i = 0, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">    arr[i]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">  .add(<span class="string">'var'</span>, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    <span class="keyword">for</span> (var i = 0, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">      arr[i]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  // add listeners</span><br><span class="line">  .on(<span class="string">'cycle'</span>, <span class="keyword">function</span> (event) &#123;</span><br><span class="line">    console.log(String(event.target));</span><br><span class="line">  &#125;)</span><br><span class="line">  .on(<span class="string">'complete'</span>, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    console.log(<span class="string">'Fastest is '</span> + this.filter(<span class="string">'fastest'</span>).map(<span class="string">'name'</span>));</span><br><span class="line">  &#125;)</span><br><span class="line">  .run()</span><br></pre></td></tr></table></figure>
 
+<p>执行结果</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  benchmarn-test git:(jdd_rights0911) ✗ node index.js</span><br><span class="line"><span class="built_in">let</span> x 61,306,435 ops/sec ±1.62% (82 runs sampled)</span><br><span class="line">var x 65,472,554 ops/sec ±0.56% (90 runs sampled)</span><br><span class="line">Fastest is var</span><br></pre></td></tr></table></figure>
+
+<p>ops/sec  每秒执行用例的次数</p>
+<h1 id="jsPerf"><a href="#jsPerf" class="headerlink" title="jsPerf"></a>jsPerf</h1><p>jsPerf 是基于benchmark做的在线的工具<br>网址：<a href="https://jsperf.com/" target="_blank" rel="noopener">https://jsperf.com/</a>   可在线创建自己的用例</p>
+<h1 id="benchmark怎么实现统计的待研究"><a href="#benchmark怎么实现统计的待研究" class="headerlink" title="benchmark怎么实现统计的待研究"></a>benchmark怎么实现统计的待研究</h1>
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/docker学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/docker学习/" class="post-title-link" itemprop="url">docker学习资料收集</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:40:01" itemprop="dateModified" datetime="2020-02-18T22:40:01+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><input disabled type="checkbox"> <a href="https://mp.weixin.qq.com/s/wSReP9JEn-QVmSWNzcotSw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/wSReP9JEn-QVmSWNzcotSw</a></li>
+<li><input disabled type="checkbox"> 正常建立一个新项目并上传项目docker<br><a href="https://juejin.im/post/5c4a6fcd518825469414e062" target="_blank" rel="noopener">https://juejin.im/post/5c4a6fcd518825469414e062</a></li>
+<li><input disabled type="checkbox"> Docker<br><a href="https://juejin.im/post/5b8ddb70e51d45389153f288" target="_blank" rel="noopener">https://juejin.im/post/5b8ddb70e51d45389153f288</a></li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/serverless/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/serverless/" class="post-title-link" itemprop="url">serveless</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
         
       
     </div>
@@ -617,104 +818,6 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/docker学习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/docker学习/" class="post-title-link" itemprop="url">docker学习资料收集</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:40:01" itemprop="dateModified" datetime="2020-02-18T22:40:01+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><input disabled type="checkbox"> <a href="https://mp.weixin.qq.com/s/wSReP9JEn-QVmSWNzcotSw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/wSReP9JEn-QVmSWNzcotSw</a></li>
-<li><input disabled type="checkbox"> 正常建立一个新项目并上传项目docker<br><a href="https://juejin.im/post/5c4a6fcd518825469414e062" target="_blank" rel="noopener">https://juejin.im/post/5c4a6fcd518825469414e062</a></li>
-<li><input disabled type="checkbox"> Docker<br><a href="https://juejin.im/post/5b8ddb70e51d45389153f288" target="_blank" rel="noopener">https://juejin.im/post/5b8ddb70e51d45389153f288</a></li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/rewire原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -863,99 +966,6 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/serverless/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/serverless/" class="post-title-link" itemprop="url">serveless</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/sourceMap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1044,6 +1054,104 @@
 <p>初步是这么找的，但是这个map是怎么生成的等后续有时间的话再写吧</p>
 </li>
 </ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/前端开发流程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/前端开发流程/" class="post-title-link" itemprop="url">前端开发流程</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:32:59" itemprop="dateModified" datetime="2020-02-18T22:32:59+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/调试/" itemprop="url" rel="index"><span itemprop="name">调试</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1 init<br>各种脚手架（根据技术选型进行安装）<br>该环节产生了脚手架生成器，例如yeoman<br>美团也有一个自己研发的nine：<a href="https://nine.sankuai.com/" target="_blank" rel="noopener">https://nine.sankuai.com/</a></p>
+<p>2 开发阶段：<br>mock<br>组件库<br>slint<br>请求的统一处理（错误处理，超时处理，统一参数处理）</p>
+<p>3测试</p>
+<p>4 上线<br>错误上报<br>性能监控<br>日志分析</p>
+<p>5 发布</p>
 
         
       
@@ -1252,101 +1360,6 @@
 <h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>前端构建主要考虑：缓存和跨域</p>
 <p>最开始的时候让sre在nginx层对静态文件进行缓存和跨域<br>后来前端提供服务，编写docker<br>再后来ci/cd  解放sre<br>再后来随着机器的增多，引入k8s</p>
 <p>之后前端不再仅仅提供静态资源，而是提供服务</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/测试相关/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/测试相关/" class="post-title-link" itemprop="url">测试相关</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/测试相关/" itemprop="url" rel="index"><span itemprop="name">测试相关</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#ab工具  apache压力测试工具,用来分析接口性能</p>
-<p>#benchmark.js</p>
 
         
       

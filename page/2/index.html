@@ -426,7 +426,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/日记/20190917/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/小程序/积累/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -440,7 +440,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/09/17/日记/20190917/" class="post-title-link" itemprop="url">20190917</a>
+            <a href="/2019/09/17/小程序/积累/" class="post-title-link" itemprop="url">小程序</a>
           
         </h1>
 
@@ -466,7 +466,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+                <time title="Modified: 2019-10-30 13:28:31" itemprop="dateModified" datetime="2019-10-30T13:28:31+08:00">2019-10-30</time>
               </span>
             
           
@@ -476,7 +476,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/日记/" itemprop="url" rel="index"><span itemprop="name">日记</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
 
                 
                 
@@ -495,8 +495,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>今天听别人说起潮州这个城市，记得有个感兴趣的人的故乡就是潮州的，顿时充满了好奇。<br>据说这个城市是个挺传统又老旧的城市，那里的人生活安逸且幸福，大部分人做生意家里条件挺好，但还是保持着女孩子在家做家务等的习惯，对女性要求较传统，而且还有喝茶文化，对待吃饭很认真。更令我震惊的是竟然也是个瓷都，我印象中只有景德镇，孤陋寡闻了，hiahiahia。顿时很想去看看这个城市。又想到自己的人生这么短暂，见识不了太多，体验不了太多，但是还是想尽我所能多去看看不同的活法，所以也很想当个演员，演绎一些心中的美好，短暂地体验一下不同的人生。</p>
-<p>中秋在家追了两天的电视剧（亲爱的热爱的），小猴子把那种感觉演的真好，太可爱了。莫名其妙就迷上了这部剧。尽管知道现实没有这样的爱情，我也不相信爱情，但还是表示憧憬。</p>
+          <p>1  关于setData的原理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">小程序的视图层目前使用 WebView 作为渲染载体，而逻辑层是由独立的 JavascriptCore 作为运行环境。在架构上，WebView 和 JavascriptCore 都是独立的模块，并不具备数据直接共享的通道。当前，视图层和逻辑层的数据传输，实际上通过两边提供的 evaluateJavascript 所实现。即用户传输的数据，需要将其转换为字符串形式传递，同时把转换后的数据内容拼接成一份 JS 脚本，再通过执行 JS 脚本的形式传递到两边独立环境。</span><br><span class="line"></span><br><span class="line">而 evaluateJavascript 的执行会受很多方面的影响，数据到达视图层并不是实时的。</span><br></pre></td></tr></table></figure>
+
+<p>这是官网给出的解释，其实没大看懂，但是可联想出JSCore,但是又感觉不太一样，需要查一下。</p>
+<p>2  滚动加载组价</p>
+<p>3  悬浮球组件</p>
 
         
       
@@ -614,7 +618,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/小程序/积累/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/日记/20190917/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -628,7 +632,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/09/17/小程序/积累/" class="post-title-link" itemprop="url">小程序</a>
+            <a href="/2019/09/17/日记/20190917/" class="post-title-link" itemprop="url">20190917</a>
           
         </h1>
 
@@ -654,7 +658,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-30 13:28:31" itemprop="dateModified" datetime="2019-10-30T13:28:31+08:00">2019-10-30</time>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
               </span>
             
           
@@ -664,7 +668,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/日记/" itemprop="url" rel="index"><span itemprop="name">日记</span></a></span>
 
                 
                 
@@ -683,12 +687,107 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>1  关于setData的原理</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">小程序的视图层目前使用 WebView 作为渲染载体，而逻辑层是由独立的 JavascriptCore 作为运行环境。在架构上，WebView 和 JavascriptCore 都是独立的模块，并不具备数据直接共享的通道。当前，视图层和逻辑层的数据传输，实际上通过两边提供的 evaluateJavascript 所实现。即用户传输的数据，需要将其转换为字符串形式传递，同时把转换后的数据内容拼接成一份 JS 脚本，再通过执行 JS 脚本的形式传递到两边独立环境。</span><br><span class="line"></span><br><span class="line">而 evaluateJavascript 的执行会受很多方面的影响，数据到达视图层并不是实时的。</span><br></pre></td></tr></table></figure>
+          <p>今天听别人说起潮州这个城市，记得有个感兴趣的人的故乡就是潮州的，顿时充满了好奇。<br>据说这个城市是个挺传统又老旧的城市，那里的人生活安逸且幸福，大部分人做生意家里条件挺好，但还是保持着女孩子在家做家务等的习惯，对女性要求较传统，而且还有喝茶文化，对待吃饭很认真。更令我震惊的是竟然也是个瓷都，我印象中只有景德镇，孤陋寡闻了，hiahiahia。顿时很想去看看这个城市。又想到自己的人生这么短暂，见识不了太多，体验不了太多，但是还是想尽我所能多去看看不同的活法，所以也很想当个演员，演绎一些心中的美好，短暂地体验一下不同的人生。</p>
+<p>中秋在家追了两天的电视剧（亲爱的热爱的），小猴子把那种感觉演的真好，太可爱了。莫名其妙就迷上了这部剧。尽管知道现实没有这样的爱情，我也不相信爱情，但还是表示憧憬。</p>
 
-<p>这是官网给出的解释，其实没大看懂，但是可联想出JSCore,但是又感觉不太一样，需要查一下。</p>
-<p>2  滚动加载组价</p>
-<p>3  悬浮球组件</p>
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/react&rn/学习资料/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/react&rn/学习资料/" class="post-title-link" itemprop="url">react&rn学习资料收集</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:07:35" itemprop="dateModified" datetime="2020-02-18T23:07:35+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/react/" itemprop="url" rel="index"><span itemprop="name">react</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><input disabled type="checkbox"> React hooks and functionComponent<br><a href="http://taobaofed.org/blog/2018/11/27/hooks-and-function-component/" target="_blank" rel="noopener">http://taobaofed.org/blog/2018/11/27/hooks-and-function-component/</a></li>
+<li><input disabled type="checkbox"> MRN 相关文档</li>
+</ul>
+<p><a href="https://km.sankuai.com/page/126570386" target="_blank" rel="noopener">https://km.sankuai.com/page/126570386</a><br><a href="https://km.sankuai.com/page/131235185" target="_blank" rel="noopener">https://km.sankuai.com/page/131235185</a><br><a href="https://www.xiaopiu.com/h5/byId?type=project&amp;id=5982c05bde272c0468074499" target="_blank" rel="noopener">https://www.xiaopiu.com/h5/byId?type=project&amp;id=5982c05bde272c0468074499</a></p>
+<p><a href="http://stm.banma.dev.sankuai.com/#/" target="_blank" rel="noopener">http://stm.banma.dev.sankuai.com/#/</a></p>
 
         
       
@@ -783,100 +882,6 @@
 
       
           <p>1  Ipv6 vs Ipv4<br>    xx | 地址 | 安全性 | 传播速度<br>    Ipv6 | 128位(差不多40多亿个IP) | 加密 | 快<br>    Ipv4 | 32位（差不多340兆兆兆个IP） | 不加密 | 慢</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/react&rn/redux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/react&rn/redux/" class="post-title-link" itemprop="url">redux</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:27:34" itemprop="dateModified" datetime="2020-02-18T23:27:34+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/redux/" itemprop="url" rel="index"><span itemprop="name">redux</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>redux 学习<br>1 通过withContext和getChildContext指定的context元素都可以被子组件引用(这个在研究provider组件的时候)</p>
 
         
       
@@ -1008,113 +1013,6 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/benchmark/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/benchmark/" class="post-title-link" itemprop="url">benchmark</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/测试/" itemprop="url" rel="index"><span itemprop="name">测试</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="benchmark"><a href="#benchmark" class="headerlink" title="benchmark"></a>benchmark</h1><p>可以用来做一些基准测试，用来比较不同代码的执行速度。例如要比较</p>
-<ul>
-<li>RegExp的test方法和String对象的indexOf方法查找字符串谁的速度更快</li>
-<li>循环时用let声明和var声明哪个更快</li>
-<li>apply和call的执行速度</li>
-</ul>
-<p>代码示例：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const Benchmark = require(<span class="string">'benchmark'</span>)</span><br><span class="line">const suite = new Benchmark.Suite;</span><br><span class="line"></span><br><span class="line">const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span><br><span class="line"></span><br><span class="line">// add tests</span><br><span class="line">suite.add(<span class="string">'let'</span>, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="built_in">let</span> i = 0, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">    arr[i]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">  .add(<span class="string">'var'</span>, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    <span class="keyword">for</span> (var i = 0, len = arr.length; i &lt; len; i++) &#123;</span><br><span class="line">      arr[i]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  // add listeners</span><br><span class="line">  .on(<span class="string">'cycle'</span>, <span class="keyword">function</span> (event) &#123;</span><br><span class="line">    console.log(String(event.target));</span><br><span class="line">  &#125;)</span><br><span class="line">  .on(<span class="string">'complete'</span>, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    console.log(<span class="string">'Fastest is '</span> + this.filter(<span class="string">'fastest'</span>).map(<span class="string">'name'</span>));</span><br><span class="line">  &#125;)</span><br><span class="line">  .run()</span><br></pre></td></tr></table></figure>
-
-<p>执行结果</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  benchmarn-test git:(jdd_rights0911) ✗ node index.js</span><br><span class="line"><span class="built_in">let</span> x 61,306,435 ops/sec ±1.62% (82 runs sampled)</span><br><span class="line">var x 65,472,554 ops/sec ±0.56% (90 runs sampled)</span><br><span class="line">Fastest is var</span><br></pre></td></tr></table></figure>
-
-<p>ops/sec  每秒执行用例的次数</p>
-<h1 id="jsPerf"><a href="#jsPerf" class="headerlink" title="jsPerf"></a>jsPerf</h1><p>jsPerf 是基于benchmark做的在线的工具<br>网址：<a href="https://jsperf.com/" target="_blank" rel="noopener">https://jsperf.com/</a>   可在线创建自己的用例</p>
-<h1 id="benchmark怎么实现统计的待研究"><a href="#benchmark怎么实现统计的待研究" class="headerlink" title="benchmark怎么实现统计的待研究"></a>benchmark怎么实现统计的待研究</h1>
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/vue/学习资料收集/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1189,6 +1087,103 @@
 <p><a href="https://github.com/DDFE/DDFE-blog/issues/7" target="_blank" rel="noopener">https://github.com/DDFE/DDFE-blog/issues/7</a></p>
 <p>computed跟watch一样的道理，watch不到对象属性的变化，明白为什么</p>
 <p>computed不能是对象设置deep</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/vue/vue相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/vue/vue相关/" class="post-title-link" itemprop="url">vue相关（编码习惯）</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:28:43" itemprop="dateModified" datetime="2020-02-18T22:28:43+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数"><a href="#1-computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数" class="headerlink" title="1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数"></a>1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数</h1><p>computed有缓存<br>async computed插件<br>vue-rx 用这个可以实现，所以尤大大觉得不用支持<a href="https://github.com/vuejs/vue-rx/blob/master/README-CN.md" target="_blank" rel="noopener">https://github.com/vuejs/vue-rx/blob/master/README-CN.md</a></p>
+<h1 id="2-https-juejin-im-post-5be01d0ce51d450700084925（使用小技巧）"><a href="#2-https-juejin-im-post-5be01d0ce51d450700084925（使用小技巧）" class="headerlink" title="2 https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）"></a>2 <a href="https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）" target="_blank" rel="noopener">https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）</a></h1><h1 id="3-陆文总结"><a href="#3-陆文总结" class="headerlink" title="3 陆文总结"></a>3 陆文总结</h1><p>1 遵守Vue的单向数据流；<br>   不要直接修改 props，这样会使得数据的变化让人迷惑，难以维护；<br>   节制地使用 $parent 和 $children - 它们的主要目的是作为访问组件的应急方法（这里是文档中描述的，算是强调了不推荐用于访问数据），当你直接使用或者直接改变他们，同样会使得数据的变化让人迷惑，难以维护。<br>   推荐使用 props 传递数据，用 event 达到改变数据的目的，在复杂的场景下，（仔细）考虑（是否需要）引入Vuex<br>2 在data中添加的属性应该都是在template中使用的；<br>  不该把data看成”变量存储地”(例如你只是想声明一个变量用来在几个方法中公用)；因为这样除了会使得一些普通变量被vue添加了get跟set使得它不纯洁了(还浪费内存)，还使得data中的属性太多，使得业务逻辑变得不清晰了。<br>3 尽量少直接操作dom；<br>  当然有不得不这样做的场景，这里就另外思考是不是真的“不得不这样做”了），这与vue的理念不符，尽量使用vue的语法完成相关功能。（换句话说就是，是不是真的需要vue项目里引用jQuery呢？）<br>4 v-for尽量与key同时使用，并且尽量不要用index作key；否则，在你对v-for的数组进行更新操作的时候，很可能会有因为key的问题导致渲染出错。<br>   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">// App.vue</span><br><span class="line">   &lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">       &lt;son v-for=<span class="string">"(item, index) in list"</span> :key=<span class="string">"index"</span>&gt;&#123;&#123;item&#125;&#125;&lt;/son&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">   &lt;/template&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">   import Son from <span class="string">'./Son.vue'</span>;</span><br><span class="line">   <span class="built_in">export</span> default &#123;</span><br><span class="line">     <span class="function"><span class="title">data</span></span>() &#123;</span><br><span class="line">       <span class="built_in">return</span> &#123;</span><br><span class="line">         list: [<span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;, </span><br><span class="line">     components: &#123; Son &#125;,</span><br><span class="line">     <span class="function"><span class="title">mounted</span></span>() &#123;</span><br><span class="line">       // 延时1s，模拟点击事件</span><br><span class="line">       setTimeout(() =&gt; &#123;</span><br><span class="line">         this.list.unshift(<span class="string">'a'</span>);</span><br><span class="line">       &#125;, 1000);</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;;</span><br><span class="line">   &lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   // Son.vue</span><br><span class="line">   &lt;template&gt;</span><br><span class="line">     &lt;div ref=<span class="string">"item"</span>&gt;&lt;slot /&gt;&lt;/div&gt;</span><br><span class="line">   &lt;/template&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">   <span class="built_in">export</span> default &#123;</span><br><span class="line">     <span class="function"><span class="title">mounted</span></span>() &#123;</span><br><span class="line">       console.log(this.<span class="variable">$refs</span>.item);</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;;</span><br><span class="line">   &lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>5 避免 v-if 和 v-for 用在一起；<br>  这种场景下，我们一般是为了过滤某些项，推荐的做法是：<br>  使用计算属性计算出过滤后的列表；<br>  将v-if放在v-for之上。这是因为当 Vue 处理指令时，v-for 比 v-if 具有更高的优先级，所以哪怕我们只需要渲染列表中的几项，也会在重渲染的时候遍历整个列表，无论原本的几项是否发生改变。<br>6 节制地使用mixins，因为很可能只有你知道mixin了哪些方法；并且妙用指令，可以使得很多非业务类型的代码更清晰通用。<br>7 尽量少用 magic number，统一写到constant的文件中，实在项目忙想偷懒也简单写个注释吧</p>
+<h1 id="4-官方"><a href="#4-官方" class="headerlink" title="4 官方"></a>4 官方</h1><p><a href="https://cn.vuejs.org/v2/style-guide/#%E9%81%BF%E5%85%8D-v-if-%E5%92%8C-v-for-%E7%94%A8%E5%9C%A8%E4%B8%80%E8%B5%B7-%E5%BF%85%E8%A6%81" target="_blank" rel="noopener">https://cn.vuejs.org/v2/style-guide/#%E9%81%BF%E5%85%8D-v-if-%E5%92%8C-v-for-%E7%94%A8%E5%9C%A8%E4%B8%80%E8%B5%B7-%E5%BF%85%E8%A6%81</a></p>
 
         
       
