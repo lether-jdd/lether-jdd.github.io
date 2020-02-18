@@ -213,7 +213,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/后端相关/thrift/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/vue/vue相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -227,7 +227,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/后端相关/thrift/" class="post-title-link" itemprop="url">thrift</a>
+            <a href="/2019/08/23/vue/vue相关/" class="post-title-link" itemprop="url">vue相关（编码习惯）</a>
           
         </h1>
 
@@ -253,7 +253,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:17:54" itemprop="dateModified" datetime="2020-02-18T23:17:54+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 22:28:43" itemprop="dateModified" datetime="2020-02-18T22:28:43+08:00">2020-02-18</time>
               </span>
             
           
@@ -263,7 +263,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/后端/" itemprop="url" rel="index"><span itemprop="name">后端</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a></span>
 
                 
                 
@@ -282,10 +282,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Thrift<br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-apachethrift/index.html" target="_blank" rel="noopener">https://www.ibm.com/developerworks/cn/java/j-lo-apachethrift/index.html</a><br>Node 怎么调用thrift接口<br><a href="https://segmentfault.com/q/1010000012033101" target="_blank" rel="noopener">https://segmentfault.com/q/1010000012033101</a></p>
-<p>RPC框架<br>json-rpc2  ？</p>
-<p>1 ThriftHub   在线管理thrift IDL 的平台。<br>使用 ThriftHub 平台可以很方便地编译 thrift IDL 然后创建一个 NPM 包并发布到 <a href="http://npm.sankuai.com上。发布的thrift可以在这里查看" target="_blank" rel="noopener">http://npm.sankuai.com上。发布的thrift可以在这里查看</a>  <a href="http://npm.sankuai.com/~thrift-api" target="_blank" rel="noopener">http://npm.sankuai.com/~thrift-api</a><br>2 udb服务<br>3 unifo服务<br>4 @mtfe/thrift</p>
-<p>Node-thrift  待了解<br>白亚兵总结<br><a href="https://km.sankuai.com/page/152371241" target="_blank" rel="noopener">https://km.sankuai.com/page/152371241</a></p>
+          <h1 id="1-computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数"><a href="#1-computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数" class="headerlink" title="1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数"></a>1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数</h1><p>computed有缓存<br>async computed插件<br>vue-rx 用这个可以实现，所以尤大大觉得不用支持<a href="https://github.com/vuejs/vue-rx/blob/master/README-CN.md" target="_blank" rel="noopener">https://github.com/vuejs/vue-rx/blob/master/README-CN.md</a></p>
+<h1 id="2-https-juejin-im-post-5be01d0ce51d450700084925（使用小技巧）"><a href="#2-https-juejin-im-post-5be01d0ce51d450700084925（使用小技巧）" class="headerlink" title="2 https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）"></a>2 <a href="https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）" target="_blank" rel="noopener">https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）</a></h1><h1 id="3-陆文总结"><a href="#3-陆文总结" class="headerlink" title="3 陆文总结"></a>3 陆文总结</h1><p>1 遵守Vue的单向数据流；<br>   不要直接修改 props，这样会使得数据的变化让人迷惑，难以维护；<br>   节制地使用 $parent 和 $children - 它们的主要目的是作为访问组件的应急方法（这里是文档中描述的，算是强调了不推荐用于访问数据），当你直接使用或者直接改变他们，同样会使得数据的变化让人迷惑，难以维护。<br>   推荐使用 props 传递数据，用 event 达到改变数据的目的，在复杂的场景下，（仔细）考虑（是否需要）引入Vuex<br>2 在data中添加的属性应该都是在template中使用的；<br>  不该把data看成”变量存储地”(例如你只是想声明一个变量用来在几个方法中公用)；因为这样除了会使得一些普通变量被vue添加了get跟set使得它不纯洁了(还浪费内存)，还使得data中的属性太多，使得业务逻辑变得不清晰了。<br>3 尽量少直接操作dom；<br>  当然有不得不这样做的场景，这里就另外思考是不是真的“不得不这样做”了），这与vue的理念不符，尽量使用vue的语法完成相关功能。（换句话说就是，是不是真的需要vue项目里引用jQuery呢？）<br>4 v-for尽量与key同时使用，并且尽量不要用index作key；否则，在你对v-for的数组进行更新操作的时候，很可能会有因为key的问题导致渲染出错。<br>   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">// App.vue</span><br><span class="line">   &lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">       &lt;son v-for=<span class="string">"(item, index) in list"</span> :key=<span class="string">"index"</span>&gt;&#123;&#123;item&#125;&#125;&lt;/son&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">   &lt;/template&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">   import Son from <span class="string">'./Son.vue'</span>;</span><br><span class="line">   <span class="built_in">export</span> default &#123;</span><br><span class="line">     <span class="function"><span class="title">data</span></span>() &#123;</span><br><span class="line">       <span class="built_in">return</span> &#123;</span><br><span class="line">         list: [<span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;, </span><br><span class="line">     components: &#123; Son &#125;,</span><br><span class="line">     <span class="function"><span class="title">mounted</span></span>() &#123;</span><br><span class="line">       // 延时1s，模拟点击事件</span><br><span class="line">       setTimeout(() =&gt; &#123;</span><br><span class="line">         this.list.unshift(<span class="string">'a'</span>);</span><br><span class="line">       &#125;, 1000);</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;;</span><br><span class="line">   &lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   // Son.vue</span><br><span class="line">   &lt;template&gt;</span><br><span class="line">     &lt;div ref=<span class="string">"item"</span>&gt;&lt;slot /&gt;&lt;/div&gt;</span><br><span class="line">   &lt;/template&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">   <span class="built_in">export</span> default &#123;</span><br><span class="line">     <span class="function"><span class="title">mounted</span></span>() &#123;</span><br><span class="line">       console.log(this.<span class="variable">$refs</span>.item);</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;;</span><br><span class="line">   &lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>5 避免 v-if 和 v-for 用在一起；<br>  这种场景下，我们一般是为了过滤某些项，推荐的做法是：<br>  使用计算属性计算出过滤后的列表；<br>  将v-if放在v-for之上。这是因为当 Vue 处理指令时，v-for 比 v-if 具有更高的优先级，所以哪怕我们只需要渲染列表中的几项，也会在重渲染的时候遍历整个列表，无论原本的几项是否发生改变。<br>6 节制地使用mixins，因为很可能只有你知道mixin了哪些方法；并且妙用指令，可以使得很多非业务类型的代码更清晰通用。<br>7 尽量少用 magic number，统一写到constant的文件中，实在项目忙想偷懒也简单写个注释吧</p>
+<h1 id="4-官方"><a href="#4-官方" class="headerlink" title="4 官方"></a>4 官方</h1><p><a href="https://cn.vuejs.org/v2/style-guide/#%E9%81%BF%E5%85%8D-v-if-%E5%92%8C-v-for-%E7%94%A8%E5%9C%A8%E4%B8%80%E8%B5%B7-%E5%BF%85%E8%A6%81" target="_blank" rel="noopener">https://cn.vuejs.org/v2/style-guide/#%E9%81%BF%E5%85%8D-v-if-%E5%92%8C-v-for-%E7%94%A8%E5%9C%A8%E4%B8%80%E8%B5%B7-%E5%BF%85%E8%A6%81</a></p>
 
         
       
@@ -310,7 +310,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/后端相关/虚拟机和容器/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/lambda演算/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -324,7 +324,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/后端相关/虚拟机和容器/" class="post-title-link" itemprop="url">虚拟机和容器</a>
+            <a href="/2019/08/23/lambda演算/" class="post-title-link" itemprop="url">lambda演算</a>
           
         </h1>
 
@@ -350,7 +350,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:06:10" itemprop="dateModified" datetime="2020-02-18T22:06:10+08:00">2020-02-18</time>
+                <time title="Modified: 2019-09-02 10:49:15" itemprop="dateModified" datetime="2019-09-02T10:49:15+08:00">2019-09-02</time>
               </span>
             
           
@@ -360,7 +360,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/后端/" itemprop="url" rel="index"><span itemprop="name">后端</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
 
                 
                 
@@ -403,7 +403,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/egg插件开发/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/字符集及编码/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -417,7 +417,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/node/egg插件开发/" class="post-title-link" itemprop="url">elk</a>
+            <a href="/2019/08/23/字符集及编码/" class="post-title-link" itemprop="url">字符集及编码</a>
           
         </h1>
 
@@ -443,7 +443,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+                <time title="Modified: 2020-02-18 22:31:29" itemprop="dateModified" datetime="2020-02-18T22:31:29+08:00">2020-02-18</time>
               </span>
             
           
@@ -453,14 +453,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/egg/" itemprop="url" rel="index"><span itemprop="name">egg</span></a></span>
-
-                
-                
-                  , 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/egg/插件开发/" itemprop="url" rel="index"><span itemprop="name">插件开发</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/字符集及编码/" itemprop="url" rel="index"><span itemprop="name">字符集及编码</span></a></span>
 
                 
                 
@@ -479,20 +472,224 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>##1  egg插件开发要注意入口是app.js   为什么？</p>
-<p>##2 常用插件开发（全局实例）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// egg-mysql/app.js</span><br><span class="line">module.exports = app =&gt; &#123;</span><br><span class="line">  // 第一个参数 mysql 指定了挂载到 app 上的字段，我们可以通过 `app.mysql` 访问到 MySQL singleton 实例</span><br><span class="line">  // 第二个参数 createMysql 接受两个参数(config, app)，并返回一个 MySQL 的实例</span><br><span class="line">  app.addSingleton(<span class="string">'mysql'</span>, createMysql);</span><br><span class="line">&#125;</span><br><span class="line">//config为对应该插件的配置</span><br><span class="line"><span class="keyword">function</span> createMysql(config,app)&#123;</span><br><span class="line">  //your code</span><br><span class="line">  <span class="built_in">return</span> xxx  //记得<span class="built_in">return</span>插件</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在日常开发中很少接触到字符的概念，大部分语言对字符的转换都已经封装的足够好，不需要开发人员过多考虑编码解码的问题。但是字符编码又经常在开发中遇见，所以这一篇文章就是解决，到底什么是字符集以及其编码。举个很简单的例子，调用字符串的length函数，其中的英文，汉字，emoji,长度分别是多少？length长度是如何计算的？iOS中的NSString，Javascript中的String在内存中的编码方式是什么？搞懂了字符编码，这些问题就迎刃而解了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>UTF-8、UTF-16、UTF-32 是对unicode进行编码（二进制进行存储和传输）的方式<br>unicode 统一所有的字符集，对世界上大多数书写系统中表示的文本进行一致的编码(用于表示意思)。</p>
+<h1 id="编码、ASCII"><a href="#编码、ASCII" class="headerlink" title="编码、ASCII"></a>编码、ASCII</h1><p>我们知道计算机只处理0和1，所有可见的文件，视频，音频等都是以二进制的形式存储和运算的。我们用八个二进制位表示一个字节，那么一个字节就可以代表256种“字符”。举个例子，字母“A”定义为65，用二进制表示是0100 0001。<br>这种把A转换成0100 0001的形式就是一次映射的过程。再来看ASCII码一共有128个字符，那么就有128个映射。一个字节就足足的可以表示了。ASCII就是最早期的字符集。</p>
+<h1 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h1><p>随着计算机的普及，需要做映射的字符越来越多，光常用汉字就几千个了，这时候ASCII码已经不够用了，涌现了很多字符集，ISO-8859，GB2312,GBK等，直到后来为了解决各个字符集各自为战的问题，分别产生了Unicode 组织和 ISO-10646工作小组，最后这两家组织也合并了，形成现如今的Unicode.</p>
+<h1 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h1><p>Unicode是一种计算行业标准，用于对世界上大多数书写系统中表示的文本进行一致的编码，表示和处理。该标准由Unicode联盟维护，截至2019年5月，最新版本Unicode 12.1包含137994个字符的库，涵盖150个现代和历史脚本以及多个符号集和表情符号。Unicode标准的字符库与ISO / IEC 10646同步，并且两者的代码相同。Unicode也是一种字符集。通常会用U+十六进制表示，可存储0000 ~ 10FFFF 共 1114112 个值，2^16(65536)个号码组成一个平面，一共有17个平面，其中第一个0号平面占了绝大部分常用的字符。看下图可以比较直观的了解，其中每个最小的格子是一个字节即代表256个编码点，每个大格子有65536个编码点，蓝色区域是已被使用的区域，绿色是自用区，红色区域是代理区。</p>
+<p>​</p>
+<p>再将前三个格子放大，蓝绿色部分是汉字，棕色部分是朝鲜语，由这两张图可以最直观的了解Unicode存储空间。Unicode的实现方式由多种，其中最常用的是UTF-8和UTF-16,下面逐一介绍两个实现原理。</p>
+<p>​</p>
+<h1 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h1><p>UTF-8是目前使用最广的Unicode编码方式，它是一种可变长的编码方式，从1个字节到4个字节不等。下图是它的编码规则：</p>
+<p>1.对于单字节的符号，字节的第一位设为0，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。</p>
+<p>2.对于n字节的符号（n &gt; 1），第一个字节的前n位都设为1，第n + 1位设为0，后面字节的前两位一律设为10。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</p>
+<table>
+<thead>
+<tr>
+<th>UTF-8 (binary)</th>
+<th>Code Point (binary)</th>
+<th>Range</th>
+<th>需要的字节个数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0xxxxxxx</td>
+<td>xxxxxxx</td>
+<td>U+0000–U+007F</td>
+<td>1</td>
+</tr>
+<tr>
+<td>110xxxxx 10yyyyyy</td>
+<td>xxxxxyyyyyy</td>
+<td>U+0080–U+07FF</td>
+<td>2</td>
+</tr>
+<tr>
+<td>1110xxxx 10yyyyyy 10zzzzzz</td>
+<td>xxxxyyyyyyzzzzzz</td>
+<td>U+0800–U+FFFF</td>
+<td>3</td>
+</tr>
+<tr>
+<td>11110xxx 10yyyyyy 10zzzzzz 10wwwwww</td>
+<td>xxxyyyyyyzzzzzzwwwwww</td>
+<td>U+10000–U+10FFFF</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>根据上表，解读 UTF-8 编码非常简单。如果一个字节的第一位是0，则这个字节单独就是一个字符；如果第一位是1，则连续有多少个1，就表示当前字符占用多少个字节。</p>
+<p>下面，还是以汉字“严”为例，演示如何实现 UTF-8 编码。</p>
+<p>“严”的 Unicode 是4E25（100111000100101），根据上表，可以发现4E25处在第三行的范围内（0000 0800 - 0000 FFFF），因此“严”的 UTF-8 编码需要三个字节，即格式是1110xxxx 10xxxxxx 10xxxxxx。然后，从“严”的最后一个二进制位开始，依次从后向前填入格式中的x，多出的位补0。这样就得到了，“严”的 UTF-8 编码是11100100 10111000 10100101，转换成十六进制就是E4B8A5。</p>
+<p>优点：</p>
+<p>1.兼容ASCII.</p>
+<p>2.没有字节序问题。（后面会讲到字节序）</p>
+<p>3.对于英文编码较短，占用空间小。</p>
+<p>4.可变长，空间足够大</p>
+<p>5.容错性好，中间丢失字节，后面的字节还是可以根据编码规则解码，不影响后面的字符生成。</p>
+<p>缺点：</p>
+<p>1.对于中日韩的语言，一个字符需要三个字节表示，占用空间大。</p>
+<p>2.计算长度效率低，由于是变长的，所以在计算字符串长度的时候执行效率比较低。</p>
+<h1 id="UTF-16"><a href="#UTF-16" class="headerlink" title="UTF-16"></a>UTF-16</h1><p>UTF-16也是经常用到的编码方式，同样它也是可变长的编码方式，下图是编码规则，字符长度2个字节或者4个字节表示一个字符。</p>
+<table>
+<thead>
+<tr>
+<th>UTF-16 (binary)</th>
+<th>Code point (binary)</th>
+<th>Range</th>
+<th>需要的字节个数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xxxxxxxxxxxxxxxx</td>
+<td>xxxxxxxxxxxxxxxx</td>
+<td>U+0000–U+FFFF</td>
+<td>2</td>
+</tr>
+<tr>
+<td>110110xxxxxxxxxx 110111yyyyyyyyyy</td>
+<td>xxxxxxxxxxyyyyyyyyyy + 0x10000</td>
+<td>U+10000–U+10FFFF</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>随即就有了一个问题，当我们遇到两个字节，怎么看出它本身是一个字符，还是需要跟其他两个字节放在一起解读形成一个字符？</p>
+<p>U+D800到U+DFFF是一个空段，这些码点不对应任何字符，编号大于U+0FFFF的字符，一半在U+D800到U+DBFF之间，一半在U+DC00到U+DFFF之间，当我们遇到两个字节，发现它的码点在U+D800到U+DBFF之间，就可以断定，紧跟在后面的两个字节的码点，应该在U+DC00到U+DFFF之间，这四个字节必须放在一起形成一个字节。刚好可以涵盖辅助面的字符。</p>
+<p>优点：</p>
+<p>1.由于是固定2个字节和4个字节，所以在计算字符串长度、执行索引操作时速度很快。</p>
+<p>缺点：</p>
+<p>1.UTF-16 能表示的字符数有 6 万多，但是实际上目前 Unicode 5.0 收录的字符已经达到 99024 个字符，早已超过 UTF-16 的存储范围。</p>
+<p>2.UTF-16 存在字节序问题（大端和小端）使用时需要提前协定好。</p>
+<p>3.容错性差，因为存在字节序的问题，如果中间某一个字节丢失时可能会导致后面的解码错误。</p>
+<h1 id="UTF-32"><a href="#UTF-32" class="headerlink" title="UTF-32"></a>UTF-32</h1><p>4 个字节表示一个代码值，固定长度,多出来的部分前面补0,这种编码方式占空间较多，使用场景很少。</p>
+<p>字节序<br>字节序是指数据在存储器中的存放顺序，分为大端和小端两种。之所以会存在字节序的问题是因为寄存器的长度要大于一个字节，不同的操作系统读取字节的顺序不一样，</p>
+<p>大端模式，是指数据的高字节在前，保存在内存的低地址中，与人类的读写法一致，数据的低字节在后，保存在内存的高地址中,文件前缀FE FF。（Mac OS是大端模式）</p>
+<p>小端模式，是指数据的高字节在后，保存在内存的高地址中，而数据的低字节在前，保存在内存的低地址中,文件前缀FF FE。（x86和一般的OS（如windows，FreeBSD,Linux）使用的是小端模式）。</p>
+<p>​</p>
+<p>所以UTF-16存在一个字节序的问题，需要在文件前面声明，而UTF-8不存在这个问题，原因在于UTF-8的最小编码单位是1个字节，不会存在两个字节谁在高位谁在地位的问题。</p>
+<p>还是以汉字“严”为例，Unicode 码是4E25，需要用两个字节存储，一个字节是4E，另一个字节是25。存储的时候，4E在前，25在后，这就是 Big endian 方式（4E 25）。25在前，4E在后，这是 Little endian 方式（25 4E）。</p>
+<h1 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h1><p>UTF-8，广泛用于数据存储及传输：例如html文档中的<meta charset="UTF-8">，以及python文件当出现中文的时候会在顶部加上“# coding: UTF-8”等。</p>
+<p>UTF-16，而一些流行语言比如Java、Javascript、Python、Objective-C等字符串内部字符串都用UTF-16编码.在计算字符串长度搜索是的效率较好。</p>
+<p>实践<br>1.日常字母，汉字，表情分别用UTF-8和UTF-16表示分别用多少字节？</p>
+<p>字母UTF-8用一个字节，UTF-16用两个字节。</p>
+<p>大部分的汉字UTF-8编码后由三个字节如下图的“严”是e4b8a5,而用UTF-16编码仅用2个字节即4e25。</p>
+<p>大部分表情等特殊符号UTF-8编码后占4个字节，UTF-16编码后也占4个字节。</p>
+<p>​</p>
+<p>2.字符计算长度length方法是怎么计算的?</p>
+<p>像NSString,java,javascript等语言，由于是UTF-16编码的，在计算长度的时候由总字节/2得来的。</p>
+<p>3.实际开发时，如果想计算字符实际长度该怎么计算？</p>
+<p>1）一种是通过判断码点所在位置进行判断,只要落在0xD800到0xDBFF的区间，就要连同后面2个字节一起读取.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">var index = -1;</span><br><span class="line">var string = &apos;𠁒12&apos;;</span><br><span class="line">var length = string.length;</span><br><span class="line">var output = [];</span><br><span class="line">while (++index &lt; length) &#123;</span><br><span class="line">  var charCode = string.charCodeAt(index);</span><br><span class="line">  var character = string.charAt(index);</span><br><span class="line">  if (charCode &gt;= 55296 &amp;&amp; charCode &lt;= 56319) &#123;</span><br><span class="line">    output.push(character + string.charAt(++index));</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    output.push(character);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(output) //[&quot;𠁒&quot;, &quot;1&quot;, &quot;2&quot;]</span><br><span class="line">consolo.log(0xD800 ===55296) // true</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
 
-<p>##3 插件和中间件<br>1 中间件加载其实是有先后顺序的，但是中间件自身却无法管理这种顺序，只能交给使用者。这样其实非常不友好，一旦顺序不对，结果可能有天壤之别。（插件没有顺序吗）<br>2 中间件的定位是拦截用户请求，并在它前后做一些事情，例如：鉴权、安全检查、访问日志等等。但实际情况是，有些功能是和请求无关的，例如：定时任务、消息订阅、后台逻辑等等。<br>3 有些功能包含非常复杂的初始化逻辑，需要在应用启动的时候完成。这显然也不适合放到中间件中去实现。</p>
-<p>所以就要用插件</p>
-<p>插件自己管理依赖</p>
-<p>插件能做什么（具体看官网）</p>
-<ul>
-<li>扩展内置对象接口（Request、Response、Context、Helper、Application、Agent）</li>
-<li>插入自定义中间件</li>
-<li>启动时做一些初始化工作（app启动，agent启动）</li>
-<li>定时任务（schedule</li>
-<li>全局实例插件</li>
+<p>2.）ECMAScript 6版本 增强了对Unicode的支持，基本解决了这个问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">let s = &apos;𠁒12&apos;;</span><br><span class="line">let output = [];</span><br><span class="line">for(let s of string )&#123; </span><br><span class="line">    output.push(s)</span><br><span class="line">&#125;</span><br><span class="line">console.log(output) //[&quot;𠁒&quot;, &quot;1&quot;, &quot;2&quot;]</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">Array.from(string).length</span><br><span class="line">​</span><br><span class="line">3.javascript字符串和码点之间的转换方法？</span><br><span class="line"></span><br><span class="line">String.fromCodePoint()：从Unicode码点返回对应字符</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">console.log(String.fromCodePoint(9731, 9733, 9842, 0x2F804));</span><br><span class="line">// expected output: &quot;☃★♲你&quot;</span><br><span class="line">​</span><br><span class="line">String.prototype.codePointAt()：从字符返回对应的码点</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">var icons = &apos;☃★♲&apos;;</span><br><span class="line">console.log(icons.codePointAt(1));</span><br><span class="line">// expected output: &quot;9733&quot;</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+
+<p>4.文件编码是UTF-8,和字符串UTF-16编码之间有什么关系？</p>
+<p>这里以python为例，我们都知道，磁盘上的文件都是以二进制格式存放的，其中文本文件都是以某种特定编码的字节形式存放的。对于程序源代码文件的字符编码是由编辑器指定的，比如我们使用Pycharm来编写Python程序时会指定工程编码和文件编码为UTF-8，那么Python代码被保存到磁盘时就会被转换为UTF-8编码对应的字节（encode过程）后写入磁盘。当执行Python代码文件中的代码时，Python解释器在读取Python代码文件中的字节串之后，需要将其转换为Unicode字符串（decode过程）之后才执行后续操作。</p>
+<p>​</p>
+<h1 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h1><p>上面讲了Unicode字符集的起源，它的三种编码方式，UTF-8,UTF-16,UTF-32,编码空间，编码规则，优缺点以及用途，之后结合实际场景应用介绍了js中一些实践方法，不同语言会有自己的方式，还有就是文件编码和执行时字符编码。这些知识点在实际开发中不常见，但是深入了解其原理，对日常开发和解决问题会有帮助。</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/docker学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/docker学习/" class="post-title-link" itemprop="url">docker学习资料收集</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:40:01" itemprop="dateModified" datetime="2020-02-18T22:40:01+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><input disabled type="checkbox"> <a href="https://mp.weixin.qq.com/s/wSReP9JEn-QVmSWNzcotSw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/wSReP9JEn-QVmSWNzcotSw</a></li>
+<li><input disabled type="checkbox"> 正常建立一个新项目并上传项目docker<br><a href="https://juejin.im/post/5c4a6fcd518825469414e062" target="_blank" rel="noopener">https://juejin.im/post/5c4a6fcd518825469414e062</a></li>
+<li><input disabled type="checkbox"> Docker<br><a href="https://juejin.im/post/5b8ddb70e51d45389153f288" target="_blank" rel="noopener">https://juejin.im/post/5b8ddb70e51d45389153f288</a></li>
 </ul>
 
         
@@ -518,7 +715,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/IpV6/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/rewire原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -532,101 +729,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/IpV6/" class="post-title-link" itemprop="url">Ipv6</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-18 19:37:59" itemprop="dateModified" datetime="2019-12-18T19:37:59+08:00">2019-12-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/知识/" itemprop="url" rel="index"><span itemprop="name">知识</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>1  Ipv6 vs Ipv4<br>    xx | 地址 | 安全性 | 传播速度<br>    Ipv6 | 128位(差不多40多亿个IP) | 加密 | 快<br>    Ipv4 | 32位（差不多340兆兆兆个IP） | 不加密 | 慢</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/exec和spawn/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/node/exec和spawn/" class="post-title-link" itemprop="url">exec和spawn</a>
+            <a href="/2019/08/23/前端工程化相关/rewire原理/" class="post-title-link" itemprop="url">rewire原理</a>
           
         </h1>
 
@@ -662,7 +765,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/node/" itemprop="url" rel="index"><span itemprop="name">node</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/测试相关/" itemprop="url" rel="index"><span itemprop="name">测试相关</span></a></span>
 
                 
                 
@@ -681,408 +784,60 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><a href="http://deadhorse.me/nodejs/2011/12/18/nodejs%E4%B8%ADchild_process%E6%A8%A1%E5%9D%97%E7%9A%84exec%E6%96%B9%E6%B3%95%E5%92%8Cspawn%E6%96%B9%E6%B3%95.html" target="_blank" rel="noopener">http://deadhorse.me/nodejs/2011/12/18/nodejs%E4%B8%ADchild_process%E6%A8%A1%E5%9D%97%E7%9A%84exec%E6%96%B9%E6%B3%95%E5%92%8Cspawn%E6%96%B9%E6%B3%95.html</a></p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/Bindingx/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/移动端/Bindingx/" class="post-title-link" itemprop="url">bindingx</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/JScore和JsBridge原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/移动端/JScore和JsBridge原理/" class="post-title-link" itemprop="url">JsBridge原理</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="h5与native之间进行通信"><a href="#h5与native之间进行通信" class="headerlink" title="h5与native之间进行通信"></a>h5与native之间进行通信</h1><p>##js调用ios<br>  目前兼顾兼容性、比较成熟的方案还是通过拦截URL的方式。（目前的一种统一方案是:H5触发url scheme-&gt;Native捕获url scheme-&gt;原生分析,执行-&gt;原生调用h5）<br>  UIWebView的特性，在UIWebView内发起的所有网络请求，都可以在Native层被捕捉到。<br>  利用这一特性，就可以在UIWebView内发起一个自定义的网络请求，一般格式：jsbridge://method?参数1=value1&amp;参数2=value2<br>  于是在UIWebView中，只要发现是jsbridge://开头的url，就不进行内容的加载，而是执行相应的逻辑处理。<br>  嵌入webview的h5中的js一般是通过动态创建隐藏iframe标签，赋值上文提到的链接给src，iframe不会引起页面调转、刷新。<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var src= <span class="string">'jsbridge://method?参数1=value1&amp;参数2=value2'</span>;</span><br><span class="line">var iframe = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">iframe.style.display = <span class="string">'none'</span>;</span><br><span class="line">iframe.src = src;</span><br><span class="line">document.body.appendChild(iframe);</span><br><span class="line">//再删除iframesetTimeout(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    iframe.remove();</span><br><span class="line">&#125;, 50);</span><br></pre></td></tr></table></figure></p>
-<p>  结合美团的KNB可以想象一下KNB是怎么实现的</p>
-<h2 id="js调用android"><a href="#js调用android" class="headerlink" title="js调用android"></a>js调用android</h2><ul>
-<li><p>WebView的addJavascriptInterface进行对象映射（低版本Android4以下好像有一些安全问题，本人没有验证）</p>
-</li>
-<li><p>WebViewClient 的  shouldOverrideUrlLoading 方法回调拦截 url </p>
-</li>
-<li><p>WebChromeClient 的onJsAlert、onJsConfirm、onJsPrompt方法回调拦截JS对话框alert()、- confirm()、prompt() 消息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">设计一个jsbridge主要分几大步骤：</span><br><span class="line">第一步：设计出一个Native与JS交互的全局中间对象（knb）</span><br><span class="line">第二步：JS如何调用Native(通过iframe发起请求url schema,android也可以不通过iframe)</span><br><span class="line">第三步：Native如何得知api被调用（ios:UIWebView拦截请求）</span><br><span class="line">第四步：分析url-参数和回调的格式</span><br><span class="line">第五步：Native如何调用JS</span><br><span class="line">第六步：H5中api方法的注册以及格式</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>##JSCore<br><a href="https://tech.meituan.com/2018/08/23/deep-understanding-of-jscore.html" target="_blank" rel="noopener">https://tech.meituan.com/2018/08/23/deep-understanding-of-jscore.html</a>  后面有附带桥的实现</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/JsBridge原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/移动端/JsBridge原理/" class="post-title-link" itemprop="url">JsBridge原理</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="h5与native之间进行通信"><a href="#h5与native之间进行通信" class="headerlink" title="h5与native之间进行通信"></a>h5与native之间进行通信</h1><p>##js调用ios<br>  目前兼顾兼容性、比较成熟的方案还是通过拦截URL的方式。（目前的一种统一方案是:H5触发url scheme-&gt;Native捕获url scheme-&gt;原生分析,执行-&gt;原生调用h5）<br>  UIWebView的特性，在UIWebView内发起的所有网络请求，都可以在Native层被捕捉到。<br>  利用这一特性，就可以在UIWebView内发起一个自定义的网络请求，一般格式：jsbridge://method?参数1=value1&amp;参数2=value2<br>  于是在UIWebView中，只要发现是jsbridge://开头的url，就不进行内容的加载，而是执行相应的逻辑处理。<br>  嵌入webview的h5中的js一般是通过动态创建隐藏iframe标签，赋值上文提到的链接给src，iframe不会引起页面调转、刷新。<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var src= <span class="string">'jsbridge://method?参数1=value1&amp;参数2=value2'</span>;</span><br><span class="line">var iframe = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">iframe.style.display = <span class="string">'none'</span>;</span><br><span class="line">iframe.src = src;</span><br><span class="line">document.body.appendChild(iframe);</span><br><span class="line">//再删除iframesetTimeout(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    iframe.remove();</span><br><span class="line">&#125;, 50);</span><br></pre></td></tr></table></figure></p>
-<p>  结合美团的KNB可以想象一下KNB是怎么实现的</p>
-<h2 id="js调用android"><a href="#js调用android" class="headerlink" title="js调用android"></a>js调用android</h2><ul>
-<li><p>WebView的addJavascriptInterface进行对象映射（低版本Android4以下好像有一些安全问题，本人没有验证）</p>
-</li>
-<li><p>WebViewClient 的  shouldOverrideUrlLoading 方法回调拦截 url </p>
-</li>
-<li><p>WebChromeClient 的onJsAlert、onJsConfirm、onJsPrompt方法回调拦截JS对话框alert()、- confirm()、prompt() 消息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">设计一个jsbridge主要分几大步骤：</span><br><span class="line">第一步：设计出一个Native与JS交互的全局中间对象（knb）</span><br><span class="line">第二步：JS如何调用Native(通过iframe发起请求url schema,android也可以不通过iframe)</span><br><span class="line">第三步：Native如何得知api被调用（ios:UIWebView拦截请求）</span><br><span class="line">第四步：分析url-参数和回调的格式</span><br><span class="line">第五步：Native如何调用JS</span><br><span class="line">第六步：H5中api方法的注册以及格式</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/RN/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/移动端/RN/" class="post-title-link" itemprop="url">RN 笔记</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#react-native<br>  React Native的优势和劣势：<br>  ：优势相对Hybird app或者Webapp：</p>
+          <p>莫名的缘分使我看到了rewire这个库，于是就好奇怎么实现的，接下来就围绕这个库展开。</p>
+<h2 id="背景知识介绍"><a href="#背景知识介绍" class="headerlink" title="背景知识介绍"></a>背景知识介绍</h2><p>github地址：<a href="https://github.com/jhnns/rewire" target="_blank" rel="noopener">https://github.com/jhnns/rewire</a></p>
 <ol>
-<li>不用Webview，彻底摆脱了Webview让人不爽的交互和性能问题</li>
-<li>有较强的扩展性，这是因为Native端提供的是基本控件，JS可以自由组合使用</li>
-<li>可以直接使用Native原生的「牛逼」动画（在FB Group这个app里面，面板滑出带一点果冻弹动，面板基于某个点展开这种动画随处可见，这种动画用Native code来做小菜一碟，但是用Web来做就难上加难）。<br>优势相对于Native app：</li>
-<li>可以通过更新远端JS，直接更新app，不过这快成为各家大型Native app的标配了…</li>
+<li><p>rewire做了什么？<br>rewire给每个模块增加了setter和getter方法，以便可以访问内部的变量。</p>
+</li>
+<li><p>review可以用来干什么？</p>
+<ul>
+<li>inject mocks for other modules or globals like process</li>
+<li>inspect private variables</li>
+<li>override variables within the module. </li>
+</ul>
+</li>
+<li><p>review怎么用？<br>参考github链接</p>
+<h2 id="原理剖析"><a href="#原理剖析" class="headerlink" title="原理剖析"></a>原理剖析</h2><p><code>源码版本号：rewire@4.0.0   node@12.9.0</code></p>
+</li>
+<li><p>怎么给每个模块加上setter 和 getter ？<br>rewire.js文件中可看到：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">appendix = <span class="string">"\n"</span> + getDefinePropertySrc();</span><br><span class="line">appendix += <span class="string">"&#125;)();"</span>;</span><br><span class="line">moduleEnv.inject(prelude, appendix);</span><br></pre></td></tr></table></figure>
+
+<p>getDefinePropertySrc：<br>该函数的作用就是拼接setter、getter、with函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var __get__ = require(<span class="string">"./__get__.js"</span>);</span><br><span class="line">var __set__ = require (<span class="string">"./__set__.js"</span>);</span><br><span class="line">var __with__ = require(<span class="string">"./__with__.js"</span>);</span><br><span class="line"></span><br><span class="line">var srcs = &#123;</span><br><span class="line">    <span class="string">"__get__"</span>: __get__.toString(),</span><br><span class="line">    <span class="string">"__set__"</span>: __set__.toString(),</span><br><span class="line">    <span class="string">"__with__"</span>: __with__.toString()</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">getDefinePropertySrc</span></span>() &#123;</span><br><span class="line">    var src = <span class="string">"if (typeof(module.exports) === 'function' || \n"</span> +</span><br><span class="line">            <span class="string">"(typeof(module.exports) === 'object' &amp;&amp; module.exports !== null &amp;&amp; Object.isExtensible(module.exports))) &#123;\n"</span>;</span><br><span class="line"></span><br><span class="line">    src += Object.keys(srcs).reduce(<span class="keyword">function</span> forEachSrc(preValue, value) &#123;</span><br><span class="line">        <span class="built_in">return</span> preValue += <span class="string">"Object.defineProperty(module.exports, '"</span> +</span><br><span class="line">            value +</span><br><span class="line">            <span class="string">"', &#123;enumerable: false, value: "</span> +</span><br><span class="line">            srcs[value] +</span><br><span class="line">            <span class="string">", "</span>+</span><br><span class="line">            <span class="string">"writable: true&#125;); "</span>;</span><br><span class="line">    &#125;, <span class="string">""</span>);</span><br><span class="line"></span><br><span class="line">    src += <span class="string">"\n&#125;"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> src;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>inject方法：<br>将拼接好setter和getter的内容拼接到Module的wrapper属性中，方便之后_compile函数通过wrapSafe函数对模块进行拼接(在node源码中)。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var Module = require(<span class="string">"module"</span>),</span><br><span class="line"><span class="keyword">function</span> inject(prelude, appendix) &#123;</span><br><span class="line">    Module.wrapper[0] = moduleWrapper0 + prelude;</span><br><span class="line">    Module.wrapper[1] = appendix + moduleWrapper1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来rewire文件进入到load方法中，这个方法才真正将模块内容拼接好。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moduleEnv.load(targetModule);</span><br></pre></td></tr></table></figure>
+
+<p>load方法中调用module的load对模块进行装载（targetModule.load(targetModule.id);）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> load(targetModule) &#123;</span><br><span class="line">  nodeRequire = targetModule.require;</span><br><span class="line">  targetModule.require = requireProxy;</span><br><span class="line">  currentModule = targetModule;</span><br><span class="line"></span><br><span class="line">  registerExtensions();</span><br><span class="line">  targetModule.load(targetModule.id);</span><br><span class="line"></span><br><span class="line">  // This is only necessary <span class="keyword">if</span> nothing has been required within the module</span><br><span class="line">  reset();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>module的load方法可在node源码中找到,通过执行Module._extensions[extension](this, filename);方法然后调用_compile方法对模块进行装载。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Module.prototype.load = <span class="keyword">function</span>(filename) &#123;</span><br><span class="line">  debug(<span class="string">'load %j for module %j'</span>, filename, this.id);</span><br><span class="line"></span><br><span class="line">  assert(!this.loaded);</span><br><span class="line">  this.filename = filename;</span><br><span class="line">  this.paths = Module._nodeModulePaths(path.dirname(filename));</span><br><span class="line"></span><br><span class="line">  const extension = findLongestRegisteredExtension(filename);</span><br><span class="line">  Module._extensions[extension](this, filename);</span><br><span class="line">  this.loaded = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (experimentalModules) &#123;</span><br><span class="line">    const ESMLoader = asyncESM.ESMLoader;</span><br><span class="line">    const url = `<span class="variable">$&#123;pathToFileURL(filename)&#125;</span>`;</span><br><span class="line">    const module = ESMLoader.moduleMap.get(url);</span><br><span class="line">    // Create module entry at load time to snapshot exports correctly</span><br><span class="line">    const exports = this.exports;</span><br><span class="line">    <span class="keyword">if</span> (module !== undefined) &#123; // Called from cjs translator</span><br><span class="line">      <span class="keyword">if</span> (module.reflect) &#123;</span><br><span class="line">        module.reflect.onReady((reflect) =&gt; &#123;</span><br><span class="line">          reflect.exports.default.set(exports);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; // preemptively cache</span><br><span class="line">      ESMLoader.moduleMap.set(</span><br><span class="line">        url,</span><br><span class="line">        new ModuleJob(ESMLoader, url, async () =&gt; &#123;</span><br><span class="line">          <span class="built_in">return</span> createDynamicModule(</span><br><span class="line">            [], [<span class="string">'default'</span>], url, (reflect) =&gt; &#123;</span><br><span class="line">              reflect.exports.default.set(exports);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;)</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Module._extensions[<span class="string">'.js'</span>] = <span class="keyword">function</span>(module, filename) &#123;</span><br><span class="line">  const content = fs.readFileSync(filename, <span class="string">'utf8'</span>);</span><br><span class="line">  module._compile(content, filename);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>接下来看一下registerExtensions（require.extensions这个api已经废弃）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">registerExtensions</span></span>() &#123;</span><br><span class="line">  var originalJsExtension = require.extensions[<span class="string">".js"</span>];</span><br><span class="line">    var originalCoffeeExtension = require.extensions[<span class="string">".coffee"</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (originalJsExtension) &#123;</span><br><span class="line">        originalExtensions.js = originalJsExtension;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (originalCoffeeExtension) &#123;</span><br><span class="line">        originalExtensions.coffee = originalCoffeeExtension;</span><br><span class="line">    &#125;</span><br><span class="line">    require.extensions[<span class="string">".js"</span>] = jsExtension;</span><br><span class="line">    require.extensions[<span class="string">".coffee"</span>] = coffeeExtension;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>jsExtension函数，在该函数中重写了module的_compile函数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> jsExtension(module, filename) &#123;</span><br><span class="line">  var _compile = module._compile;</span><br><span class="line"></span><br><span class="line">  module._compile = <span class="keyword">function</span> (content, filename) &#123;</span><br><span class="line">      var noConstAssignMessage = linter.verify(content, eslintOptions).find(isNoConstAssignMessage);</span><br><span class="line">      var line;</span><br><span class="line">      var column;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (noConstAssignMessage !== undefined) &#123;</span><br><span class="line">          line = noConstAssignMessage.line;</span><br><span class="line">          column = noConstAssignMessage.column;</span><br><span class="line">          throw new TypeError(`Assignment to constant variable at <span class="variable">$&#123; filename &#125;</span>:<span class="variable">$&#123; line &#125;</span>:<span class="variable">$&#123; column &#125;</span>`);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      _compile.call(</span><br><span class="line">          module,</span><br><span class="line">          content.replace(matchConst, <span class="string">"<span class="variable">$1let</span>  <span class="variable">$2</span>"</span>), // replace const with <span class="built_in">let</span>, <span class="keyword">while</span> maintaining the column width</span><br><span class="line">          filename</span><br><span class="line">      );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  restoreExtensions();</span><br><span class="line">  originalExtensions.js(module, filename);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而Module的wrapper，看node源码（path:node/lib/internal/modules/cjs/loader.js）可找到如下代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> wrap = <span class="keyword">function</span>(script) &#123;</span><br><span class="line">  <span class="built_in">return</span> Module.wrapper[0] + script + Module.wrapper[1];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const wrapper = [</span><br><span class="line">  <span class="string">'(function (exports, require, module, __filename, __dirname) &#123; '</span>,</span><br><span class="line">  <span class="string">'\n&#125;);'</span></span><br><span class="line">];</span><br><span class="line"><span class="built_in">let</span> wrapperProxy = new Proxy(wrapper, &#123;</span><br><span class="line">  <span class="built_in">set</span>(target, property, value, receiver) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    <span class="built_in">return</span> Reflect.set(target, property, value, receiver);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  defineProperty(target, property, descriptor) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    <span class="built_in">return</span> Object.defineProperty(target, property, descriptor);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">Object.defineProperty(Module, <span class="string">'wrap'</span>, &#123;</span><br><span class="line">  <span class="function"><span class="title">get</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> wrap;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">set</span>(value) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    wrap = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Object.defineProperty(Module, <span class="string">'wrapper'</span>, &#123;</span><br><span class="line">  <span class="function"><span class="title">get</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> wrapperProxy;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">set</span>(value) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    wrapperProxy = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>总结</strong><br>rewire主要是通过更改Module的wrapper实现的对模块的拼接。<br>rewire一个文件的路径：注入wrapper，调用Module的load<br>而require函数也是通过调用load方法加载模块。</p>
+</li>
+<li><p>怎么通过getter实现对内部的访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">__get__</span></span>() &#123;</span><br><span class="line">    arguments.varName = arguments[0];</span><br><span class="line">    <span class="keyword">if</span> (arguments.varName &amp;&amp; typeof arguments.varName === <span class="string">"string"</span>) &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="built_in">eval</span>(arguments.varName);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        throw new TypeError(<span class="string">"__get__ expects a non-empty string"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>原理同</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">a</span></span>()&#123;</span><br><span class="line">  <span class="built_in">let</span> private =<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    console.log(<span class="string">'111'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">let</span> exports = &#123;</span><br><span class="line">    get(name)&#123;</span><br><span class="line">      <span class="built_in">return</span> <span class="built_in">eval</span>(name)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">return</span> exports</span><br><span class="line">&#125;</span><br><span class="line">a().get(<span class="string">'private'</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>遗留<br>在node的module源码中也能看到require,这个require指的是？<br>还有了解了proxy,<br>Reflect.set(target, property, value, receiver);<br>除了拦截get\set还可以拦截defineProperty</li>
+</ol>
+</li>
 </ol>
 
         
@@ -1108,7 +863,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/web&hybrid&native app/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/serverless/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -1122,7 +877,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/移动端/web&hybrid&native app/" class="post-title-link" itemprop="url">web&hybrid&native</a>
+            <a href="/2019/08/23/前端工程化相关/serverless/" class="post-title-link" itemprop="url">serveless</a>
           
         </h1>
 
@@ -1158,7 +913,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
 
                 
                 
@@ -1177,11 +932,421 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <ol>
-<li><p>Web APP<br>在浏览器中访问，入口临时<br>优点<br> （1）开发成本低，<br> （2）更新快，<br> （3）更新无需通知用户，不需要手动升级，<br> （4）能够跨多个平台和终端。</p>
-<p>缺点：<br> （1）临时性的入口、用户留存率低<br> （2）无法获取系统级别的通知，提醒，动效等等<br> （4）设计受限制诸多<br> （5）体验较差<br>更多地看<a href="https://www.uisdc.com/web-hybrid-native-app" target="_blank" rel="noopener">https://www.uisdc.com/web-hybrid-native-app</a><br>2 hybrid   混合<br>在native中嵌入h5<br>3 native</p>
+          
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/sourceMap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/sourceMap/" class="post-title-link" itemprop="url">sourceMap原理</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="问题来源：前端资源错误监控"><a href="#问题来源：前端资源错误监控" class="headerlink" title="问题来源：前端资源错误监控"></a>问题来源：前端资源错误监控</h1><p>前端资源错误监控一般是通过监听onerror事件来监控前端资源的报错，但是线上的资源都是经过打包压缩的，所以该函数返回的都是压缩后错误代码的行数和列数。但是我们想要知道的是源代码中的行号和列号。<br>一般推荐的是用sourceMap包解析出源码中的行号和列号<br>  <em><a href="https://github.com/mozilla/source-map" target="_blank" rel="noopener">https://github.com/mozilla/source-map</a></em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">consumer = new sourceMap.SourceMapConsumer</span><br><span class="line">consumer.originalPositionFor（line,col）</span><br></pre></td></tr></table></figure>
+
+<p>这么一顿操作之后就能知道源码中出错的位置！</p>
+<h1 id="那么是怎么实现的呢？"><a href="#那么是怎么实现的呢？" class="headerlink" title="那么是怎么实现的呢？"></a>那么是怎么实现的呢？</h1><p>  <em>这一部分参考了：<a href="https://juejin.im/entry/5bbffe87e51d450e436998b4" target="_blank" rel="noopener">https://juejin.im/entry/5bbffe87e51d450e436998b4</a>   个人觉得比ryf那一篇讲得清楚</em><br>  可直接从以上链接中的“我们所想象的Source Map”部分开始看，也可以直接看我的简述版<br>  首先打开打包后生成的map文件，可看到这样一个json<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"version"</span>:<span class="string">'1.0'</span>,</span><br><span class="line">  <span class="string">"sources"</span>:[<span class="string">'xxx'</span>,<span class="string">'yyyy'</span>],  //转换前的文件，如果为数组表示是多个文件压缩成这一个文件</span><br><span class="line">  <span class="string">"names"</span>:[<span class="string">"exports"</span>],//转换前的所有变量名和属性名。</span><br><span class="line">  <span class="string">"mappings"</span>:[<span class="string">"+DAmCAA,EAAAC;IAAA6uC,EAAA"</span>] //记录位置信息的字符串，</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>  其中mappings字段那看不懂的编码是Base64 VLQ 编码，在线解码：<a href="http://murzwin.com/base64vlq.html" target="_blank" rel="noopener">http://murzwin.com/base64vlq.html</a><br>  “;”隔开的是行 – uCAgDAA,EAAACs表示压缩后的代码的第一行的编码<br>  “,”隔开的是位置 – uCAgDAA 表示压缩后的代码的第一行第一个位置  EAAACs表示压缩后的代码的第一行第二个位置<br>  “+DAmCAA”  解码后是  [63,0,35,0,0]<br>  “EAAAC” 解码后是 [2,0,0,0,1]<br>  其中位数对应关系</p>
+<ul>
+<li><p>第一位，表示这个位置在（转换后的代码的）的第几列。</p>
 </li>
-</ol>
+<li><p>第二位，表示这个位置属于sources属性中的哪一个文件。</p>
+</li>
+<li><p>第三位，表示这个位置属于转换前代码的第几行。</p>
+</li>
+<li><p>第四位，表示这个位置属于转换前代码的第几列。</p>
+</li>
+<li><p>第五位，表示这个位置属于names属性中的哪一个变量。<br>注意：第一位和第四位都是对前一个位置的相对（如果不是第一个的话）<br>由于”+DAmCAA”是第一个，所以代表压缩后文件的第一行的63列是sources[0]文件的第35行的第0列,对应names[0]的那个变量<br>“EAAAC”代表的是压缩后文件的第一行第63+2=65列对应sources[0]文件的第0+35=35行的第0+0列,对应name[1]的那个变量</p>
+<p>初步是这么找的，但是这个map是怎么生成的等后续有时间的话再写吧</p>
+</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/微前端/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/微前端/" class="post-title-link" itemprop="url">微前端</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:16:21" itemprop="dateModified" datetime="2020-02-18T23:16:21+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/" itemprop="url" rel="index"><span itemprop="name">架构</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>前端微服务<br><a href="https://juejin.im/entry/5981271151882537a14ec729" target="_blank" rel="noopener">https://juejin.im/entry/5981271151882537a14ec729</a><br><a href="https://github.com/neuland/micro-frontends/" target="_blank" rel="noopener">https://github.com/neuland/micro-frontends/</a><br><a href="https://github.com/phodal/microfrontends" target="_blank" rel="noopener">https://github.com/phodal/microfrontends</a><br><a href="https://github.com/CanopyTax/single-spa" target="_blank" rel="noopener">https://github.com/CanopyTax/single-spa</a></p>
+<p>待了解补充</p>
+<p><a href="https://microfrontend.cn/#%E7%BB%84%E5%90%88%E5%BC%8F%E9%9B%86%E6%88%90%E5%B0%86%E5%BA%94%E7%94%A8%E5%BE%AE%E4%BB%B6%E5%8C%96" target="_blank" rel="noopener">https://microfrontend.cn/#%E7%BB%84%E5%90%88%E5%BC%8F%E9%9B%86%E6%88%90%E5%B0%86%E5%BA%94%E7%94%A8%E5%BE%AE%E4%BB%B6%E5%8C%96</a></p>
+<p><a href="https://tech.meituan.com/2018/09/06/fe-tiny-spa.html" target="_blank" rel="noopener">https://tech.meituan.com/2018/09/06/fe-tiny-spa.html</a>  -美团自身实践（比较清楚）</p>
+<p><a href="https://github.com/xitu/gold-miner/blob/master/TODO1/micro-frontends-3.md" target="_blank" rel="noopener">https://github.com/xitu/gold-miner/blob/master/TODO1/micro-frontends-3.md</a></p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/前端部署演化史/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/前端部署演化史/" class="post-title-link" itemprop="url">前端部署演化史</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-05 14:06:31" itemprop="dateModified" datetime="2019-12-05T14:06:31+08:00">2019-12-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建/" itemprop="url" rel="index"><span itemprop="name">构建</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://mp.weixin.qq.com/s/qyNT-p-hpMvWL6yDIKNoyw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/qyNT-p-hpMvWL6yDIKNoyw</a></p>
+<h2 id="1-nginx"><a href="#1-nginx" class="headerlink" title="1 nginx"></a>1 nginx</h2><p>try-files指令   可以避免非root路径404  可实现跳转<br>proxy_pass  可解决跨域  nginx缓存里拿不到资源，向该地址转发请求，拿到新的资源，并进行缓存<br>rewrite<br>proxy_cache 将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了<br>proxy_redirect 设置后端服务器“Location”响应头和“Refresh”响应头的替换文本</p>
+<h2 id="2-docker-构建镜像"><a href="#2-docker-构建镜像" class="headerlink" title="2 docker  构建镜像"></a>2 docker  构建镜像</h2><p>dockerfile 即部署脚本<br>docker-compose.yaml<br>docker-compose up -d 启动前端应用<br>dockerfile   示例 ：主要是指明环境  执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FROM node:alpine</span><br><span class="line"></span><br><span class="line"><span class="comment"># 代表生产环境</span></span><br><span class="line">ENV PROJECT_ENV production</span><br><span class="line"><span class="comment"># 许多 package 会根据此环境变量，做出不同的行为</span></span><br><span class="line"><span class="comment"># 另外，在 webpack 中打包也会根据此环境变量做出优化，但是 create-react-app 在打包时会写死该环境变量</span></span><br><span class="line">ENV NODE_ENV production</span><br><span class="line">WORKDIR /code</span><br><span class="line">ADD . /code</span><br><span class="line">RUN npm install &amp;&amp; npm run build &amp;&amp; npm install -g http-server</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">CMD http-server ./public -p 80</span><br></pre></td></tr></table></figure>
+
+<p>dockerfile的改进：<br>构建镜像体积过大<br>构建镜像时间过长</p>
+<p>docker-compose.yaml  让运维运行</p>
+<p>做法：<br>1 减少 npm install（npm cache 的基础镜像或者 npm 私有仓库）<br>2 npm install –production 只装必要的包</p>
+<h2 id="3-CI-CD（Continuous-Integration-Continuous-Delivery）"><a href="#3-CI-CD（Continuous-Integration-Continuous-Delivery）" class="headerlink" title="3 CI/CD（Continuous Integration/Continuous Delivery）"></a>3 CI/CD（Continuous Integration/Continuous Delivery）</h2><p>运维不用重复拉代码，docker-compose up -d，重启 nginx这三个步骤<br>而是用ci/cd自动化部署</p>
+<p>.gitlab-ci.yml等</p>
+<h2 id="4-kubernetes部署"><a href="#4-kubernetes部署" class="headerlink" title="4 kubernetes部署"></a>4 kubernetes部署</h2><p><a href="https://kubernetes.io/zh/docs/concepts/services-networking/ingress/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/services-networking/ingress/</a><br>随着业务越来越大，镜像越来越多，docker-compose 已经不太能应付，kubernetes 应时而出。这时服务器也从1台变成了多台，多台服务器就会有分布式问题<br>以前的流程:<br>1 前端配置 dockerfile 与 docker-compose<br>2 生产环境服务器的 CI runner 拉代码(可以看做以前的运维)，docker-compose up -d 启动服务。然后再重启 nginx，做反向代理，对外提供服务<br>以前的流程有一个问题: 构建镜像的服务器，提供容器服务的服务器，做持续集成的服务器是一台！<br>所以需要一个私有的镜像仓库，一个能够访问 k8s 集群的持续集成服务器</p>
+<p>流程改进之后结合 k8s 的流程如下<br>前端配置 dockerfile，构建镜像，推到镜像仓库<br>运维为前端应用配置 k8s 的资源配置文件，kubectl apply -f 时会重新拉取镜像，部署资源</p>
+<h2 id="5-helm"><a href="#5-helm" class="headerlink" title="5 helm"></a>5 helm</h2><p>bitnami/nginx<br><a href="https://whmzsu.github.io/helm-doc-zh-cn/chart/charts-zh_cn.html" target="_blank" rel="noopener">https://whmzsu.github.io/helm-doc-zh-cn/chart/charts-zh_cn.html</a></p>
+<h2 id="devops"><a href="#devops" class="headerlink" title="devops"></a>devops</h2><p><a href="https://aws.amazon.com/cn/devops/what-is-devops/" target="_blank" rel="noopener">https://aws.amazon.com/cn/devops/what-is-devops/</a><br>工具集<br><a href="https://library.prof.wang/handbook/h/hdbk-MWnS99ThmLVDi7U5mVFrB9" target="_blank" rel="noopener">https://library.prof.wang/handbook/h/hdbk-MWnS99ThmLVDi7U5mVFrB9</a></p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>前端构建主要考虑：缓存和跨域</p>
+<p>最开始的时候让sre在nginx层对静态文件进行缓存和跨域<br>后来前端提供服务，编写docker<br>再后来ci/cd  解放sre<br>再后来随着机器的增多，引入k8s</p>
+<p>之后前端不再仅仅提供静态资源，而是提供服务</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/测试相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/测试相关/" class="post-title-link" itemprop="url">测试相关</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/测试相关/" itemprop="url" rel="index"><span itemprop="name">测试相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>#ab工具  apache压力测试工具,用来分析接口性能</p>
+<p>#benchmark.js</p>
 
         
       
@@ -1250,7 +1415,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1264,10 +1429,6 @@
           
         
         
-        
-          
-        
-          
         
           
         
@@ -1341,8 +1502,6 @@
           
         
         
-        
-          
         
           
         

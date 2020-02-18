@@ -213,7 +213,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpack-插件常用api/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/JScore和JsBridge原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -227,935 +227,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/前端工程化相关/webpack/webpack-插件常用api/" class="post-title-link" itemprop="url">webpack-插件常用api</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:08:07" itemprop="dateModified" datetime="2020-02-18T23:08:07+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="常用概念及api"><a href="#常用概念及api" class="headerlink" title="常用概念及api"></a>常用概念及api</h1><h2 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h2><pre><code>钩子：compilation.chunks  存储代码块，为数组。
-描述：代码块(chunk)由多个模块组成，Webpack 会根据 Chunk 去生成输出的文件资源，每个 Chunk 都对应一个及其以上的输出文件
-例如在 Chunk 中包含了 CSS 模块并且使用了 ExtractTextPlugin 时， 该 Chunk 就会生成 .js 和 .css 两个文件  ？？</code></pre><h2 id="module"><a href="#module" class="headerlink" title="module"></a>module</h2><pre><code>钩子：通过 chunk.forEachModule 能读取组成代码块的每个模块，
-描述：module.fileDependencies 存放当前模块的所有依赖的文件
-note: 在webpack中所有可以</code></pre><h2 id="compilation-assets"><a href="#compilation-assets" class="headerlink" title="compilation.assets"></a>compilation.assets</h2><pre><code>最后要输出的资源都在这里</code></pre><h2 id="emit钩子"><a href="#emit钩子" class="headerlink" title="emit钩子"></a>emit钩子</h2><pre><code>生成资源到 output 目录之前</code></pre><h1 id="常用插件解析"><a href="#常用插件解析" class="headerlink" title="常用插件解析"></a>常用插件解析</h1><h2 id="HtmlWebpackPlugin"><a href="#HtmlWebpackPlugin" class="headerlink" title="HtmlWebpackPlugin"></a>HtmlWebpackPlugin</h2><pre><code>功能：自动创建一个html文件，该文件包含webpack打包生成的bundles。因为bundle会带上版本号，所以这种自动生成就会比较便利。
-原理：在compiler的emit钩子中对html的内容进行修改（将相应的assets加在对应的标签里并插入进html中相应的位置（head/body））,并通过html-minifier压缩后生成要输出的html内容等一些操作，最后通过修改compilation.assets来生成html文件。（通过子编译器进行html的编译部分见webpack-loader部分）
-配置：chunks
-    excludeChunks  更多配置可看官网
-扩展：该插件还提供了（tapable）
-    - html-webpack-plugin-alter-chunks
-    - html-webpack-plugin-before-html-generation
-    - html-webpack-plugin-before-html-processing
-    - html-webpack-plugin-alter-asset-tags
-    - html-webpack-plugin-after-html-processing
-    - html-webpack-plugin-after-emit
-    这些钩子，可以在别的插件中进行注册。
-note:在源码中（@^2.30.1）可在emit钩子中看到全都是promise写的，很舒服</code></pre><h2 id="prerender-spa-plugin"><a href="#prerender-spa-plugin" class="headerlink" title="prerender-spa-plugin"></a>prerender-spa-plugin</h2><pre><code>puppeteer地址 https://github.com/GoogleChrome/puppeteer</code></pre><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">webpack插件测试</span><br><span class="line">1 全局搜索某个变量并记录下来</span><br><span class="line">2 增加输出的资源（index.html）</span><br><span class="line">*/</span><br><span class="line">const fs = require(<span class="string">'fs'</span>)</span><br><span class="line">const path = require(<span class="string">'path'</span>)</span><br><span class="line">var Promise = require(<span class="string">"bluebird"</span>);</span><br><span class="line"><span class="keyword">function</span> MyAwesomePlugin(options) &#123;</span><br><span class="line">  this.options = options</span><br><span class="line">&#125;</span><br><span class="line">MyAwesomePlugin.prototype.apply = <span class="keyword">function</span> (compiler) &#123;</span><br><span class="line">  <span class="built_in">let</span> self = this</span><br><span class="line">  compiler.plugin(<span class="string">'emit'</span>, <span class="keyword">function</span> (compilation, callback) &#123;</span><br><span class="line">    //全局搜索某个变量并记录下来</span><br><span class="line">    compilation.modules.forEach(module =&gt; &#123;</span><br><span class="line">      //过滤掉node_module下面的文件</span><br><span class="line">      <span class="keyword">if</span> (module.context &amp;&amp; module.context.indexOf(<span class="string">'node_modules'</span>) == -1) &#123;</span><br><span class="line">        <span class="built_in">let</span> temp = module.userRequest.split(<span class="string">'/'</span>)</span><br><span class="line">        <span class="built_in">let</span> fileName = temp[temp.length - 1].split(<span class="string">'.'</span>)[0] + <span class="string">".json"</span></span><br><span class="line">        fs.readFile(module.resource,&#123;</span><br><span class="line">          encoding: <span class="string">"utf-8"</span></span><br><span class="line">        &#125;, <span class="keyword">function</span> (err, fr) &#123;</span><br><span class="line">          <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            console.log(err);</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            var regexp = /localizeJdd\(<span class="string">"(.*)"</span>\)/g</span><br><span class="line">            <span class="built_in">let</span> jsonTemp = []</span><br><span class="line">            <span class="built_in">let</span> match;</span><br><span class="line">            <span class="keyword">while</span> (match = regexp.exec(fr)) &#123;</span><br><span class="line">              console.log(match)</span><br><span class="line">              jsonTemp.push(&#123;</span><br><span class="line">                ch: match[1]</span><br><span class="line">              &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">            fs.writeFile(fileName, JSON.stringify(jsonTemp), (err) =&gt; &#123;</span><br><span class="line">              console.log(err)</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    //添加资源(可拓展实现添加script将chunk引入）</span><br><span class="line">    self.addFileToAssets(<span class="string">'./index.html'</span>, compilation).<span class="keyword">then</span>(res =&gt; &#123; </span><br><span class="line">      callback()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">MyAwesomePlugin.prototype.addFileToAssets = <span class="keyword">function</span> (filename, compilation) &#123;</span><br><span class="line">  filename = path.resolve(compilation.compiler.context, filename);</span><br><span class="line">  <span class="built_in">return</span> Promise.props(&#123;</span><br><span class="line">      size: fs.statAsync(filename),</span><br><span class="line">      <span class="built_in">source</span>: fs.readFileAsync(filename)</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">      <span class="built_in">return</span> Promise.reject(new Error(<span class="string">'HtmlWebpackPlugin: could not load file '</span> + filename));</span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="keyword">then</span>(<span class="keyword">function</span> (results) &#123;</span><br><span class="line">      var basename = path.basename(filename);</span><br><span class="line">      compilation.fileDependencies.push(filename);</span><br><span class="line">      compilation.assets[basename] = &#123;</span><br><span class="line">        <span class="built_in">source</span>: <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">          <span class="built_in">return</span> results.source;</span><br><span class="line">        &#125;,</span><br><span class="line">        size: <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">          <span class="built_in">return</span> results.size.size;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">      <span class="built_in">return</span> basename;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line">module.exports = MyAwesomePlugin</span><br></pre></td></tr></table></figure>
-
-<p>1 webpack-deb-server 开启hot和不开启的区别</p>
-<p>3 babel-loader 和webpack loader开发</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/docker学习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/docker学习/" class="post-title-link" itemprop="url">docker学习资料收集</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:40:01" itemprop="dateModified" datetime="2020-02-18T22:40:01+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><input disabled type="checkbox"> <a href="https://mp.weixin.qq.com/s/wSReP9JEn-QVmSWNzcotSw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/wSReP9JEn-QVmSWNzcotSw</a></li>
-<li><input disabled type="checkbox"> 正常建立一个新项目并上传项目docker<br><a href="https://juejin.im/post/5c4a6fcd518825469414e062" target="_blank" rel="noopener">https://juejin.im/post/5c4a6fcd518825469414e062</a></li>
-<li><input disabled type="checkbox"> Docker<br><a href="https://juejin.im/post/5b8ddb70e51d45389153f288" target="_blank" rel="noopener">https://juejin.im/post/5b8ddb70e51d45389153f288</a></li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpack-loader/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/webpack/webpack-loader/" class="post-title-link" itemprop="url">webpack-loader</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:08:15" itemprop="dateModified" datetime="2020-02-18T23:08:15+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="须知"><a href="#须知" class="headerlink" title="须知"></a>须知</h1><pre><code>loader 可以使你在 import 或&quot;加载&quot;模块时预处理文件
-loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle 中引入这些_依赖_。</code></pre><h1 id="loader开发"><a href="#loader开发" class="headerlink" title="loader开发"></a>loader开发</h1><p>loader本质就是接收字符串(或者buffer)，再返回处理完的字符串(或者buffer)的过程</p>
-<h2 id="vue-loader源码阅读"><a href="#vue-loader源码阅读" class="headerlink" title="vue-loader源码阅读"></a>vue-loader源码阅读</h2><h3 id="vue-loader的功能："><a href="#vue-loader的功能：" class="headerlink" title="vue-loader的功能："></a>vue-loader的功能：</h3><p>vue-loader 是一个 Webpack 的 loader，可以将指定格式编写的 Vue 组件转换为 JavaScript 模块。<br>Vue组件默认分成三部分，template、script 和 style，我们可以把一个组件要有的html，js，css写在一个组件文件中，而vue-loader，会帮助我们去处理这个vue组件，把其中的html，js，css分别编译处理，最终打包成一个模块。</p>
-<h2 id="手写一个loader示例"><a href="#手写一个loader示例" class="headerlink" title="手写一个loader示例"></a>手写一个loader示例</h2><blockquote>
-<p>该部分部分参考<a href="https://juejin.im/post/59df06e6f265da430d5701d0" target="_blank" rel="noopener">https://juejin.im/post/59df06e6f265da430d5701d0</a>  文章的”动手写一个webpack loader“</p>
-</blockquote>
-<p>loader功能介绍：给html加上公共头和尾<br>实现思路：require的时候替换layout文件（包含头和尾）的标识符，将内容插入layout文件中<br>loader代码</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const loaderUtils = require(<span class="string">'loader-utils'</span>)</span><br><span class="line">const fs = require(<span class="string">'fs'</span>)</span><br><span class="line">module.exports = <span class="keyword">function</span> (<span class="built_in">source</span>) &#123;</span><br><span class="line">  const options = loaderUtils.getOptions(this)</span><br><span class="line">  const layoutHtml = fs.readFileSync(options.layout, <span class="string">'utf-8'</span>)</span><br><span class="line">  <span class="built_in">return</span> layoutHtml.replace(<span class="string">'&#123;&#123;__content__&#125;&#125;'</span>, <span class="built_in">source</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="node环境中运行"><a href="#node环境中运行" class="headerlink" title="node环境中运行"></a>node环境中运行</h3><p>因为是在服务器端测试的所以配置的时候设置了target:node,不然打包的时候require核心代码的时候的输出会报错<br>还要使用raw-loader将文件作为字符串导入，require的时候obj.default为字符串,正常的时候require为模块的export的值。<br>配置如下：<br>config.js</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const path = require(<span class="string">'path'</span>)</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">'./server.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'./'</span>), </span><br><span class="line">    filename: <span class="string">'dist.js'</span>,</span><br><span class="line">  &#125;, </span><br><span class="line">  target: <span class="string">'node'</span>,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">      <span class="built_in">test</span>: /\.html$/,</span><br><span class="line">      use: [&#123;</span><br><span class="line">        loader: <span class="string">"raw-loader"</span>,</span><br><span class="line">      &#125;,&#123;</span><br><span class="line">        loader: path.resolve(__dirname, <span class="string">'../loader/html-layout-loader.js'</span>),</span><br><span class="line">        options: &#123;</span><br><span class="line">          layout: path.resolve(__dirname, <span class="string">'../layout.html'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;]</span><br><span class="line">    &#125;],</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>server.js</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var http = require(<span class="string">'http'</span>); // 1 - Import Node.js core module</span><br><span class="line">const returnHtml = require(<span class="string">'../test.html'</span>)</span><br><span class="line">console.log(<span class="string">'returnHtml'</span>, returnHtml)</span><br><span class="line">var server = http.createServer(<span class="keyword">function</span> (req, res) &#123; // 2 - creating server</span><br><span class="line">  //handle incomming requests here..</span><br><span class="line">  res.writeHead(200, &#123;</span><br><span class="line">    <span class="string">"Content_Type"</span>: <span class="string">"text/html"</span></span><br><span class="line">  &#125;); //设置响应格式</span><br><span class="line">  res.write(returnHtml.default);</span><br><span class="line">  res.end();</span><br><span class="line">&#125;);</span><br><span class="line">server.listen(5000); //3 - listen <span class="keyword">for</span> any incoming requests</span><br><span class="line">console.log(<span class="string">'Node.js web server at port 5000 is running..'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>使用如下<br>init.js</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(<span class="string">'webpack'</span>)</span><br><span class="line">const webpackConfig = require(<span class="string">'./config'</span>)</span><br><span class="line">webpack(webpackConfig, (err, stats) =&gt; &#123;</span><br><span class="line">  console.log(<span class="string">'err'</span>,err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>先运行init.js生成dist.js<br>然后运行dist.js</p>
-<h3 id="纯前端环境中运行"><a href="#纯前端环境中运行" class="headerlink" title="纯前端环境中运行"></a>纯前端环境中运行</h3><p>在前端代码中进行配置的话，可以看到index.html直接就配置成功了，猜测webpack-dev-server也是用require的方式加载index.html的，此处就调试webpack-dev-server<br>可以看到并不是require，而是通过以下方式读取index.html的（具体怎么找到的可参考<a href="https://segmentfault.com/a/1190000016871965）" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016871965）</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stat</span> = context.fs.statSync(filename);</span><br></pre></td></tr></table></figure>
-
-<p>这个是在shared中定义的</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(typeof compiler.outputPath === <span class="string">"string"</span> &amp;&amp; !pathIsAbsolute.posix(compiler.outputPath) &amp;&amp; !pathIsAbsolute.win32(compiler.outputPath)) &#123;</span><br><span class="line">    throw new Error(<span class="string">"`output.path` needs to be an absolute path or `/`."</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // store our files <span class="keyword">in</span> memory</span><br><span class="line">  var fs;</span><br><span class="line">  var isMemoryFs = !compiler.compilers &amp;&amp; compiler.outputFileSystem instanceof MemoryFileSystem;</span><br><span class="line">  <span class="keyword">if</span>(isMemoryFs) &#123;</span><br><span class="line">    fs = compiler.outputFileSystem;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fs = compiler.outputFileSystem = new MemoryFileSystem();</span><br><span class="line">  &#125;</span><br><span class="line">  context.fs = fs;</span><br></pre></td></tr></table></figure>
-
-<p>可见这里的statSync方法是outputFileSystem中的statSync，是从内存中读的。而内存中的内容是什么呢？这时候可以选择build出来看一下。<br>build之后可看到inde.html中含有头部和尾部。<br>然后想起了前两天写的text的插件，用那个build的话就会有问题，因为是直接从硬盘中读的index.html，当用官方插件的时候build出来没有问题。对比一下自己写的与之的差别。<br>发现该插件在生成index.js的时候又重新新建了子编译器compiler及compilation了一遍(相关代码如下)<br>html-webpack-plugin包中的lib/compiler.js</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var childCompiler = compilation.createChildCompiler(compilerName, outputOptions);</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">childCompiler.runAsChild(<span class="keyword">function</span> (err, entries, childCompilation) &#123;</span><br></pre></td></tr></table></figure>
-
-<p>为什么不能直接读取 html 文件而要用子编译器？因为 html 文件中可能依赖其他外部资源（比如 img 的src属性），所以加载 html 文件时仍然需要一个额外的完整的构建流程来完成这个任务，这个构建过程正好就包含了loader编辑的过程。<br>那么loader是在什么时候运行的呢？<br>参考<a href="https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10" target="_blank" rel="noopener">https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10</a>  文章的”loader运行时机部分“可知大概是在compilation的时候运行的，经过设置断点确实是在子编译器complication之后（但是没有跟到具体的方法）。<br><a href="https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10" target="_blank" rel="noopener">https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10</a>   这篇文章很详细的写了loader相关的内容，以后有机会可以看看</p>
-<p>关于子编辑器或更多webpack的相关<a href="https://cloud.tencent.com/developer/article/1030740" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1030740</a></p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/学习资料/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/webpack/学习资料/" class="post-title-link" itemprop="url">webpack学习资料</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:08:57" itemprop="dateModified" datetime="2020-02-18T23:08:57+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Webpack</p>
-<ul>
-<li><input disabled type="checkbox"> <a href="http://webpack.wuhaolin.cn/" target="_blank" rel="noopener">http://webpack.wuhaolin.cn/</a>   深入浅出webpack书籍</li>
-<li><input disabled type="checkbox"> <a href="https://segmentfault.com/a/1190000012501430" target="_blank" rel="noopener">https://segmentfault.com/a/1190000012501430</a>  webpack多种配置方法<br>  函数、异步，数组</li>
-<li><input disabled type="checkbox"> resolve:配置模块如何解析  import的时候怎么查找</li>
-<li><input disabled type="checkbox"> webpack流程篇：<a href="http://taobaofed.org/blog/2016/09/09/webpack-flow/" target="_blank" rel="noopener">http://taobaofed.org/blog/2016/09/09/webpack-flow/</a><pre><code>可根据这个看源码</code></pre></li>
-</ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/vue/学习资料收集/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/vue/学习资料收集/" class="post-title-link" itemprop="url">vue 学习资料收集</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:13:24" itemprop="dateModified" datetime="2020-02-18T23:13:24+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>双向数据绑定vue源码阅读</p>
-<p><a href="https://juejin.im/entry/59116fa6a0bb9f0058aaaa4c" target="_blank" rel="noopener">https://juejin.im/entry/59116fa6a0bb9f0058aaaa4c</a></p>
-<p><a href="https://github.com/DDFE/DDFE-blog/issues/7" target="_blank" rel="noopener">https://github.com/DDFE/DDFE-blog/issues/7</a></p>
-<p>computed跟watch一样的道理，watch不到对象属性的变化，明白为什么</p>
-<p>computed不能是对象设置deep</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/学习笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/node/学习笔记/" class="post-title-link" itemprop="url">node学习笔记</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:13:53" itemprop="dateModified" datetime="2020-02-18T23:13:53+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/node/" itemprop="url" rel="index"><span itemprop="name">node</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>node学习<br>￼<img src="/images/node1.jpg" alt></p>
-<ul>
-<li>Node.js 标准库，这部分是由 Javascript编写的，即我们使用过程中直接能调用的 API。在源码中的 lib 目录下可以看到。</li>
-<li>Node bindings，这一层是 Javascript与底层 C/C++ 能够沟通的关键，前者通过 bindings 调用后者，相互交换数据。实现在 node.cc</li>
-<li>这一层是支撑 Node.js 运行的关键，由 C/C++ 实现。 V8：Google 推出的 Javascript VM，也是 Node.js 为什么使用的是 Javascript的关键，它为 Javascript提供了在非浏览器端运行的环境，它的高效是 Node.js 之所以高效的原因之一。 Libuv：它为 Node.js 提供了跨平台，线程池，事件池，异步 I/O 等能力，是 Node.js 如此强大的关键。 C-ares：提供了异步处理 DNS 相关的能力。 http_parser、OpenSSL、zlib 等：提供包括 http 解析、SSL、数据压缩等其他的能力。</li>
-</ul>
-<ul>
-<li><input disabled type="checkbox"> 单线程高并发：<a href="https://imweb.io/topic/5b6cf97093759a0e51c917c8" target="_blank" rel="noopener">https://imweb.io/topic/5b6cf97093759a0e51c917c8</a></li>
-<li><input disabled type="checkbox"> Process/child_process系列文章<br><a href="https://juejin.im/post/5b0e97bef265da0914072515" target="_blank" rel="noopener">https://juejin.im/post/5b0e97bef265da0914072515</a></li>
-</ul>
-<p><a href="https://github.com/ElemeFE/node-interview/blob/master/sections/zh-cn/process.md#process" target="_blank" rel="noopener">https://github.com/ElemeFE/node-interview/blob/master/sections/zh-cn/process.md#process</a></p>
-<p><a href="https://github.com/ElemeFE/node-practice" target="_blank" rel="noopener">https://github.com/ElemeFE/node-practice</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/44681534" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/44681534</a>   node_RPC</p>
-<p>node本地开发调试：<a href="https://github.com/xtx1130/blog/issues/9" target="_blank" rel="noopener">https://github.com/xtx1130/blog/issues/9</a><br>Make: cmake文件</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/学习资料收集/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/node/学习资料收集/" class="post-title-link" itemprop="url">node 学习资料收集</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:14:51" itemprop="dateModified" datetime="2020-02-18T23:14:51+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/node/" itemprop="url" rel="index"><span itemprop="name">node</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>上下文切换、多核、单核、多cpu<br><a href="https://juejin.im/post/5b10e53b6fb9a01e5b10e9be" target="_blank" rel="noopener">https://juejin.im/post/5b10e53b6fb9a01e5b10e9be</a></p>
-<p>node 单线程，异步IO，所以我们请求的时候不启用多线程的情况下，修改文件或读写数据库的时候不用加锁，也就不用考虑同步问题<br>那为什么我们的部署系统当一个人发布的时候另外一个人不能发布？是做了同步的操作吗</p>
-<p>关于java处理高并发<br>怎么实现高并发？加机器<br>怎么处理高并发？加锁处理同步<br>因为存在同步问题，所以要加锁，加锁会导致死锁问题，（虽然一般很少出现死锁）怎么处理死锁？令牌环…</p>
-<p>数据库里一般都有加锁，<br>如果对整个数据库加锁还好，但如果对单个表加锁，就很可能导致死锁，这时候可以考虑事务，<br>因为现在大多数是分布式，所以写事务的话会导致并发量减少</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/奇技淫巧/快速搭建文档/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/奇技淫巧/快速搭建文档/" class="post-title-link" itemprop="url">快速搭建文档的工具</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:15:51" itemprop="dateModified" datetime="2020-02-18T23:15:51+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/奇技淫巧/" itemprop="url" rel="index"><span itemprop="name">奇技淫巧</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Vuepress<br>showdoc<br>storybook</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/微前端/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/微前端/" class="post-title-link" itemprop="url">微前端</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:16:21" itemprop="dateModified" datetime="2020-02-18T23:16:21+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/架构/" itemprop="url" rel="index"><span itemprop="name">架构</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>前端微服务<br><a href="https://juejin.im/entry/5981271151882537a14ec729" target="_blank" rel="noopener">https://juejin.im/entry/5981271151882537a14ec729</a><br><a href="https://github.com/neuland/micro-frontends/" target="_blank" rel="noopener">https://github.com/neuland/micro-frontends/</a><br><a href="https://github.com/phodal/microfrontends" target="_blank" rel="noopener">https://github.com/phodal/microfrontends</a><br><a href="https://github.com/CanopyTax/single-spa" target="_blank" rel="noopener">https://github.com/CanopyTax/single-spa</a></p>
-<p>待了解补充</p>
-<p><a href="https://microfrontend.cn/#%E7%BB%84%E5%90%88%E5%BC%8F%E9%9B%86%E6%88%90%E5%B0%86%E5%BA%94%E7%94%A8%E5%BE%AE%E4%BB%B6%E5%8C%96" target="_blank" rel="noopener">https://microfrontend.cn/#%E7%BB%84%E5%90%88%E5%BC%8F%E9%9B%86%E6%88%90%E5%B0%86%E5%BA%94%E7%94%A8%E5%BE%AE%E4%BB%B6%E5%8C%96</a></p>
-<p><a href="https://tech.meituan.com/2018/09/06/fe-tiny-spa.html" target="_blank" rel="noopener">https://tech.meituan.com/2018/09/06/fe-tiny-spa.html</a>  -美团自身实践（比较清楚）</p>
-<p><a href="https://github.com/xitu/gold-miner/blob/master/TODO1/micro-frontends-3.md" target="_blank" rel="noopener">https://github.com/xitu/gold-miner/blob/master/TODO1/micro-frontends-3.md</a></p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/sourceMap/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/sourceMap/" class="post-title-link" itemprop="url">sourceMap原理</a>
+            <a href="/2019/08/23/移动端/JScore和JsBridge原理/" class="post-title-link" itemprop="url">JsBridge原理</a>
           
         </h1>
 
@@ -1191,6 +263,928 @@ loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle
               </span>
               <span class="post-meta-item-text">In</span>
               
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="h5与native之间进行通信"><a href="#h5与native之间进行通信" class="headerlink" title="h5与native之间进行通信"></a>h5与native之间进行通信</h1><p>##js调用ios<br>  目前兼顾兼容性、比较成熟的方案还是通过拦截URL的方式。（目前的一种统一方案是:H5触发url scheme-&gt;Native捕获url scheme-&gt;原生分析,执行-&gt;原生调用h5）<br>  UIWebView的特性，在UIWebView内发起的所有网络请求，都可以在Native层被捕捉到。<br>  利用这一特性，就可以在UIWebView内发起一个自定义的网络请求，一般格式：jsbridge://method?参数1=value1&amp;参数2=value2<br>  于是在UIWebView中，只要发现是jsbridge://开头的url，就不进行内容的加载，而是执行相应的逻辑处理。<br>  嵌入webview的h5中的js一般是通过动态创建隐藏iframe标签，赋值上文提到的链接给src，iframe不会引起页面调转、刷新。<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var src= <span class="string">'jsbridge://method?参数1=value1&amp;参数2=value2'</span>;</span><br><span class="line">var iframe = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">iframe.style.display = <span class="string">'none'</span>;</span><br><span class="line">iframe.src = src;</span><br><span class="line">document.body.appendChild(iframe);</span><br><span class="line">//再删除iframesetTimeout(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    iframe.remove();</span><br><span class="line">&#125;, 50);</span><br></pre></td></tr></table></figure></p>
+<p>  结合美团的KNB可以想象一下KNB是怎么实现的</p>
+<h2 id="js调用android"><a href="#js调用android" class="headerlink" title="js调用android"></a>js调用android</h2><ul>
+<li><p>WebView的addJavascriptInterface进行对象映射（低版本Android4以下好像有一些安全问题，本人没有验证）</p>
+</li>
+<li><p>WebViewClient 的  shouldOverrideUrlLoading 方法回调拦截 url </p>
+</li>
+<li><p>WebChromeClient 的onJsAlert、onJsConfirm、onJsPrompt方法回调拦截JS对话框alert()、- confirm()、prompt() 消息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">设计一个jsbridge主要分几大步骤：</span><br><span class="line">第一步：设计出一个Native与JS交互的全局中间对象（knb）</span><br><span class="line">第二步：JS如何调用Native(通过iframe发起请求url schema,android也可以不通过iframe)</span><br><span class="line">第三步：Native如何得知api被调用（ios:UIWebView拦截请求）</span><br><span class="line">第四步：分析url-参数和回调的格式</span><br><span class="line">第五步：Native如何调用JS</span><br><span class="line">第六步：H5中api方法的注册以及格式</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>##JSCore<br><a href="https://tech.meituan.com/2018/08/23/deep-understanding-of-jscore.html" target="_blank" rel="noopener">https://tech.meituan.com/2018/08/23/deep-understanding-of-jscore.html</a>  后面有附带桥的实现</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/JsBridge原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/移动端/JsBridge原理/" class="post-title-link" itemprop="url">JsBridge原理</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="h5与native之间进行通信"><a href="#h5与native之间进行通信" class="headerlink" title="h5与native之间进行通信"></a>h5与native之间进行通信</h1><p>##js调用ios<br>  目前兼顾兼容性、比较成熟的方案还是通过拦截URL的方式。（目前的一种统一方案是:H5触发url scheme-&gt;Native捕获url scheme-&gt;原生分析,执行-&gt;原生调用h5）<br>  UIWebView的特性，在UIWebView内发起的所有网络请求，都可以在Native层被捕捉到。<br>  利用这一特性，就可以在UIWebView内发起一个自定义的网络请求，一般格式：jsbridge://method?参数1=value1&amp;参数2=value2<br>  于是在UIWebView中，只要发现是jsbridge://开头的url，就不进行内容的加载，而是执行相应的逻辑处理。<br>  嵌入webview的h5中的js一般是通过动态创建隐藏iframe标签，赋值上文提到的链接给src，iframe不会引起页面调转、刷新。<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var src= <span class="string">'jsbridge://method?参数1=value1&amp;参数2=value2'</span>;</span><br><span class="line">var iframe = document.createElement(<span class="string">'iframe'</span>);</span><br><span class="line">iframe.style.display = <span class="string">'none'</span>;</span><br><span class="line">iframe.src = src;</span><br><span class="line">document.body.appendChild(iframe);</span><br><span class="line">//再删除iframesetTimeout(<span class="function"><span class="title">function</span></span>() &#123;</span><br><span class="line">    iframe.remove();</span><br><span class="line">&#125;, 50);</span><br></pre></td></tr></table></figure></p>
+<p>  结合美团的KNB可以想象一下KNB是怎么实现的</p>
+<h2 id="js调用android"><a href="#js调用android" class="headerlink" title="js调用android"></a>js调用android</h2><ul>
+<li><p>WebView的addJavascriptInterface进行对象映射（低版本Android4以下好像有一些安全问题，本人没有验证）</p>
+</li>
+<li><p>WebViewClient 的  shouldOverrideUrlLoading 方法回调拦截 url </p>
+</li>
+<li><p>WebChromeClient 的onJsAlert、onJsConfirm、onJsPrompt方法回调拦截JS对话框alert()、- confirm()、prompt() 消息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">设计一个jsbridge主要分几大步骤：</span><br><span class="line">第一步：设计出一个Native与JS交互的全局中间对象（knb）</span><br><span class="line">第二步：JS如何调用Native(通过iframe发起请求url schema,android也可以不通过iframe)</span><br><span class="line">第三步：Native如何得知api被调用（ios:UIWebView拦截请求）</span><br><span class="line">第四步：分析url-参数和回调的格式</span><br><span class="line">第五步：Native如何调用JS</span><br><span class="line">第六步：H5中api方法的注册以及格式</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/RN/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/移动端/RN/" class="post-title-link" itemprop="url">RN 笔记</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>#react-native<br>  React Native的优势和劣势：<br>  ：优势相对Hybird app或者Webapp：</p>
+<ol>
+<li>不用Webview，彻底摆脱了Webview让人不爽的交互和性能问题</li>
+<li>有较强的扩展性，这是因为Native端提供的是基本控件，JS可以自由组合使用</li>
+<li>可以直接使用Native原生的「牛逼」动画（在FB Group这个app里面，面板滑出带一点果冻弹动，面板基于某个点展开这种动画随处可见，这种动画用Native code来做小菜一碟，但是用Web来做就难上加难）。<br>优势相对于Native app：</li>
+<li>可以通过更新远端JS，直接更新app，不过这快成为各家大型Native app的标配了…</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/web&hybrid&native app/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/移动端/web&hybrid&native app/" class="post-title-link" itemprop="url">web&hybrid&native</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li><p>Web APP<br>在浏览器中访问，入口临时<br>优点<br> （1）开发成本低，<br> （2）更新快，<br> （3）更新无需通知用户，不需要手动升级，<br> （4）能够跨多个平台和终端。</p>
+<p>缺点：<br> （1）临时性的入口、用户留存率低<br> （2）无法获取系统级别的通知，提醒，动效等等<br> （4）设计受限制诸多<br> （5）体验较差<br>更多地看<a href="https://www.uisdc.com/web-hybrid-native-app" target="_blank" rel="noopener">https://www.uisdc.com/web-hybrid-native-app</a><br>2 hybrid   混合<br>在native中嵌入h5<br>3 native</p>
+</li>
+</ol>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/面试/头条算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/面试/头条算法/" class="post-title-link" itemprop="url">头条算法刷题</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:04:27" itemprop="dateModified" datetime="2020-02-18T23:04:27+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/面试/" itemprop="url" rel="index"><span itemprop="name">面试</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>头条刷题<br><a href="https://leetcode-cn.com/explore/interview/card/bytedance/" target="_blank" rel="noopener">https://leetcode-cn.com/explore/interview/card/bytedance/</a>  微信登录</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/运维/cdn劫持/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/运维/cdn劫持/" class="post-title-link" itemprop="url">cdn劫持</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:20:37" itemprop="dateModified" datetime="2020-02-18T23:20:37+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Cdn  劫持</p>
+<p>本身就是一种DNS劫持，只不过是吧域名解析到邻近的服务器上</p>
+<p>只劫持静态资源，且有缓存机制</p>
+<p>https 能够繁殖cdn劫持  任何劫持这都不能探测到交互内容</p>
+<p>？</p>
+<ul>
+<li>资源异常自动 CDN 降级: 提供页面资源加载稳定性</li>
+<li>CDN 劫持自动降级: JS 内容检查校验和，不符合自动切换降级 CDN</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/问题记录/exports出错问题记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/问题记录/exports出错问题记录/" class="post-title-link" itemprop="url">问题记录（exports找不到）</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:33:39" itemprop="dateModified" datetime="2020-02-18T22:33:39+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/问题记录/" itemprop="url" rel="index"><span itemprop="name">问题记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1 问题描述：<br>babel配置transform-runtime之后访问页面报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exports is not defined</span><br></pre></td></tr></table></figure>
+
+<p>2 配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;plugins&quot;: [&quot;jsx-v-model&quot;, &quot;transform-vue-jsx&quot;, [&quot;transform-runtime&quot;]],</span><br><span class="line">  &quot;presets&quot;: [</span><br><span class="line">    [&quot;es2015&quot;,  &#123;</span><br><span class="line">      // &quot;modules&quot;: false</span><br><span class="line">    &#125;], &quot;stage-0&quot;],</span><br><span class="line">  &quot;ignore&quot;: [</span><br><span class="line">    &quot;./static/page/orgTree/*&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3 解决问题步骤：<br>3.1 报错的文件：./static/page/punishmentCenter/const/index.js<br>报错原因：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(exports, &quot;__esModule&quot;, &#123;</span><br><span class="line">  value: true</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>该段代码exports找不到<br>3.2  为什么找不到<br>1 是谁导入的报错代码（babel）<br>2 为什么找不到（webpack模块化的时候function参数不正确）<br>3.3 为什么webpack模块化的时候function参数不正确？<br>    根据跟踪webpack源码在HarmonyDetectionParserPlugin中定位function的export参数为什么不对<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const isHarmony =</span><br><span class="line">isStrictHarmony ||</span><br><span class="line">    ast.body.some(statement =&gt; &#123;</span><br><span class="line">	return /^(Import|Export).*Declaration$/.test(statement.type);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<pre><code>其中命中了含有Import生命的语句，导致function传入参数不对
+为什么会命中Import？
+根据打印出来的statement可知因为引入了&apos;babel-runtime/core-js/object/define-property&apos;文件
+是因为transform-runtime默认使用polyfill，导致引入了该文件</code></pre><p>3.4 为什么会引入错误代码<br>    配置为es2015 的时候才引入  present-dev的时候没有引入。为什么？</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/问题记录/全局安装no such file/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/问题记录/全局安装no such file/" class="post-title-link" itemprop="url">问题记录（No such file or directory ）</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:37:08" itemprop="dateModified" datetime="2020-02-18T22:37:08+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/问题记录/" itemprop="url" rel="index"><span itemprop="name">问题记录</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>npm全局安装reverse-sourcemap（为了追查压缩后的文件）<br>可反解打包后的文件</p>
+<p>报错发现：<br>env: node\r: No such file or directory   </p>
+<p>经查找是因为<br>脚本是在dos命令上，在mac上需要转一下（参考<a href="https://github.com/ooowinfe/blog/blob/master/%E8%A7%A3%E5%86%B3mac%20os%E4%B8%8B%20npm%20%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85%E5%90%8E%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%E6%8A%A5%E9%94%99%EF%BC%9Aenv:%20node%5Cr:%20No%20such%20file%20or%20directory.md）" target="_blank" rel="noopener">https://github.com/ooowinfe/blog/blob/master/%E8%A7%A3%E5%86%B3mac%20os%E4%B8%8B%20npm%20%E5%85%A8%E5%B1%80%E5%AE%89%E8%A3%85%E5%90%8E%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4%E6%8A%A5%E9%94%99%EF%BC%9Aenv:%20node%5Cr:%20No%20such%20file%20or%20directory.md）</a></p>
+<p>npm  root -g  查看npm全局安装路径</p>
+<p>源码定位：source-location  这个库输入行数列数可以定位（但是好像不太准）</p>
+<p>火狐的source-map库也可以直接输出<a href="https://github.com/mozilla/source-map#consuming-a-source-map" target="_blank" rel="noopener">https://github.com/mozilla/source-map#consuming-a-source-map</a></p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/调试相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/node/调试相关/" class="post-title-link" itemprop="url">调试相关</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/调试/" itemprop="url" rel="index"><span itemprop="name">调试</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="node调试"><a href="#node调试" class="headerlink" title="node调试"></a>node调试</h1><h2 id="inspect-chrome"><a href="#inspect-chrome" class="headerlink" title="inspect + chrome"></a>inspect + chrome</h2><p>执行node –inspect index.js<br>然后在Chrome中访问chrome://inspect，找到对应的Remote Target</p>
+<blockquote>
+<p>–inspect: 启动debug模式，并监听9229端口（默认端口）；<br>–inspect-brk： 启动debug模式，并监听9229端口（默认端口），并在开始处进行断点；</p>
+</blockquote>
+<h2 id="vscode-调试"><a href="#vscode-调试" class="headerlink" title="vscode 调试"></a>vscode 调试</h2><h3 id="npm调试配置"><a href="#npm调试配置" class="headerlink" title="npm调试配置"></a>npm调试配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"Launch via NPM"</span>,</span><br><span class="line">  <span class="string">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">  <span class="string">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">  <span class="string">"runtimeExecutable"</span>: <span class="string">"npm"</span>,</span><br><span class="line">  <span class="string">"runtimeArgs"</span>: [</span><br><span class="line">    <span class="string">"run-script"</span>, <span class="string">"build"</span> //这里的dev就对应package.json中的scripts中的dev</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"port"</span>: 9229 //这个端口是调试的端口，不是项目启动的端口</span><br><span class="line">&#125;</span><br><span class="line">其中要注意script脚本中的build命令要是node --inspect-brk=9229  xx.js，不然的进不去断点</span><br></pre></td></tr></table></figure>
+
+<h3 id="Launch-Program调试配置"><a href="#Launch-Program调试配置" class="headerlink" title="Launch Program调试配置"></a>Launch Program调试配置</h3><pre><code class="bash">{
+  <span class="string">"type"</span>: <span class="string">"node"</span>,
+  <span class="string">"request"</span>: <span class="string">"launch"</span>,
+  <span class="string">"name"</span>: <span class="string">"launch webpack-dev-server"</span>,
+  <span class="string">"program"</span>: <span class="string">"<span class="variable">${workspaceFolder}</span>/node_modules/webpack-dev-server/bin/webpack-dev-server.js"</span>,
+  <span class="string">"args"</span>: [<span class="string">"--progress"</span>, <span class="string">"--inline"</span>, <span class="string">"--config"</span>, <span class="string">"build/webpack.dev.conf.js"</span>]
+}
+针对一些npm中不是通过node启动的，可以采用这种方式
+例如：<span class="string">"script"</span>:{
+  <span class="string">"dev"</span>: <span class="string">"webpack-dev-server --inline --progress --config  build/webpack.dev.conf.js"</span>,
+}
+此处运行的webpack-dev-server实际是/node_modules/webpack-dev-server/bin/webpack-dev-server.js文件（该文件在node_module/.bin中的软链接）【关于node_module/.bin目录可详见https://juejin.im/post/5ab3f77df265da2392364341<span class="comment">#heading-16 5.2节】</span>
+参数可写在args中</code></pre>
+<p>遗留问题：<br>1 怎么创建软链接<br>2 扩展将本地包作为node_module的方法（npm install file:./config）  见<a href="https://juejin.im/post/5ab3f77df265da2392364341#heading-16" target="_blank" rel="noopener">https://juejin.im/post/5ab3f77df265da2392364341#heading-16</a>   2.2章节（这个链接值得好好读）</p>
+<h3 id="attach配置"><a href="#attach配置" class="headerlink" title="attach配置"></a>attach配置</h3>
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/babel/babel学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/babel/babel学习笔记/" class="post-title-link" itemprop="url">babel学习笔记</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:36:26" itemprop="dateModified" datetime="2020-02-18T22:36:26+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
 
                 
@@ -1210,24 +1204,16 @@ loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="问题来源：前端资源错误监控"><a href="#问题来源：前端资源错误监控" class="headerlink" title="问题来源：前端资源错误监控"></a>问题来源：前端资源错误监控</h1><p>前端资源错误监控一般是通过监听onerror事件来监控前端资源的报错，但是线上的资源都是经过打包压缩的，所以该函数返回的都是压缩后错误代码的行数和列数。但是我们想要知道的是源代码中的行号和列号。<br>一般推荐的是用sourceMap包解析出源码中的行号和列号<br>  <em><a href="https://github.com/mozilla/source-map" target="_blank" rel="noopener">https://github.com/mozilla/source-map</a></em></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">consumer = new sourceMap.SourceMapConsumer</span><br><span class="line">consumer.originalPositionFor（line,col）</span><br></pre></td></tr></table></figure>
-
-<p>这么一顿操作之后就能知道源码中出错的位置！</p>
-<h1 id="那么是怎么实现的呢？"><a href="#那么是怎么实现的呢？" class="headerlink" title="那么是怎么实现的呢？"></a>那么是怎么实现的呢？</h1><p>  <em>这一部分参考了：<a href="https://juejin.im/entry/5bbffe87e51d450e436998b4" target="_blank" rel="noopener">https://juejin.im/entry/5bbffe87e51d450e436998b4</a>   个人觉得比ryf那一篇讲得清楚</em><br>  可直接从以上链接中的“我们所想象的Source Map”部分开始看，也可以直接看我的简述版<br>  首先打开打包后生成的map文件，可看到这样一个json<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"version"</span>:<span class="string">'1.0'</span>,</span><br><span class="line">  <span class="string">"sources"</span>:[<span class="string">'xxx'</span>,<span class="string">'yyyy'</span>],  //转换前的文件，如果为数组表示是多个文件压缩成这一个文件</span><br><span class="line">  <span class="string">"names"</span>:[<span class="string">"exports"</span>],//转换前的所有变量名和属性名。</span><br><span class="line">  <span class="string">"mappings"</span>:[<span class="string">"+DAmCAA,EAAAC;IAAA6uC,EAAA"</span>] //记录位置信息的字符串，</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>  其中mappings字段那看不懂的编码是Base64 VLQ 编码，在线解码：<a href="http://murzwin.com/base64vlq.html" target="_blank" rel="noopener">http://murzwin.com/base64vlq.html</a><br>  “;”隔开的是行 – uCAgDAA,EAAACs表示压缩后的代码的第一行的编码<br>  “,”隔开的是位置 – uCAgDAA 表示压缩后的代码的第一行第一个位置  EAAACs表示压缩后的代码的第一行第二个位置<br>  “+DAmCAA”  解码后是  [63,0,35,0,0]<br>  “EAAAC” 解码后是 [2,0,0,0,1]<br>  其中位数对应关系</p>
+          <p>babel学习</p>
 <ul>
-<li><p>第一位，表示这个位置在（转换后的代码的）的第几列。</p>
-</li>
-<li><p>第二位，表示这个位置属于sources属性中的哪一个文件。</p>
-</li>
-<li><p>第三位，表示这个位置属于转换前代码的第几行。</p>
-</li>
-<li><p>第四位，表示这个位置属于转换前代码的第几列。</p>
-</li>
-<li><p>第五位，表示这个位置属于names属性中的哪一个变量。<br>注意：第一位和第四位都是对前一个位置的相对（如果不是第一个的话）<br>由于”+DAmCAA”是第一个，所以代表压缩后文件的第一行的63列是sources[0]文件的第35行的第0列,对应names[0]的那个变量<br>“EAAAC”代表的是压缩后文件的第一行第63+2=65列对应sources[0]文件的第0+35=35行的第0+0列,对应name[1]的那个变量</p>
-<p>初步是这么找的，但是这个map是怎么生成的等后续有时间的话再写吧</p>
-</li>
+<li><input checked disabled type="checkbox"> 1 presets：预设，其实就是插件集合，可自定义，怎么自定义就是发包到npm</li>
+<li><input disabled type="checkbox"> 2 资料：<a href="http://guoyongfeng.github.io/my-gitbook/03/toc-babel-runtime.html" target="_blank" rel="noopener">http://guoyongfeng.github.io/my-gitbook/03/toc-babel-runtime.html</a></li>
+<li><input disabled type="checkbox"> 3 babel-polyfill:<br>Babel 只是编译新的js语法，但是对于浏览器或别的环境尚未支持的一些新的APIs，就采用polyfill的方式进行模拟。怎么模拟？绑在原型链上？<br>问题：api和语法怎么界定?暂时讨论结果就是浏览器原生的要扩展的方法或什么，就是API，新的语法糖或别的就叫语法，babel翻译</li>
+<li><input disabled type="checkbox"> 4 babel-runtime：<br>Babel会将助手方法注入到每个文件的头部，所以为了统一管理，保持代码的清洁，使用babel-runtime,可以通过inport的方式引入方法而不是注入方法</li>
+<li><input disabled type="checkbox"> 5 怎么写一个babel插件<br>试验了一下，已完成</li>
+<li><input disabled type="checkbox"> 6 ast树解析网站<br><a href="https://astexplorer.net/" target="_blank" rel="noopener">https://astexplorer.net/</a></li>
+<li><input disabled type="checkbox"> 8 小例子：(删除不需要的导入)<br>  <a href="http://eux.baidu.com/blog/fe/how-to-write-babel-plugin" target="_blank" rel="noopener">http://eux.baidu.com/blog/fe/how-to-write-babel-plugin</a></li>
+<li><input disabled type="checkbox"> 9：cookbook<br><a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-paths" target="_blank" rel="noopener">https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-paths</a></li>
 </ul>
 
         
@@ -1297,7 +1283,7 @@ loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle
         
           <a href="/archives">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1311,10 +1297,6 @@ loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle
           
         
         
-        
-          
-        
-          
         
           
         
@@ -1388,8 +1370,6 @@ loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle
           
         
         
-        
-          
         
           
         

@@ -213,7 +213,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/运维/cdn劫持/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/babel/babel插件开发/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -227,7 +227,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/运维/cdn劫持/" class="post-title-link" itemprop="url">cdn劫持</a>
+            <a href="/2019/08/23/前端工程化相关/babel/babel插件开发/" class="post-title-link" itemprop="url">babel插件开发</a>
           
         </h1>
 
@@ -253,7 +253,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:20:37" itemprop="dateModified" datetime="2020-02-18T23:20:37+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 22:35:21" itemprop="dateModified" datetime="2020-02-18T22:35:21+08:00">2020-02-18</time>
               </span>
             
           
@@ -263,7 +263,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建/" itemprop="url" rel="index"><span itemprop="name">构建</span></a></span>
 
                 
                 
@@ -282,15 +282,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Cdn  劫持</p>
-<p>本身就是一种DNS劫持，只不过是吧域名解析到邻近的服务器上</p>
-<p>只劫持静态资源，且有缓存机制</p>
-<p>https 能够繁殖cdn劫持  任何劫持这都不能探测到交互内容</p>
-<p>？</p>
-<ul>
-<li>资源异常自动 CDN 降级: 提供页面资源加载稳定性</li>
-<li>CDN 劫持自动降级: JS 内容检查校验和，不符合自动切换降级 CDN</li>
-</ul>
+          <p>1 babel-plugin-add-module-exports  解决 require(xxx).default 带 default 的问题。<br>详见：<a href="https://www.npmjs.com/package/babel-plugin-add-module-exports" target="_blank" rel="noopener">https://www.npmjs.com/package/babel-plugin-add-module-exports</a><br>2</p>
 
         
       
@@ -315,7 +307,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/浏览器行为/关于cancle的请求/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpaack原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -329,7 +321,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/浏览器行为/关于cancle的请求/" class="post-title-link" itemprop="url">关于cancle的请求</a>
+            <a href="/2019/08/23/前端工程化相关/webpack/webpaack原理/" class="post-title-link" itemprop="url">webpack原理</a>
           
         </h1>
 
@@ -355,300 +347,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:22:15" itemprop="dateModified" datetime="2020-02-18T23:22:15+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/浏览器/" itemprop="url" rel="index"><span itemprop="name">浏览器</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>关于cancle的请求<br>浏览器之所以会干掉请求，有以下三种原因：</p>
-<ul>
-<li>发起这次请求的DOM元素被删除了。（eg：一个img元素节点，在图片加载完成之前就不幸被删掉了） </li>
-<li>开发者做了一些使加载数据变得不必要的事情。（eg：你加载了一个iframe，接着直接改变了src或者用document.write重写了内容） </li>
-<li>有大量的请求指向同一个服务器，之前请求的错误表明相同后续的请求是行不通的（DNS查询错误、或是排在前面诶对相同请求是有错误的，比如400状态码） </li>
-</ul>
-<p>也可能是服务器直接跳转了</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/文件路径/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/node/文件路径/" class="post-title-link" itemprop="url">node文件路径</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:23:06" itemprop="dateModified" datetime="2020-02-18T23:23:06+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/node/" itemprop="url" rel="index"><span itemprop="name">node</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>__dirname：    获得当前执行文件所在目录的完整目录名<br>__filename：   获得当前执行文件的带有完整绝对路径的文件名<br>process.cwd()：获得当前执行node命令时候的文件夹目录名<br>./：           文件所在目录</p>
-<p>时间组件和日期组件为什么可以输入之后时间不正确</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/概念/中台/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/概念/中台/" class="post-title-link" itemprop="url">中台</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:24:20" itemprop="dateModified" datetime="2020-02-18T23:24:20+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/中台/" itemprop="url" rel="index"><span itemprop="name">中台</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>中台更多是因为公司业务在发展到某一阶段时，遇到瓶颈与障碍后，为解决实际问题而提出的解决方案</p>
-<p>中台的产生，并非完全是自顶向下的战略设计，也并非是为了追随某种行业风口，而是随着公司业务高速发展、组织不断膨胀的过程中暴露的种种问题需要被解决</p>
-<p>中台业务特点：<br>一类是，许多业务需求或功能需求高度类似、通用化程度很高，但是由于没有专门的团队负责规划和开发，大量的系统重复开发、重复建设，导致复用性低、效率低、产研资源浪费、用户体验不统一。</p>
-<p>另一类是，早期业务发展过程中，为了解决一些当下的业务问题，垂直的、个性化的业务逻辑与基础系统耦合太深，由于没有平台性质的规划，横向系统之间、上下游系统之间的交叉逻辑也非常多，这样导致在新业务、新市场的拓展过程中，系统没法直接复用，甚至没法快速迭代。</p>
-<p>中台，是一个能同时支撑多个业务并让业务之间的信息形成交互和增强的机制，是一个支撑公司多个业务产品的共享服务。</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/serverless/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/serverless/" class="post-title-link" itemprop="url">serveless</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+                <time title="Modified: 2020-02-18 23:21:16" itemprop="dateModified" datetime="2020-02-18T23:21:16+08:00">2020-02-18</time>
               </span>
             
           
@@ -677,7 +376,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <h1 id="常用概念"><a href="#常用概念" class="headerlink" title="常用概念"></a>常用概念</h1><ul>
+<li>Entry：入口，Webpack 执行构建的第一步将从 Entry 开始，可抽象成输入。</li>
+<li>Module：模块，在 Webpack 里一切皆模块，一个模块对应着一个文件。Webpack 会从配置的 Entry 开始递归找出所有依赖的模块。</li>
+<li>Chunk：代码块，一个 Chunk 由多个模块组合而成，用于代码合并与分割。</li>
+<li>Loader：模块转换器，用于把模块原内容按照需求转换成新内容。</li>
+<li>Plugin：扩展插件，在 Webpack 构建流程中的特定时机会广播出对应的事件，插件可以监听这些事件的发生，在特定时机做对应的事情。</li>
+</ul>
+<h1 id="2-webpack学习及源码阅读"><a href="#2-webpack学习及源码阅读" class="headerlink" title="2 webpack学习及源码阅读"></a>2 webpack学习及源码阅读</h1><p>compiler和compilation中所有事件流的介绍：<a href="http://stephenzhao.github.io/webpack-cn/index.html" target="_blank" rel="noopener">http://stephenzhao.github.io/webpack-cn/index.html</a></p>
+<p>1  在bin/webpack中<br>   — 通过yargs获得shell中的参数<br>   —（convert-argv.js中可以看到）将webpack.config.js中的参数和shell的参数整合到options对象上<br>   —（在webpack中的processOptions函数中可以看到）<br>通过实例化lib/webpack.js中的webpack()生成compiler编译器（在之后的第二步会返回compiler对象）<br>   — （在webpack中的processOptions函数中可以看到）调用compiler.run()开始进行编译打包<br>2 lib/webpack  根据整合的options生成compiler对象<br>3 lib/compiler.js 首先看到run方法。它触发了before-run和run两个事件，之后在run事件中，通过readRecords读取文件，接着通过compile进行编译打包。<br>4 compile函数<br>—第一步就会使用用户配置的loader进行资源转化，然后存储为params。<br>constparams = this.newCompilationParams()  //调用loader工厂方法<br> —然后依旧是执行事件流上的各个方法，诸如：before-compile、compile、make等事件流。 —在compile编译完成后，会以编译完成的params实例化compilation来进行打包的过程。<br>const compilation = this.newCompilation(params);    //实例化compilation<br>5 </p>
+<p>CommonsChunkPlugin 插件</p>
+<p>具体为什么要用ETag，主要出于下面几种情况考虑：</p>
+
         
       
     </div>
@@ -701,7 +411,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/概念/DSL/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/babel/babel模块化相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -715,7 +425,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/概念/DSL/" class="post-title-link" itemprop="url">DSL</a>
+            <a href="/2019/08/23/前端工程化相关/babel/babel模块化相关/" class="post-title-link" itemprop="url">babel模块化相关</a>
           
         </h1>
 
@@ -741,7 +451,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:25:09" itemprop="dateModified" datetime="2020-02-18T23:25:09+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 22:35:25" itemprop="dateModified" datetime="2020-02-18T22:35:25+08:00">2020-02-18</time>
               </span>
             
           
@@ -751,7 +461,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DSL/" itemprop="url" rel="index"><span itemprop="name">DSL</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
 
                 
                 
@@ -770,9 +480,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>DSL  Domain Specific Language<br>Martin Fowler将DSL分为内部DSL和外部DSL<br>内部DSL一般是基于宿主语言封装的一个类库<br>外部DSL相当于创造一个新的编程语言</p>
-<p>自己定义一套DSL，通过解析AST实现自己需要的功能</p>
-<p>jscore  词法分析是由lexer完成<br>JISON</p>
+          <p>1 babel将es6的模块化语言（import，export）转化成commonjs的模块化方式<br>还会给exports上加上__esModule  表示由 es6 转换来的 commonjs 输出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(exports, <span class="string">"__esModule"</span>, &#123;</span><br><span class="line">  value: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br><span class="line">``` </span><br><span class="line">给模块的输出对象增加 __esModule 是为了将不符合 Babel 要求的 CommonJS 模块转换成符合要求的模块，这一点在 require 的时候体现出来。如果加载模块之后，发现加载的模块带着一个 __esModule 属性，Babel 就知道这个模块肯定是它转换过的，这样 Babel 就可以放心地从加载的模块中调用 exports.default 这个导出的对象，也就是 ES6 规定的默认导出对象，所以这个模块既符合 CommonJS 标准，又符合 Babel 对 ES6 模块化的需求。然而如果 __esModule 不存在，也没关系，Babel 在加载了一个检测不到 __esModule 的模块时，它就知道这个模块虽然符合 CommonJS 标准，但可能是一个第三方的模块，Babel 没有转换过它，如果以后直接调用 exports.default 是会出错的，所以现在就给它补上一个 default 属性，就干脆让 default 属性指向它自己就好了，这样以后就不会出错了。</span><br><span class="line"></span><br><span class="line">为什么转化后（0,fn()）这样执行是因为这样可以挂载在全局</span><br><span class="line"></span><br><span class="line">2 webpack</span><br><span class="line">webpack在对模块进行构建时会给模块放在函数里面，函数的传参视情况而定；</span><br><span class="line">对于函数的参数现在看来是在 /lib/module  下的这段代码中看是用哪个<span class="built_in">export</span></span><br><span class="line">```bash</span><br><span class="line">get <span class="function"><span class="title">exportsArgument</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> (this.buildInfo &amp;&amp; this.buildInfo.exportsArgument) || <span class="string">"exports"</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>exportsArgument 是在HarmonyDetectionParserPlugin插件中进行修改的。具体修改条件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const isStrictHarmony = parser.state.module.type === <span class="string">"javascript/esm"</span>;</span><br><span class="line">const isHarmony =</span><br><span class="line">  isStrictHarmony ||</span><br><span class="line">  ast.body.some(</span><br><span class="line">    statement =&gt;</span><br><span class="line">      statement.type === <span class="string">"ImportDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportDefaultDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportNamedDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportAllDeclaration"</span></span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
+
+<p>在FunctionModuleTemplatePlugin  插件中进行组装。<br>function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>)</p>
+<p>function(module, exports, <strong>webpack_require</strong>)</p>
+<p>3 transform-runtime | babel-runtime | babel-polyfill</p>
+<p>Babel 只是转换 syntax 层语法,所以需要 @babel/polyfill 来处理API兼容,又因为 polyfill 体积太大，所以通过 preset的 useBuiltIns 来实现按需加载,再接着为了满足 npm 组件开发的需要 出现了 @babel/runtime 来做隔离（因为会污染）</p>
+<p>在转换 ES2015 语法为 ECMAScript 5 的语法时，babel 会需要一些辅助函数，例如 _extend。babel 默认会将这些辅助函数内联到每一个 js 文件里，这样文件多的时候，项目就会很大。</p>
+<p>所以 babel 提供了 transform-runtime 来将这些辅助函数“搬”到一个单独的模块 babel-runtime 中，这样做能减小项目文件的大小。</p>
+<p>在webpack中，babel-plugin-transform-runtime 实际上是依赖babel-runtime<br>transform-runtime    默认引入了polyfill<br>babel-runtime和 babel-plugin-transform-runtime的区别是，相当一前者是手动挡而后者是自动挡，每当要转译一个api时都要手动加上require(‘babel-runtime’)，</p>
+<p>built-ins</p>
+<p>Babel 把 Javascript 语法 分为 syntax 和 api<br>api 指那些我们可以通过 函数重新覆盖的语法</p>
+<p>4  引入transform-runtime插件之后exports * 就报错<br>   1 可以注释掉Comment this line ‘defineProperty: “object/define-property”‘ in babel-plugin-transform-runtime/lib/definitions.js<br>   2 配置[“transform-runtime”, {<br>      “polyfill”: false<br>    }]<br>  3  “presets”: [<br>        { “plugins”: [ “transform-runtime” ] },<br>        {<br>            “passPerPreset”: false,<br>            “presets”: [ “es2015”, “stage-1” ]<br>        }<br>    ]</p>
+<p>5 为什么</p>
+<p>我们的模块已经被转成了cmd的形式，可是webpack还是按照es6的模式在处理</p>
 
         
       
@@ -797,7 +522,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/react&rn/redux/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpack-loader/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -811,7 +536,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/react&rn/redux/" class="post-title-link" itemprop="url">redux</a>
+            <a href="/2019/08/23/前端工程化相关/webpack/webpack-loader/" class="post-title-link" itemprop="url">webpack-loader</a>
           
         </h1>
 
@@ -837,7 +562,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:27:34" itemprop="dateModified" datetime="2020-02-18T23:27:34+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 23:08:15" itemprop="dateModified" datetime="2020-02-18T23:08:15+08:00">2020-02-18</time>
               </span>
             
           
@@ -847,7 +572,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/redux/" itemprop="url" rel="index"><span itemprop="name">redux</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
 
                 
                 
@@ -866,7 +591,249 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>redux 学习<br>1 通过withContext和getChildContext指定的context元素都可以被子组件引用(这个在研究provider组件的时候)</p>
+          <h1 id="须知"><a href="#须知" class="headerlink" title="须知"></a>须知</h1><pre><code>loader 可以使你在 import 或&quot;加载&quot;模块时预处理文件
+loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle 中引入这些_依赖_。</code></pre><h1 id="loader开发"><a href="#loader开发" class="headerlink" title="loader开发"></a>loader开发</h1><p>loader本质就是接收字符串(或者buffer)，再返回处理完的字符串(或者buffer)的过程</p>
+<h2 id="vue-loader源码阅读"><a href="#vue-loader源码阅读" class="headerlink" title="vue-loader源码阅读"></a>vue-loader源码阅读</h2><h3 id="vue-loader的功能："><a href="#vue-loader的功能：" class="headerlink" title="vue-loader的功能："></a>vue-loader的功能：</h3><p>vue-loader 是一个 Webpack 的 loader，可以将指定格式编写的 Vue 组件转换为 JavaScript 模块。<br>Vue组件默认分成三部分，template、script 和 style，我们可以把一个组件要有的html，js，css写在一个组件文件中，而vue-loader，会帮助我们去处理这个vue组件，把其中的html，js，css分别编译处理，最终打包成一个模块。</p>
+<h2 id="手写一个loader示例"><a href="#手写一个loader示例" class="headerlink" title="手写一个loader示例"></a>手写一个loader示例</h2><blockquote>
+<p>该部分部分参考<a href="https://juejin.im/post/59df06e6f265da430d5701d0" target="_blank" rel="noopener">https://juejin.im/post/59df06e6f265da430d5701d0</a>  文章的”动手写一个webpack loader“</p>
+</blockquote>
+<p>loader功能介绍：给html加上公共头和尾<br>实现思路：require的时候替换layout文件（包含头和尾）的标识符，将内容插入layout文件中<br>loader代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const loaderUtils = require(<span class="string">'loader-utils'</span>)</span><br><span class="line">const fs = require(<span class="string">'fs'</span>)</span><br><span class="line">module.exports = <span class="keyword">function</span> (<span class="built_in">source</span>) &#123;</span><br><span class="line">  const options = loaderUtils.getOptions(this)</span><br><span class="line">  const layoutHtml = fs.readFileSync(options.layout, <span class="string">'utf-8'</span>)</span><br><span class="line">  <span class="built_in">return</span> layoutHtml.replace(<span class="string">'&#123;&#123;__content__&#125;&#125;'</span>, <span class="built_in">source</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="node环境中运行"><a href="#node环境中运行" class="headerlink" title="node环境中运行"></a>node环境中运行</h3><p>因为是在服务器端测试的所以配置的时候设置了target:node,不然打包的时候require核心代码的时候的输出会报错<br>还要使用raw-loader将文件作为字符串导入，require的时候obj.default为字符串,正常的时候require为模块的export的值。<br>配置如下：<br>config.js</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const path = require(<span class="string">'path'</span>)</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">'./server.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'./'</span>), </span><br><span class="line">    filename: <span class="string">'dist.js'</span>,</span><br><span class="line">  &#125;, </span><br><span class="line">  target: <span class="string">'node'</span>,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">      <span class="built_in">test</span>: /\.html$/,</span><br><span class="line">      use: [&#123;</span><br><span class="line">        loader: <span class="string">"raw-loader"</span>,</span><br><span class="line">      &#125;,&#123;</span><br><span class="line">        loader: path.resolve(__dirname, <span class="string">'../loader/html-layout-loader.js'</span>),</span><br><span class="line">        options: &#123;</span><br><span class="line">          layout: path.resolve(__dirname, <span class="string">'../layout.html'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;]</span><br><span class="line">    &#125;],</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>server.js</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var http = require(<span class="string">'http'</span>); // 1 - Import Node.js core module</span><br><span class="line">const returnHtml = require(<span class="string">'../test.html'</span>)</span><br><span class="line">console.log(<span class="string">'returnHtml'</span>, returnHtml)</span><br><span class="line">var server = http.createServer(<span class="keyword">function</span> (req, res) &#123; // 2 - creating server</span><br><span class="line">  //handle incomming requests here..</span><br><span class="line">  res.writeHead(200, &#123;</span><br><span class="line">    <span class="string">"Content_Type"</span>: <span class="string">"text/html"</span></span><br><span class="line">  &#125;); //设置响应格式</span><br><span class="line">  res.write(returnHtml.default);</span><br><span class="line">  res.end();</span><br><span class="line">&#125;);</span><br><span class="line">server.listen(5000); //3 - listen <span class="keyword">for</span> any incoming requests</span><br><span class="line">console.log(<span class="string">'Node.js web server at port 5000 is running..'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用如下<br>init.js</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(<span class="string">'webpack'</span>)</span><br><span class="line">const webpackConfig = require(<span class="string">'./config'</span>)</span><br><span class="line">webpack(webpackConfig, (err, stats) =&gt; &#123;</span><br><span class="line">  console.log(<span class="string">'err'</span>,err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>先运行init.js生成dist.js<br>然后运行dist.js</p>
+<h3 id="纯前端环境中运行"><a href="#纯前端环境中运行" class="headerlink" title="纯前端环境中运行"></a>纯前端环境中运行</h3><p>在前端代码中进行配置的话，可以看到index.html直接就配置成功了，猜测webpack-dev-server也是用require的方式加载index.html的，此处就调试webpack-dev-server<br>可以看到并不是require，而是通过以下方式读取index.html的（具体怎么找到的可参考<a href="https://segmentfault.com/a/1190000016871965）" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016871965）</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stat</span> = context.fs.statSync(filename);</span><br></pre></td></tr></table></figure>
+
+<p>这个是在shared中定义的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(typeof compiler.outputPath === <span class="string">"string"</span> &amp;&amp; !pathIsAbsolute.posix(compiler.outputPath) &amp;&amp; !pathIsAbsolute.win32(compiler.outputPath)) &#123;</span><br><span class="line">    throw new Error(<span class="string">"`output.path` needs to be an absolute path or `/`."</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // store our files <span class="keyword">in</span> memory</span><br><span class="line">  var fs;</span><br><span class="line">  var isMemoryFs = !compiler.compilers &amp;&amp; compiler.outputFileSystem instanceof MemoryFileSystem;</span><br><span class="line">  <span class="keyword">if</span>(isMemoryFs) &#123;</span><br><span class="line">    fs = compiler.outputFileSystem;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fs = compiler.outputFileSystem = new MemoryFileSystem();</span><br><span class="line">  &#125;</span><br><span class="line">  context.fs = fs;</span><br></pre></td></tr></table></figure>
+
+<p>可见这里的statSync方法是outputFileSystem中的statSync，是从内存中读的。而内存中的内容是什么呢？这时候可以选择build出来看一下。<br>build之后可看到inde.html中含有头部和尾部。<br>然后想起了前两天写的text的插件，用那个build的话就会有问题，因为是直接从硬盘中读的index.html，当用官方插件的时候build出来没有问题。对比一下自己写的与之的差别。<br>发现该插件在生成index.js的时候又重新新建了子编译器compiler及compilation了一遍(相关代码如下)<br>html-webpack-plugin包中的lib/compiler.js</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var childCompiler = compilation.createChildCompiler(compilerName, outputOptions);</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">childCompiler.runAsChild(<span class="keyword">function</span> (err, entries, childCompilation) &#123;</span><br></pre></td></tr></table></figure>
+
+<p>为什么不能直接读取 html 文件而要用子编译器？因为 html 文件中可能依赖其他外部资源（比如 img 的src属性），所以加载 html 文件时仍然需要一个额外的完整的构建流程来完成这个任务，这个构建过程正好就包含了loader编辑的过程。<br>那么loader是在什么时候运行的呢？<br>参考<a href="https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10" target="_blank" rel="noopener">https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10</a>  文章的”loader运行时机部分“可知大概是在compilation的时候运行的，经过设置断点确实是在子编译器complication之后（但是没有跟到具体的方法）。<br><a href="https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10" target="_blank" rel="noopener">https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10</a>   这篇文章很详细的写了loader相关的内容，以后有机会可以看看</p>
+<p>关于子编辑器或更多webpack的相关<a href="https://cloud.tencent.com/developer/article/1030740" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1030740</a></p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpack-插件常用api/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/webpack/webpack-插件常用api/" class="post-title-link" itemprop="url">webpack-插件常用api</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:08:07" itemprop="dateModified" datetime="2020-02-18T23:08:07+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="常用概念及api"><a href="#常用概念及api" class="headerlink" title="常用概念及api"></a>常用概念及api</h1><h2 id="chunk"><a href="#chunk" class="headerlink" title="chunk"></a>chunk</h2><pre><code>钩子：compilation.chunks  存储代码块，为数组。
+描述：代码块(chunk)由多个模块组成，Webpack 会根据 Chunk 去生成输出的文件资源，每个 Chunk 都对应一个及其以上的输出文件
+例如在 Chunk 中包含了 CSS 模块并且使用了 ExtractTextPlugin 时， 该 Chunk 就会生成 .js 和 .css 两个文件  ？？</code></pre><h2 id="module"><a href="#module" class="headerlink" title="module"></a>module</h2><pre><code>钩子：通过 chunk.forEachModule 能读取组成代码块的每个模块，
+描述：module.fileDependencies 存放当前模块的所有依赖的文件
+note: 在webpack中所有可以</code></pre><h2 id="compilation-assets"><a href="#compilation-assets" class="headerlink" title="compilation.assets"></a>compilation.assets</h2><pre><code>最后要输出的资源都在这里</code></pre><h2 id="emit钩子"><a href="#emit钩子" class="headerlink" title="emit钩子"></a>emit钩子</h2><pre><code>生成资源到 output 目录之前</code></pre><h1 id="常用插件解析"><a href="#常用插件解析" class="headerlink" title="常用插件解析"></a>常用插件解析</h1><h2 id="HtmlWebpackPlugin"><a href="#HtmlWebpackPlugin" class="headerlink" title="HtmlWebpackPlugin"></a>HtmlWebpackPlugin</h2><pre><code>功能：自动创建一个html文件，该文件包含webpack打包生成的bundles。因为bundle会带上版本号，所以这种自动生成就会比较便利。
+原理：在compiler的emit钩子中对html的内容进行修改（将相应的assets加在对应的标签里并插入进html中相应的位置（head/body））,并通过html-minifier压缩后生成要输出的html内容等一些操作，最后通过修改compilation.assets来生成html文件。（通过子编译器进行html的编译部分见webpack-loader部分）
+配置：chunks
+    excludeChunks  更多配置可看官网
+扩展：该插件还提供了（tapable）
+    - html-webpack-plugin-alter-chunks
+    - html-webpack-plugin-before-html-generation
+    - html-webpack-plugin-before-html-processing
+    - html-webpack-plugin-alter-asset-tags
+    - html-webpack-plugin-after-html-processing
+    - html-webpack-plugin-after-emit
+    这些钩子，可以在别的插件中进行注册。
+note:在源码中（@^2.30.1）可在emit钩子中看到全都是promise写的，很舒服</code></pre><h2 id="prerender-spa-plugin"><a href="#prerender-spa-plugin" class="headerlink" title="prerender-spa-plugin"></a>prerender-spa-plugin</h2><pre><code>puppeteer地址 https://github.com/GoogleChrome/puppeteer</code></pre><h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">webpack插件测试</span><br><span class="line">1 全局搜索某个变量并记录下来</span><br><span class="line">2 增加输出的资源（index.html）</span><br><span class="line">*/</span><br><span class="line">const fs = require(<span class="string">'fs'</span>)</span><br><span class="line">const path = require(<span class="string">'path'</span>)</span><br><span class="line">var Promise = require(<span class="string">"bluebird"</span>);</span><br><span class="line"><span class="keyword">function</span> MyAwesomePlugin(options) &#123;</span><br><span class="line">  this.options = options</span><br><span class="line">&#125;</span><br><span class="line">MyAwesomePlugin.prototype.apply = <span class="keyword">function</span> (compiler) &#123;</span><br><span class="line">  <span class="built_in">let</span> self = this</span><br><span class="line">  compiler.plugin(<span class="string">'emit'</span>, <span class="keyword">function</span> (compilation, callback) &#123;</span><br><span class="line">    //全局搜索某个变量并记录下来</span><br><span class="line">    compilation.modules.forEach(module =&gt; &#123;</span><br><span class="line">      //过滤掉node_module下面的文件</span><br><span class="line">      <span class="keyword">if</span> (module.context &amp;&amp; module.context.indexOf(<span class="string">'node_modules'</span>) == -1) &#123;</span><br><span class="line">        <span class="built_in">let</span> temp = module.userRequest.split(<span class="string">'/'</span>)</span><br><span class="line">        <span class="built_in">let</span> fileName = temp[temp.length - 1].split(<span class="string">'.'</span>)[0] + <span class="string">".json"</span></span><br><span class="line">        fs.readFile(module.resource,&#123;</span><br><span class="line">          encoding: <span class="string">"utf-8"</span></span><br><span class="line">        &#125;, <span class="keyword">function</span> (err, fr) &#123;</span><br><span class="line">          <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            console.log(err);</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            var regexp = /localizeJdd\(<span class="string">"(.*)"</span>\)/g</span><br><span class="line">            <span class="built_in">let</span> jsonTemp = []</span><br><span class="line">            <span class="built_in">let</span> match;</span><br><span class="line">            <span class="keyword">while</span> (match = regexp.exec(fr)) &#123;</span><br><span class="line">              console.log(match)</span><br><span class="line">              jsonTemp.push(&#123;</span><br><span class="line">                ch: match[1]</span><br><span class="line">              &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">            fs.writeFile(fileName, JSON.stringify(jsonTemp), (err) =&gt; &#123;</span><br><span class="line">              console.log(err)</span><br><span class="line">            &#125;)</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        </span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    //添加资源(可拓展实现添加script将chunk引入）</span><br><span class="line">    self.addFileToAssets(<span class="string">'./index.html'</span>, compilation).<span class="keyword">then</span>(res =&gt; &#123; </span><br><span class="line">      callback()</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line">MyAwesomePlugin.prototype.addFileToAssets = <span class="keyword">function</span> (filename, compilation) &#123;</span><br><span class="line">  filename = path.resolve(compilation.compiler.context, filename);</span><br><span class="line">  <span class="built_in">return</span> Promise.props(&#123;</span><br><span class="line">      size: fs.statAsync(filename),</span><br><span class="line">      <span class="built_in">source</span>: fs.readFileAsync(filename)</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">      <span class="built_in">return</span> Promise.reject(new Error(<span class="string">'HtmlWebpackPlugin: could not load file '</span> + filename));</span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="keyword">then</span>(<span class="keyword">function</span> (results) &#123;</span><br><span class="line">      var basename = path.basename(filename);</span><br><span class="line">      compilation.fileDependencies.push(filename);</span><br><span class="line">      compilation.assets[basename] = &#123;</span><br><span class="line">        <span class="built_in">source</span>: <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">          <span class="built_in">return</span> results.source;</span><br><span class="line">        &#125;,</span><br><span class="line">        size: <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">          <span class="built_in">return</span> results.size.size;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">      <span class="built_in">return</span> basename;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line">module.exports = MyAwesomePlugin</span><br></pre></td></tr></table></figure>
+
+<p>1 webpack-deb-server 开启hot和不开启的区别</p>
+<p>3 babel-loader 和webpack loader开发</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/学习资料/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/webpack/学习资料/" class="post-title-link" itemprop="url">webpack学习资料</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:08:57" itemprop="dateModified" datetime="2020-02-18T23:08:57+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Webpack</p>
+<ul>
+<li><input disabled type="checkbox"> <a href="http://webpack.wuhaolin.cn/" target="_blank" rel="noopener">http://webpack.wuhaolin.cn/</a>   深入浅出webpack书籍</li>
+<li><input disabled type="checkbox"> <a href="https://segmentfault.com/a/1190000012501430" target="_blank" rel="noopener">https://segmentfault.com/a/1190000012501430</a>  webpack多种配置方法<br>  函数、异步，数组</li>
+<li><input disabled type="checkbox"> resolve:配置模块如何解析  import的时候怎么查找</li>
+<li><input disabled type="checkbox"> webpack流程篇：<a href="http://taobaofed.org/blog/2016/09/09/webpack-flow/" target="_blank" rel="noopener">http://taobaofed.org/blog/2016/09/09/webpack-flow/</a><pre><code>可根据这个看源码</code></pre></li>
+</ul>
 
         
       
@@ -935,7 +902,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -949,10 +916,6 @@
           
         
         
-        
-          
-        
-          
         
           
         
@@ -1026,8 +989,6 @@
           
         
         
-        
-          
         
           
         

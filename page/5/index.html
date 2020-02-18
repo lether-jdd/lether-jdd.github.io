@@ -213,7 +213,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/babel/babel模块化相关/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/奇技淫巧/快速搭建文档/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -227,7 +227,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/前端工程化相关/babel/babel模块化相关/" class="post-title-link" itemprop="url">babel模块化相关</a>
+            <a href="/2019/08/23/奇技淫巧/快速搭建文档/" class="post-title-link" itemprop="url">快速搭建文档的工具</a>
           
         </h1>
 
@@ -253,7 +253,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:35:25" itemprop="dateModified" datetime="2020-02-18T22:35:25+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 23:15:51" itemprop="dateModified" datetime="2020-02-18T23:15:51+08:00">2020-02-18</time>
               </span>
             
           
@@ -263,7 +263,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/奇技淫巧/" itemprop="url" rel="index"><span itemprop="name">奇技淫巧</span></a></span>
 
                 
                 
@@ -282,24 +282,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>1 babel将es6的模块化语言（import，export）转化成commonjs的模块化方式<br>还会给exports上加上__esModule  表示由 es6 转换来的 commonjs 输出</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Object.defineProperty(exports, <span class="string">"__esModule"</span>, &#123;</span><br><span class="line">  value: <span class="literal">true</span></span><br><span class="line">&#125;);</span><br><span class="line">``` </span><br><span class="line">给模块的输出对象增加 __esModule 是为了将不符合 Babel 要求的 CommonJS 模块转换成符合要求的模块，这一点在 require 的时候体现出来。如果加载模块之后，发现加载的模块带着一个 __esModule 属性，Babel 就知道这个模块肯定是它转换过的，这样 Babel 就可以放心地从加载的模块中调用 exports.default 这个导出的对象，也就是 ES6 规定的默认导出对象，所以这个模块既符合 CommonJS 标准，又符合 Babel 对 ES6 模块化的需求。然而如果 __esModule 不存在，也没关系，Babel 在加载了一个检测不到 __esModule 的模块时，它就知道这个模块虽然符合 CommonJS 标准，但可能是一个第三方的模块，Babel 没有转换过它，如果以后直接调用 exports.default 是会出错的，所以现在就给它补上一个 default 属性，就干脆让 default 属性指向它自己就好了，这样以后就不会出错了。</span><br><span class="line"></span><br><span class="line">为什么转化后（0,fn()）这样执行是因为这样可以挂载在全局</span><br><span class="line"></span><br><span class="line">2 webpack</span><br><span class="line">webpack在对模块进行构建时会给模块放在函数里面，函数的传参视情况而定；</span><br><span class="line">对于函数的参数现在看来是在 /lib/module  下的这段代码中看是用哪个<span class="built_in">export</span></span><br><span class="line">```bash</span><br><span class="line">get <span class="function"><span class="title">exportsArgument</span></span>() &#123;</span><br><span class="line">		<span class="built_in">return</span> (this.buildInfo &amp;&amp; this.buildInfo.exportsArgument) || <span class="string">"exports"</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
-
-<p>exportsArgument 是在HarmonyDetectionParserPlugin插件中进行修改的。具体修改条件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const isStrictHarmony = parser.state.module.type === <span class="string">"javascript/esm"</span>;</span><br><span class="line">const isHarmony =</span><br><span class="line">  isStrictHarmony ||</span><br><span class="line">  ast.body.some(</span><br><span class="line">    statement =&gt;</span><br><span class="line">      statement.type === <span class="string">"ImportDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportDefaultDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportNamedDeclaration"</span> ||</span><br><span class="line">      statement.type === <span class="string">"ExportAllDeclaration"</span></span><br><span class="line">  );</span><br></pre></td></tr></table></figure>
-
-<p>在FunctionModuleTemplatePlugin  插件中进行组装。<br>function(module, <strong>webpack_exports</strong>, <strong>webpack_require</strong>)</p>
-<p>function(module, exports, <strong>webpack_require</strong>)</p>
-<p>3 transform-runtime | babel-runtime | babel-polyfill</p>
-<p>Babel 只是转换 syntax 层语法,所以需要 @babel/polyfill 来处理API兼容,又因为 polyfill 体积太大，所以通过 preset的 useBuiltIns 来实现按需加载,再接着为了满足 npm 组件开发的需要 出现了 @babel/runtime 来做隔离（因为会污染）</p>
-<p>在转换 ES2015 语法为 ECMAScript 5 的语法时，babel 会需要一些辅助函数，例如 _extend。babel 默认会将这些辅助函数内联到每一个 js 文件里，这样文件多的时候，项目就会很大。</p>
-<p>所以 babel 提供了 transform-runtime 来将这些辅助函数“搬”到一个单独的模块 babel-runtime 中，这样做能减小项目文件的大小。</p>
-<p>在webpack中，babel-plugin-transform-runtime 实际上是依赖babel-runtime<br>transform-runtime    默认引入了polyfill<br>babel-runtime和 babel-plugin-transform-runtime的区别是，相当一前者是手动挡而后者是自动挡，每当要转译一个api时都要手动加上require(‘babel-runtime’)，</p>
-<p>built-ins</p>
-<p>Babel 把 Javascript 语法 分为 syntax 和 api<br>api 指那些我们可以通过 函数重新覆盖的语法</p>
-<p>4  引入transform-runtime插件之后exports * 就报错<br>   1 可以注释掉Comment this line ‘defineProperty: “object/define-property”‘ in babel-plugin-transform-runtime/lib/definitions.js<br>   2 配置[“transform-runtime”, {<br>      “polyfill”: false<br>    }]<br>  3  “presets”: [<br>        { “plugins”: [ “transform-runtime” ] },<br>        {<br>            “passPerPreset”: false,<br>            “presets”: [ “es2015”, “stage-1” ]<br>        }<br>    ]</p>
-<p>5 为什么</p>
-<p>我们的模块已经被转成了cmd的形式，可是webpack还是按照es6的模式在处理</p>
+          <p>Vuepress<br>showdoc<br>storybook</p>
 
         
       
@@ -324,7 +307,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/babel/babel学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/后端相关/虚拟机和容器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -338,7 +321,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/前端工程化相关/babel/babel学习笔记/" class="post-title-link" itemprop="url">babel学习笔记</a>
+            <a href="/2019/08/23/后端相关/虚拟机和容器/" class="post-title-link" itemprop="url">虚拟机和容器</a>
           
         </h1>
 
@@ -364,7 +347,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:36:26" itemprop="dateModified" datetime="2020-02-18T22:36:26+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 22:06:10" itemprop="dateModified" datetime="2020-02-18T22:06:10+08:00">2020-02-18</time>
               </span>
             
           
@@ -374,7 +357,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/后端/" itemprop="url" rel="index"><span itemprop="name">后端</span></a></span>
 
                 
                 
@@ -393,113 +376,391 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>babel学习</p>
+          
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/奇技淫巧/短信验证/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/奇技淫巧/短信验证/" class="post-title-link" itemprop="url">短信验证</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:44:30" itemprop="dateModified" datetime="2020-02-18T22:44:30+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/奇技淫巧/" itemprop="url" rel="index"><span itemprop="name">奇技淫巧</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>短信验证： <a href="https://juejin.im/post/5b81141df265da433e79527f" target="_blank" rel="noopener">https://juejin.im/post/5b81141df265da433e79527f</a></p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/学习资料收集/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/node/学习资料收集/" class="post-title-link" itemprop="url">node 学习资料收集</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:14:51" itemprop="dateModified" datetime="2020-02-18T23:14:51+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/node/" itemprop="url" rel="index"><span itemprop="name">node</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>上下文切换、多核、单核、多cpu<br><a href="https://juejin.im/post/5b10e53b6fb9a01e5b10e9be" target="_blank" rel="noopener">https://juejin.im/post/5b10e53b6fb9a01e5b10e9be</a></p>
+<p>node 单线程，异步IO，所以我们请求的时候不启用多线程的情况下，修改文件或读写数据库的时候不用加锁，也就不用考虑同步问题<br>那为什么我们的部署系统当一个人发布的时候另外一个人不能发布？是做了同步的操作吗</p>
+<p>关于java处理高并发<br>怎么实现高并发？加机器<br>怎么处理高并发？加锁处理同步<br>因为存在同步问题，所以要加锁，加锁会导致死锁问题，（虽然一般很少出现死锁）怎么处理死锁？令牌环…</p>
+<p>数据库里一般都有加锁，<br>如果对整个数据库加锁还好，但如果对单个表加锁，就很可能导致死锁，这时候可以考虑事务，<br>因为现在大多数是分布式，所以写事务的话会导致并发量减少</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/线程学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/node/线程学习/" class="post-title-link" itemprop="url">node线程学习</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:06:54" itemprop="dateModified" datetime="2020-02-18T23:06:54+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/node/" itemprop="url" rel="index"><span itemprop="name">node</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Node 线程学习<br><a href="https://juejin.im/post/5c63b5676fb9a049ac79a798" target="_blank" rel="noopener">https://juejin.im/post/5c63b5676fb9a049ac79a798</a><br><a href="https://juejin.im/post/5c77c6bef265da2de6611cff" target="_blank" rel="noopener">https://juejin.im/post/5c77c6bef265da2de6611cff</a><br><a href="https://juejin.im/post/5b0e97bef265da0914072515" target="_blank" rel="noopener">https://juejin.im/post/5b0e97bef265da0914072515</a></p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/浏览器行为/关于cancle的请求/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/浏览器行为/关于cancle的请求/" class="post-title-link" itemprop="url">关于cancle的请求</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:22:15" itemprop="dateModified" datetime="2020-02-18T23:22:15+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/浏览器/" itemprop="url" rel="index"><span itemprop="name">浏览器</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>关于cancle的请求<br>浏览器之所以会干掉请求，有以下三种原因：</p>
 <ul>
-<li><input checked disabled type="checkbox"> 1 presets：预设，其实就是插件集合，可自定义，怎么自定义就是发包到npm</li>
-<li><input disabled type="checkbox"> 2 资料：<a href="http://guoyongfeng.github.io/my-gitbook/03/toc-babel-runtime.html" target="_blank" rel="noopener">http://guoyongfeng.github.io/my-gitbook/03/toc-babel-runtime.html</a></li>
-<li><input disabled type="checkbox"> 3 babel-polyfill:<br>Babel 只是编译新的js语法，但是对于浏览器或别的环境尚未支持的一些新的APIs，就采用polyfill的方式进行模拟。怎么模拟？绑在原型链上？<br>问题：api和语法怎么界定?暂时讨论结果就是浏览器原生的要扩展的方法或什么，就是API，新的语法糖或别的就叫语法，babel翻译</li>
-<li><input disabled type="checkbox"> 4 babel-runtime：<br>Babel会将助手方法注入到每个文件的头部，所以为了统一管理，保持代码的清洁，使用babel-runtime,可以通过inport的方式引入方法而不是注入方法</li>
-<li><input disabled type="checkbox"> 5 怎么写一个babel插件<br>试验了一下，已完成</li>
-<li><input disabled type="checkbox"> 6 ast树解析网站<br><a href="https://astexplorer.net/" target="_blank" rel="noopener">https://astexplorer.net/</a></li>
-<li><input disabled type="checkbox"> 8 小例子：(删除不需要的导入)<br>  <a href="http://eux.baidu.com/blog/fe/how-to-write-babel-plugin" target="_blank" rel="noopener">http://eux.baidu.com/blog/fe/how-to-write-babel-plugin</a></li>
-<li><input disabled type="checkbox"> 9：cookbook<br><a href="https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-paths" target="_blank" rel="noopener">https://github.com/jamiebuilds/babel-handbook/blob/master/translations/zh-Hans/plugin-handbook.md#toc-paths</a></li>
+<li>发起这次请求的DOM元素被删除了。（eg：一个img元素节点，在图片加载完成之前就不幸被删掉了） </li>
+<li>开发者做了一些使加载数据变得不必要的事情。（eg：你加载了一个iframe，接着直接改变了src或者用document.write重写了内容） </li>
+<li>有大量的请求指向同一个服务器，之前请求的错误表明相同后续的请求是行不通的（DNS查询错误、或是排在前面诶对相同请求是有错误的，比如400状态码） </li>
 </ul>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/可视化/webGL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/可视化/webGL/" class="post-title-link" itemprop="url">webGL资料收集</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:41:09" itemprop="dateModified" datetime="2020-02-18T22:41:09+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/可视化/" itemprop="url" rel="index"><span itemprop="name">可视化</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><input disabled type="checkbox"> webGL<br><a href="http://eux.baidu.com/blog/fe/832" target="_blank" rel="noopener">http://eux.baidu.com/blog/fe/832</a></li>
-</ul>
+<p>也可能是服务器直接跳转了</p>
 
         
       
@@ -623,7 +884,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/奇技淫巧/短信验证/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/概念/中台/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -637,7 +898,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/奇技淫巧/短信验证/" class="post-title-link" itemprop="url">短信验证</a>
+            <a href="/2019/08/23/概念/中台/" class="post-title-link" itemprop="url">中台</a>
           
         </h1>
 
@@ -663,7 +924,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:44:30" itemprop="dateModified" datetime="2020-02-18T22:44:30+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 23:24:20" itemprop="dateModified" datetime="2020-02-18T23:24:20+08:00">2020-02-18</time>
               </span>
             
           
@@ -673,7 +934,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/奇技淫巧/" itemprop="url" rel="index"><span itemprop="name">奇技淫巧</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/中台/" itemprop="url" rel="index"><span itemprop="name">中台</span></a></span>
 
                 
                 
@@ -692,7 +953,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>短信验证： <a href="https://juejin.im/post/5b81141df265da433e79527f" target="_blank" rel="noopener">https://juejin.im/post/5b81141df265da433e79527f</a></p>
+          <p>中台更多是因为公司业务在发展到某一阶段时，遇到瓶颈与障碍后，为解决实际问题而提出的解决方案</p>
+<p>中台的产生，并非完全是自顶向下的战略设计，也并非是为了追随某种行业风口，而是随着公司业务高速发展、组织不断膨胀的过程中暴露的种种问题需要被解决</p>
+<p>中台业务特点：<br>一类是，许多业务需求或功能需求高度类似、通用化程度很高，但是由于没有专门的团队负责规划和开发，大量的系统重复开发、重复建设，导致复用性低、效率低、产研资源浪费、用户体验不统一。</p>
+<p>另一类是，早期业务发展过程中，为了解决一些当下的业务问题，垂直的、个性化的业务逻辑与基础系统耦合太深，由于没有平台性质的规划，横向系统之间、上下游系统之间的交叉逻辑也非常多，这样导致在新业务、新市场的拓展过程中，系统没法直接复用，甚至没法快速迭代。</p>
+<p>中台，是一个能同时支撑多个业务并让业务之间的信息形成交互和增强的机制，是一个支撑公司多个业务产品的共享服务。</p>
 
         
       
@@ -717,7 +982,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/vue/v-model记录/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/移动端/Bindingx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -731,208 +996,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/vue/v-model记录/" class="post-title-link" itemprop="url">v-model问题分析</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:03:37" itemprop="dateModified" datetime="2020-02-18T23:03:37+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>关于v-model<br>问题：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-for=“item <span class="keyword">in</span> list“&gt;</span><br><span class="line">	&lt;input v-model=“item.key”&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">data:&#123;</span><br><span class="line">	list:[&#123;</span><br><span class="line">		key:age</span><br><span class="line">	&#125;,&#123;</span><br><span class="line">		key:height</span><br><span class="line">	&#125;],</span><br><span class="line">	age:””,</span><br><span class="line">	height:””,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样绑定为什么不行？</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div v-for=“item <span class="keyword">in</span> list“&gt;</span><br><span class="line">	&lt;input v-model=“form[item.key]”&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">data:&#123;</span><br><span class="line">	list:[&#123;</span><br><span class="line">		key:age</span><br><span class="line">	&#125;,&#123;</span><br><span class="line">		key:height</span><br><span class="line">	&#125;],</span><br><span class="line">	form:&#123;</span><br><span class="line">		age:””,</span><br><span class="line">		height:””,</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样可以<br>￼<br><img src="/images/1.png" alt><br><img src="/images/2.png" alt><br><img src="/images/3.png" alt><br><img src="/images/4.png" alt><br><img src="/images/5.png" alt></p>
-<p>￼<br>如果我用obj[item] 最终会被描述成这样格式的字符串对象<br>“_c(‘input’,{directives:[{name:”model”,rawName:”v-model”,value:(obj[item]),expression:”obj[item]”}],attrs:{“type”:”text”},domProps:{“value”:(obj[item])},on:{“input”:function($event){if($event.target.composing)return;$set(obj, item, $event.target.value)}}})”</p>
-<p>v-model只是语法糖，他的真实作用是给input传了个props，同时绑定一个input事件，看这个事件的最后一行：<br>$set(obj, item, $event.target.value)<br>这里取obj[item] 应该要强调，这里的obj是放在了data之中，所以有初始化时，vue添加的get和set<br>所以他是通过这个来实现双向绑定的 </p>
-<p>但是如果用 v-for 的 item 的话<br>字符串对象是这样的</p>
-<p>“_c(‘input’,{directives:[{name:”model”,rawName:”v-model”,value:(item),expression:”item”}],attrs:{“type”:”text”},domProps:{“value”:(item)},on:{“input”:function($event){if($event.target.composing)return;item=$event.target.value}}})”</p>
-<p>看最后一行 是 item = $event.target.value</p>
-<p>这里的item 的值是一个字符串，并没有data初始化添加的get 跟set</p>
-<p>所以分析得出，这里其实就是因为没有get跟set导致的</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/面试/头条算法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/面试/头条算法/" class="post-title-link" itemprop="url">头条算法刷题</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:04:27" itemprop="dateModified" datetime="2020-02-18T23:04:27+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/面试/" itemprop="url" rel="index"><span itemprop="name">面试</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>头条刷题<br><a href="https://leetcode-cn.com/explore/interview/card/bytedance/" target="_blank" rel="noopener">https://leetcode-cn.com/explore/interview/card/bytedance/</a>  微信登录</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/rewire原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/rewire原理/" class="post-title-link" itemprop="url">rewire原理</a>
+            <a href="/2019/08/23/移动端/Bindingx/" class="post-title-link" itemprop="url">bindingx</a>
           
         </h1>
 
@@ -968,7 +1032,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/测试相关/" itemprop="url" rel="index"><span itemprop="name">测试相关</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
 
                 
                 
@@ -987,62 +1051,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>莫名的缘分使我看到了rewire这个库，于是就好奇怎么实现的，接下来就围绕这个库展开。</p>
-<h2 id="背景知识介绍"><a href="#背景知识介绍" class="headerlink" title="背景知识介绍"></a>背景知识介绍</h2><p>github地址：<a href="https://github.com/jhnns/rewire" target="_blank" rel="noopener">https://github.com/jhnns/rewire</a></p>
-<ol>
-<li><p>rewire做了什么？<br>rewire给每个模块增加了setter和getter方法，以便可以访问内部的变量。</p>
-</li>
-<li><p>review可以用来干什么？</p>
-<ul>
-<li>inject mocks for other modules or globals like process</li>
-<li>inspect private variables</li>
-<li>override variables within the module. </li>
-</ul>
-</li>
-<li><p>review怎么用？<br>参考github链接</p>
-<h2 id="原理剖析"><a href="#原理剖析" class="headerlink" title="原理剖析"></a>原理剖析</h2><p><code>源码版本号：rewire@4.0.0   node@12.9.0</code></p>
-</li>
-<li><p>怎么给每个模块加上setter 和 getter ？<br>rewire.js文件中可看到：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">appendix = <span class="string">"\n"</span> + getDefinePropertySrc();</span><br><span class="line">appendix += <span class="string">"&#125;)();"</span>;</span><br><span class="line">moduleEnv.inject(prelude, appendix);</span><br></pre></td></tr></table></figure>
-
-<p>getDefinePropertySrc：<br>该函数的作用就是拼接setter、getter、with函数。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var __get__ = require(<span class="string">"./__get__.js"</span>);</span><br><span class="line">var __set__ = require (<span class="string">"./__set__.js"</span>);</span><br><span class="line">var __with__ = require(<span class="string">"./__with__.js"</span>);</span><br><span class="line"></span><br><span class="line">var srcs = &#123;</span><br><span class="line">    <span class="string">"__get__"</span>: __get__.toString(),</span><br><span class="line">    <span class="string">"__set__"</span>: __set__.toString(),</span><br><span class="line">    <span class="string">"__with__"</span>: __with__.toString()</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">getDefinePropertySrc</span></span>() &#123;</span><br><span class="line">    var src = <span class="string">"if (typeof(module.exports) === 'function' || \n"</span> +</span><br><span class="line">            <span class="string">"(typeof(module.exports) === 'object' &amp;&amp; module.exports !== null &amp;&amp; Object.isExtensible(module.exports))) &#123;\n"</span>;</span><br><span class="line"></span><br><span class="line">    src += Object.keys(srcs).reduce(<span class="keyword">function</span> forEachSrc(preValue, value) &#123;</span><br><span class="line">        <span class="built_in">return</span> preValue += <span class="string">"Object.defineProperty(module.exports, '"</span> +</span><br><span class="line">            value +</span><br><span class="line">            <span class="string">"', &#123;enumerable: false, value: "</span> +</span><br><span class="line">            srcs[value] +</span><br><span class="line">            <span class="string">", "</span>+</span><br><span class="line">            <span class="string">"writable: true&#125;); "</span>;</span><br><span class="line">    &#125;, <span class="string">""</span>);</span><br><span class="line"></span><br><span class="line">    src += <span class="string">"\n&#125;"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> src;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>inject方法：<br>将拼接好setter和getter的内容拼接到Module的wrapper属性中，方便之后_compile函数通过wrapSafe函数对模块进行拼接(在node源码中)。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var Module = require(<span class="string">"module"</span>),</span><br><span class="line"><span class="keyword">function</span> inject(prelude, appendix) &#123;</span><br><span class="line">    Module.wrapper[0] = moduleWrapper0 + prelude;</span><br><span class="line">    Module.wrapper[1] = appendix + moduleWrapper1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>接下来rewire文件进入到load方法中，这个方法才真正将模块内容拼接好。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moduleEnv.load(targetModule);</span><br></pre></td></tr></table></figure>
-
-<p>load方法中调用module的load对模块进行装载（targetModule.load(targetModule.id);）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> load(targetModule) &#123;</span><br><span class="line">  nodeRequire = targetModule.require;</span><br><span class="line">  targetModule.require = requireProxy;</span><br><span class="line">  currentModule = targetModule;</span><br><span class="line"></span><br><span class="line">  registerExtensions();</span><br><span class="line">  targetModule.load(targetModule.id);</span><br><span class="line"></span><br><span class="line">  // This is only necessary <span class="keyword">if</span> nothing has been required within the module</span><br><span class="line">  reset();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>module的load方法可在node源码中找到,通过执行Module._extensions[extension](this, filename);方法然后调用_compile方法对模块进行装载。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Module.prototype.load = <span class="keyword">function</span>(filename) &#123;</span><br><span class="line">  debug(<span class="string">'load %j for module %j'</span>, filename, this.id);</span><br><span class="line"></span><br><span class="line">  assert(!this.loaded);</span><br><span class="line">  this.filename = filename;</span><br><span class="line">  this.paths = Module._nodeModulePaths(path.dirname(filename));</span><br><span class="line"></span><br><span class="line">  const extension = findLongestRegisteredExtension(filename);</span><br><span class="line">  Module._extensions[extension](this, filename);</span><br><span class="line">  this.loaded = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (experimentalModules) &#123;</span><br><span class="line">    const ESMLoader = asyncESM.ESMLoader;</span><br><span class="line">    const url = `<span class="variable">$&#123;pathToFileURL(filename)&#125;</span>`;</span><br><span class="line">    const module = ESMLoader.moduleMap.get(url);</span><br><span class="line">    // Create module entry at load time to snapshot exports correctly</span><br><span class="line">    const exports = this.exports;</span><br><span class="line">    <span class="keyword">if</span> (module !== undefined) &#123; // Called from cjs translator</span><br><span class="line">      <span class="keyword">if</span> (module.reflect) &#123;</span><br><span class="line">        module.reflect.onReady((reflect) =&gt; &#123;</span><br><span class="line">          reflect.exports.default.set(exports);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; // preemptively cache</span><br><span class="line">      ESMLoader.moduleMap.set(</span><br><span class="line">        url,</span><br><span class="line">        new ModuleJob(ESMLoader, url, async () =&gt; &#123;</span><br><span class="line">          <span class="built_in">return</span> createDynamicModule(</span><br><span class="line">            [], [<span class="string">'default'</span>], url, (reflect) =&gt; &#123;</span><br><span class="line">              reflect.exports.default.set(exports);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;)</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Module._extensions[<span class="string">'.js'</span>] = <span class="keyword">function</span>(module, filename) &#123;</span><br><span class="line">  const content = fs.readFileSync(filename, <span class="string">'utf8'</span>);</span><br><span class="line">  module._compile(content, filename);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>接下来看一下registerExtensions（require.extensions这个api已经废弃）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">registerExtensions</span></span>() &#123;</span><br><span class="line">  var originalJsExtension = require.extensions[<span class="string">".js"</span>];</span><br><span class="line">    var originalCoffeeExtension = require.extensions[<span class="string">".coffee"</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (originalJsExtension) &#123;</span><br><span class="line">        originalExtensions.js = originalJsExtension;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (originalCoffeeExtension) &#123;</span><br><span class="line">        originalExtensions.coffee = originalCoffeeExtension;</span><br><span class="line">    &#125;</span><br><span class="line">    require.extensions[<span class="string">".js"</span>] = jsExtension;</span><br><span class="line">    require.extensions[<span class="string">".coffee"</span>] = coffeeExtension;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>jsExtension函数，在该函数中重写了module的_compile函数</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> jsExtension(module, filename) &#123;</span><br><span class="line">  var _compile = module._compile;</span><br><span class="line"></span><br><span class="line">  module._compile = <span class="keyword">function</span> (content, filename) &#123;</span><br><span class="line">      var noConstAssignMessage = linter.verify(content, eslintOptions).find(isNoConstAssignMessage);</span><br><span class="line">      var line;</span><br><span class="line">      var column;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (noConstAssignMessage !== undefined) &#123;</span><br><span class="line">          line = noConstAssignMessage.line;</span><br><span class="line">          column = noConstAssignMessage.column;</span><br><span class="line">          throw new TypeError(`Assignment to constant variable at <span class="variable">$&#123; filename &#125;</span>:<span class="variable">$&#123; line &#125;</span>:<span class="variable">$&#123; column &#125;</span>`);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      _compile.call(</span><br><span class="line">          module,</span><br><span class="line">          content.replace(matchConst, <span class="string">"<span class="variable">$1let</span>  <span class="variable">$2</span>"</span>), // replace const with <span class="built_in">let</span>, <span class="keyword">while</span> maintaining the column width</span><br><span class="line">          filename</span><br><span class="line">      );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  restoreExtensions();</span><br><span class="line">  originalExtensions.js(module, filename);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>而Module的wrapper，看node源码（path:node/lib/internal/modules/cjs/loader.js）可找到如下代码：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> wrap = <span class="keyword">function</span>(script) &#123;</span><br><span class="line">  <span class="built_in">return</span> Module.wrapper[0] + script + Module.wrapper[1];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const wrapper = [</span><br><span class="line">  <span class="string">'(function (exports, require, module, __filename, __dirname) &#123; '</span>,</span><br><span class="line">  <span class="string">'\n&#125;);'</span></span><br><span class="line">];</span><br><span class="line"><span class="built_in">let</span> wrapperProxy = new Proxy(wrapper, &#123;</span><br><span class="line">  <span class="built_in">set</span>(target, property, value, receiver) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    <span class="built_in">return</span> Reflect.set(target, property, value, receiver);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  defineProperty(target, property, descriptor) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    <span class="built_in">return</span> Object.defineProperty(target, property, descriptor);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">Object.defineProperty(Module, <span class="string">'wrap'</span>, &#123;</span><br><span class="line">  <span class="function"><span class="title">get</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> wrap;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">set</span>(value) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    wrap = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Object.defineProperty(Module, <span class="string">'wrapper'</span>, &#123;</span><br><span class="line">  <span class="function"><span class="title">get</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> wrapperProxy;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">set</span>(value) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    wrapperProxy = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p><strong>总结</strong><br>rewire主要是通过更改Module的wrapper实现的对模块的拼接。<br>rewire一个文件的路径：注入wrapper，调用Module的load<br>而require函数也是通过调用load方法加载模块。</p>
-</li>
-<li><p>怎么通过getter实现对内部的访问</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">__get__</span></span>() &#123;</span><br><span class="line">    arguments.varName = arguments[0];</span><br><span class="line">    <span class="keyword">if</span> (arguments.varName &amp;&amp; typeof arguments.varName === <span class="string">"string"</span>) &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="built_in">eval</span>(arguments.varName);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        throw new TypeError(<span class="string">"__get__ expects a non-empty string"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>原理同</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">a</span></span>()&#123;</span><br><span class="line">  <span class="built_in">let</span> private =<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    console.log(<span class="string">'111'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">let</span> exports = &#123;</span><br><span class="line">    get(name)&#123;</span><br><span class="line">      <span class="built_in">return</span> <span class="built_in">eval</span>(name)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">return</span> exports</span><br><span class="line">&#125;</span><br><span class="line">a().get(<span class="string">'private'</span>)</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>遗留<br>在node的module源码中也能看到require,这个require指的是？<br>还有了解了proxy,<br>Reflect.set(target, property, value, receiver);<br>除了拦截get\set还可以拦截defineProperty</li>
-</ol>
-</li>
-</ol>
-
+          
         
       
     </div>
@@ -1066,7 +1075,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/线程学习/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/概念/DSL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -1080,7 +1089,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/node/线程学习/" class="post-title-link" itemprop="url">node线程学习</a>
+            <a href="/2019/08/23/概念/DSL/" class="post-title-link" itemprop="url">DSL</a>
           
         </h1>
 
@@ -1106,7 +1115,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:06:54" itemprop="dateModified" datetime="2020-02-18T23:06:54+08:00">2020-02-18</time>
+                <time title="Modified: 2020-02-18 23:25:09" itemprop="dateModified" datetime="2020-02-18T23:25:09+08:00">2020-02-18</time>
               </span>
             
           
@@ -1116,7 +1125,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/node/" itemprop="url" rel="index"><span itemprop="name">node</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/DSL/" itemprop="url" rel="index"><span itemprop="name">DSL</span></a></span>
 
                 
                 
@@ -1135,111 +1144,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Node 线程学习<br><a href="https://juejin.im/post/5c63b5676fb9a049ac79a798" target="_blank" rel="noopener">https://juejin.im/post/5c63b5676fb9a049ac79a798</a><br><a href="https://juejin.im/post/5c77c6bef265da2de6611cff" target="_blank" rel="noopener">https://juejin.im/post/5c77c6bef265da2de6611cff</a><br><a href="https://juejin.im/post/5b0e97bef265da0914072515" target="_blank" rel="noopener">https://juejin.im/post/5b0e97bef265da0914072515</a></p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpaack原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/08/23/前端工程化相关/webpack/webpaack原理/" class="post-title-link" itemprop="url">webpack原理</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 23:21:16" itemprop="dateModified" datetime="2020-02-18T23:21:16+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="常用概念"><a href="#常用概念" class="headerlink" title="常用概念"></a>常用概念</h1><ul>
-<li>Entry：入口，Webpack 执行构建的第一步将从 Entry 开始，可抽象成输入。</li>
-<li>Module：模块，在 Webpack 里一切皆模块，一个模块对应着一个文件。Webpack 会从配置的 Entry 开始递归找出所有依赖的模块。</li>
-<li>Chunk：代码块，一个 Chunk 由多个模块组合而成，用于代码合并与分割。</li>
-<li>Loader：模块转换器，用于把模块原内容按照需求转换成新内容。</li>
-<li>Plugin：扩展插件，在 Webpack 构建流程中的特定时机会广播出对应的事件，插件可以监听这些事件的发生，在特定时机做对应的事情。</li>
-</ul>
-<h1 id="2-webpack学习及源码阅读"><a href="#2-webpack学习及源码阅读" class="headerlink" title="2 webpack学习及源码阅读"></a>2 webpack学习及源码阅读</h1><p>compiler和compilation中所有事件流的介绍：<a href="http://stephenzhao.github.io/webpack-cn/index.html" target="_blank" rel="noopener">http://stephenzhao.github.io/webpack-cn/index.html</a></p>
-<p>1  在bin/webpack中<br>   — 通过yargs获得shell中的参数<br>   —（convert-argv.js中可以看到）将webpack.config.js中的参数和shell的参数整合到options对象上<br>   —（在webpack中的processOptions函数中可以看到）<br>通过实例化lib/webpack.js中的webpack()生成compiler编译器（在之后的第二步会返回compiler对象）<br>   — （在webpack中的processOptions函数中可以看到）调用compiler.run()开始进行编译打包<br>2 lib/webpack  根据整合的options生成compiler对象<br>3 lib/compiler.js 首先看到run方法。它触发了before-run和run两个事件，之后在run事件中，通过readRecords读取文件，接着通过compile进行编译打包。<br>4 compile函数<br>—第一步就会使用用户配置的loader进行资源转化，然后存储为params。<br>constparams = this.newCompilationParams()  //调用loader工厂方法<br> —然后依旧是执行事件流上的各个方法，诸如：before-compile、compile、make等事件流。 —在compile编译完成后，会以编译完成的params实例化compilation来进行打包的过程。<br>const compilation = this.newCompilation(params);    //实例化compilation<br>5 </p>
-<p>CommonsChunkPlugin 插件</p>
-<p>具体为什么要用ETag，主要出于下面几种情况考虑：</p>
+          <p>DSL  Domain Specific Language<br>Martin Fowler将DSL分为内部DSL和外部DSL<br>内部DSL一般是基于宿主语言封装的一个类库<br>外部DSL相当于创造一个新的编程语言</p>
+<p>自己定义一套DSL，通过解析AST实现自己需要的功能</p>
+<p>jscore  词法分析是由lexer完成<br>JISON</p>
 
         
       
@@ -1308,7 +1215,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1322,10 +1229,6 @@
           
         
         
-        
-          
-        
-          
         
           
         
@@ -1399,8 +1302,6 @@
           
         
         
-        
-          
         
           
         
