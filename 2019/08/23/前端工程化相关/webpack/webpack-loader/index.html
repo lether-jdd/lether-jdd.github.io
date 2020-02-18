@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="须知loader 可以使你在 import 或&amp;quot;加载&amp;quot;模块时预处理文件 loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle 中引入这些_依赖_。loader开发loader本质就是接收字符串(或者buffer)，再返回处理完的字符串(或者buffer)的过程 vue-loader源码阅读vue-loader的功能：vue-l">
+<meta name="keywords" content="webpack,loader">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack-loader">
+<meta property="og:url" content="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpack-loader/index.html">
+<meta property="og:site_name" content="lether-jdd">
+<meta property="og:description" content="须知loader 可以使你在 import 或&amp;quot;加载&amp;quot;模块时预处理文件 loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle 中引入这些_依赖_。loader开发loader本质就是接收字符串(或者buffer)，再返回处理完的字符串(或者buffer)的过程 vue-loader源码阅读vue-loader的功能：vue-l">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-02-18T15:08:15.088Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack-loader">
+<meta name="twitter:description" content="须知loader 可以使你在 import 或&amp;quot;加载&amp;quot;模块时预处理文件 loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle 中引入这些_依赖_。loader开发loader本质就是接收字符串(或者buffer)，再返回处理完的字符串(或者buffer)的过程 vue-loader源码阅读vue-loader的功能：vue-l">
+  <link rel="canonical" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpack-loader/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>webpack-loader | lether-jdd</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lether-jdd</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/webpack/webpack-loader/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">webpack-loader
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 23:08:15" itemprop="dateModified" datetime="2020-02-18T23:08:15+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="须知"><a href="#须知" class="headerlink" title="须知"></a>须知</h1><pre><code>loader 可以使你在 import 或&quot;加载&quot;模块时预处理文件
+loader 描述了 webpack 如何处理 非 JavaScript _模块_，并且在 bundle 中引入这些_依赖_。</code></pre><h1 id="loader开发"><a href="#loader开发" class="headerlink" title="loader开发"></a>loader开发</h1><p>loader本质就是接收字符串(或者buffer)，再返回处理完的字符串(或者buffer)的过程</p>
+<h2 id="vue-loader源码阅读"><a href="#vue-loader源码阅读" class="headerlink" title="vue-loader源码阅读"></a>vue-loader源码阅读</h2><h3 id="vue-loader的功能："><a href="#vue-loader的功能：" class="headerlink" title="vue-loader的功能："></a>vue-loader的功能：</h3><p>vue-loader 是一个 Webpack 的 loader，可以将指定格式编写的 Vue 组件转换为 JavaScript 模块。<br>Vue组件默认分成三部分，template、script 和 style，我们可以把一个组件要有的html，js，css写在一个组件文件中，而vue-loader，会帮助我们去处理这个vue组件，把其中的html，js，css分别编译处理，最终打包成一个模块。</p>
+<h2 id="手写一个loader示例"><a href="#手写一个loader示例" class="headerlink" title="手写一个loader示例"></a>手写一个loader示例</h2><blockquote>
+<p>该部分部分参考<a href="https://juejin.im/post/59df06e6f265da430d5701d0" target="_blank" rel="noopener">https://juejin.im/post/59df06e6f265da430d5701d0</a>  文章的”动手写一个webpack loader“</p>
+</blockquote>
+<p>loader功能介绍：给html加上公共头和尾<br>实现思路：require的时候替换layout文件（包含头和尾）的标识符，将内容插入layout文件中<br>loader代码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const loaderUtils = require(<span class="string">'loader-utils'</span>)</span><br><span class="line">const fs = require(<span class="string">'fs'</span>)</span><br><span class="line">module.exports = <span class="keyword">function</span> (<span class="built_in">source</span>) &#123;</span><br><span class="line">  const options = loaderUtils.getOptions(this)</span><br><span class="line">  const layoutHtml = fs.readFileSync(options.layout, <span class="string">'utf-8'</span>)</span><br><span class="line">  <span class="built_in">return</span> layoutHtml.replace(<span class="string">'&#123;&#123;__content__&#125;&#125;'</span>, <span class="built_in">source</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="node环境中运行"><a href="#node环境中运行" class="headerlink" title="node环境中运行"></a>node环境中运行</h3><p>因为是在服务器端测试的所以配置的时候设置了target:node,不然打包的时候require核心代码的时候的输出会报错<br>还要使用raw-loader将文件作为字符串导入，require的时候obj.default为字符串,正常的时候require为模块的export的值。<br>配置如下：<br>config.js</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const path = require(<span class="string">'path'</span>)</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">    app: <span class="string">'./server.js'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: path.resolve(__dirname, <span class="string">'./'</span>), </span><br><span class="line">    filename: <span class="string">'dist.js'</span>,</span><br><span class="line">  &#125;, </span><br><span class="line">  target: <span class="string">'node'</span>,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">      <span class="built_in">test</span>: /\.html$/,</span><br><span class="line">      use: [&#123;</span><br><span class="line">        loader: <span class="string">"raw-loader"</span>,</span><br><span class="line">      &#125;,&#123;</span><br><span class="line">        loader: path.resolve(__dirname, <span class="string">'../loader/html-layout-loader.js'</span>),</span><br><span class="line">        options: &#123;</span><br><span class="line">          layout: path.resolve(__dirname, <span class="string">'../layout.html'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;]</span><br><span class="line">    &#125;],</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>server.js</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var http = require(<span class="string">'http'</span>); // 1 - Import Node.js core module</span><br><span class="line">const returnHtml = require(<span class="string">'../test.html'</span>)</span><br><span class="line">console.log(<span class="string">'returnHtml'</span>, returnHtml)</span><br><span class="line">var server = http.createServer(<span class="keyword">function</span> (req, res) &#123; // 2 - creating server</span><br><span class="line">  //handle incomming requests here..</span><br><span class="line">  res.writeHead(200, &#123;</span><br><span class="line">    <span class="string">"Content_Type"</span>: <span class="string">"text/html"</span></span><br><span class="line">  &#125;); //设置响应格式</span><br><span class="line">  res.write(returnHtml.default);</span><br><span class="line">  res.end();</span><br><span class="line">&#125;);</span><br><span class="line">server.listen(5000); //3 - listen <span class="keyword">for</span> any incoming requests</span><br><span class="line">console.log(<span class="string">'Node.js web server at port 5000 is running..'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用如下<br>init.js</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(<span class="string">'webpack'</span>)</span><br><span class="line">const webpackConfig = require(<span class="string">'./config'</span>)</span><br><span class="line">webpack(webpackConfig, (err, stats) =&gt; &#123;</span><br><span class="line">  console.log(<span class="string">'err'</span>,err)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>先运行init.js生成dist.js<br>然后运行dist.js</p>
+<h3 id="纯前端环境中运行"><a href="#纯前端环境中运行" class="headerlink" title="纯前端环境中运行"></a>纯前端环境中运行</h3><p>在前端代码中进行配置的话，可以看到index.html直接就配置成功了，猜测webpack-dev-server也是用require的方式加载index.html的，此处就调试webpack-dev-server<br>可以看到并不是require，而是通过以下方式读取index.html的（具体怎么找到的可参考<a href="https://segmentfault.com/a/1190000016871965）" target="_blank" rel="noopener">https://segmentfault.com/a/1190000016871965）</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stat</span> = context.fs.statSync(filename);</span><br></pre></td></tr></table></figure>
+
+<p>这个是在shared中定义的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(typeof compiler.outputPath === <span class="string">"string"</span> &amp;&amp; !pathIsAbsolute.posix(compiler.outputPath) &amp;&amp; !pathIsAbsolute.win32(compiler.outputPath)) &#123;</span><br><span class="line">    throw new Error(<span class="string">"`output.path` needs to be an absolute path or `/`."</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  // store our files <span class="keyword">in</span> memory</span><br><span class="line">  var fs;</span><br><span class="line">  var isMemoryFs = !compiler.compilers &amp;&amp; compiler.outputFileSystem instanceof MemoryFileSystem;</span><br><span class="line">  <span class="keyword">if</span>(isMemoryFs) &#123;</span><br><span class="line">    fs = compiler.outputFileSystem;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    fs = compiler.outputFileSystem = new MemoryFileSystem();</span><br><span class="line">  &#125;</span><br><span class="line">  context.fs = fs;</span><br></pre></td></tr></table></figure>
+
+<p>可见这里的statSync方法是outputFileSystem中的statSync，是从内存中读的。而内存中的内容是什么呢？这时候可以选择build出来看一下。<br>build之后可看到inde.html中含有头部和尾部。<br>然后想起了前两天写的text的插件，用那个build的话就会有问题，因为是直接从硬盘中读的index.html，当用官方插件的时候build出来没有问题。对比一下自己写的与之的差别。<br>发现该插件在生成index.js的时候又重新新建了子编译器compiler及compilation了一遍(相关代码如下)<br>html-webpack-plugin包中的lib/compiler.js</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var childCompiler = compilation.createChildCompiler(compilerName, outputOptions);</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">childCompiler.runAsChild(<span class="keyword">function</span> (err, entries, childCompilation) &#123;</span><br></pre></td></tr></table></figure>
+
+<p>为什么不能直接读取 html 文件而要用子编译器？因为 html 文件中可能依赖其他外部资源（比如 img 的src属性），所以加载 html 文件时仍然需要一个额外的完整的构建流程来完成这个任务，这个构建过程正好就包含了loader编辑的过程。<br>那么loader是在什么时候运行的呢？<br>参考<a href="https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10" target="_blank" rel="noopener">https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10</a>  文章的”loader运行时机部分“可知大概是在compilation的时候运行的，经过设置断点确实是在子编译器complication之后（但是没有跟到具体的方法）。<br><a href="https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10" target="_blank" rel="noopener">https://juejin.im/post/5bc1a73df265da0a8d36b74f#heading-10</a>   这篇文章很详细的写了loader相关的内容，以后有机会可以看看</p>
+<p>关于子编辑器或更多webpack的相关<a href="https://cloud.tencent.com/developer/article/1030740" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1030740</a></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/webpack/" rel="tag"># webpack</a>
+            
+              <a href="/tags/loader/" rel="tag"># loader</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/23/前端工程化相关/webpack/学习资料/" rel="next" title="webpack学习资料">
+                  <i class="fa fa-chevron-left"></i> webpack学习资料
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/23/前端工程化相关/docker学习/" rel="prev" title="docker学习资料收集">
+                  docker学习资料收集 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#须知"><span class="nav-number">1.</span> <span class="nav-text">须知</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#loader开发"><span class="nav-number">2.</span> <span class="nav-text">loader开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vue-loader源码阅读"><span class="nav-number">2.1.</span> <span class="nav-text">vue-loader源码阅读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vue-loader的功能："><span class="nav-number">2.1.1.</span> <span class="nav-text">vue-loader的功能：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手写一个loader示例"><span class="nav-number">2.2.</span> <span class="nav-text">手写一个loader示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#node环境中运行"><span class="nav-number">2.2.1.</span> <span class="nav-text">node环境中运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#纯前端环境中运行"><span class="nav-number">2.2.2.</span> <span class="nav-text">纯前端环境中运行</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lether-jdd</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lether-jdd</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

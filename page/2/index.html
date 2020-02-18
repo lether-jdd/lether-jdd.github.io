@@ -213,7 +213,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/thrift/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/11/vscode/vscode插件开发相关/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -227,7 +227,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/thrift/" class="post-title-link" itemprop="url">thrift</a>
+            <a href="/2019/10/11/vscode/vscode插件开发相关/" class="post-title-link" itemprop="url">vscode插件开发</a>
           
         </h1>
 
@@ -242,7 +242,7 @@
                 
               
 
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+              <time title="Created: 2019-10-11 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-11T00:00:00+08:00">2019-10-11</time>
             </span>
           
             
@@ -253,7 +253,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-30 14:13:00" itemprop="dateModified" datetime="2019-08-30T14:13:00+08:00">2019-08-30</time>
+                <time title="Modified: 2020-02-18 22:32:44" itemprop="dateModified" datetime="2020-02-18T22:32:44+08:00">2020-02-18</time>
               </span>
             
           
@@ -263,7 +263,14 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/后端/" itemprop="url" rel="index"><span itemprop="name">后端</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/vscode/" itemprop="url" rel="index"><span itemprop="name">vscode</span></a></span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/vscode/插件开发/" itemprop="url" rel="index"><span itemprop="name">插件开发</span></a></span>
 
                 
                 
@@ -282,7 +289,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <h1 id="什么情况下考虑插件实现"><a href="#什么情况下考虑插件实现" class="headerlink" title="什么情况下考虑插件实现"></a>什么情况下考虑插件实现</h1><p>  当重复处理同一问题超过3次就需要考虑化繁为简，梳理一下DIY一个插件，因为写一个插件的成本并不大。</p>
+<h1 id="实现一个插件"><a href="#实现一个插件" class="headerlink" title="实现一个插件"></a>实现一个插件</h1><h2 id="脚手架"><a href="#脚手架" class="headerlink" title="脚手架"></a>脚手架</h2><p>Yeoman 和 Generator-code<br>打包和发布：npm install -g vsce</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yo</span><br><span class="line">npm install -g generator-webapp</span><br><span class="line">yo code</span><br></pre></td></tr></table></figure>
+
+<p>特别说明一下编写snippets时候的body可以使用占位符</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// ./snippets/javascript.json</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"forEach"</span>: &#123;</span><br><span class="line">    <span class="string">"prefix"</span>: <span class="string">"fe"</span>,</span><br><span class="line">    <span class="string">"body"</span>: [</span><br><span class="line">      <span class="string">"<span class="variable">$&#123;1:array&#125;</span>.forEach(function(item) &#123;"</span>,</span><br><span class="line">      <span class="string">"\t<span class="variable">$&#123;2:// body&#125;</span>"</span>,</span><br><span class="line">      <span class="string">"&#125;);"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"description"</span>: <span class="string">"Code snippet for \"forEach\""</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"setTimeout"</span>: &#123;</span><br><span class="line">    <span class="string">"prefix"</span>: <span class="string">"st"</span>,</span><br><span class="line">    <span class="string">"body"</span>: [</span><br><span class="line">      <span class="string">"setTimeout(function() &#123;"</span>,</span><br><span class="line">      <span class="string">"\t<span class="variable">$&#123;0:// body&#125;</span>"</span>,</span><br><span class="line">      <span class="string">"&#125;, <span class="variable">$&#123;1:1000&#125;</span>);"</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"description"</span>: <span class="string">"Code snippet for 'setTimeout'"</span></span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>body 中定义的就是填充的代码段内容。body 中可以使用占位符（placeholders），如上面的 ${1:array}、 {2:// body}，使用占位符方便在引用代码段的时候可以通过 tab 键快速切换跳转到对应位置编辑。冒号前面的序号表示切换的顺序，冒号后面的内容则是占位显示的默认文本。</p>
+<p>#相关资料链接<br>官方：<a href="https://code.visualstudio.com/api" target="_blank" rel="noopener">https://code.visualstudio.com/api</a><br><a href="https://juejin.im/post/5d9f2f436fb9a04e187c9c24" target="_blank" rel="noopener">https://juejin.im/post/5d9f2f436fb9a04e187c9c24</a><br>小茗同学：<a href="https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html" target="_blank" rel="noopener">https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html</a></p>
+
         
       
     </div>
@@ -306,7 +322,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/web&hybrid&native app/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/11/前端工程化相关/polyfill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -320,7 +336,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/web&hybrid&native app/" class="post-title-link" itemprop="url">web&hybrid&native</a>
+            <a href="/2019/10/11/前端工程化相关/polyfill/" class="post-title-link" itemprop="url">polyfill  && babel-polyfill</a>
           
         </h1>
 
@@ -335,7 +351,7 @@
                 
               
 
-              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+              <time title="Created: 2019-10-11 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-11T00:00:00+08:00">2019-10-11</time>
             </span>
           
             
@@ -346,7 +362,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-30 14:12:46" itemprop="dateModified" datetime="2019-08-30T14:12:46+08:00">2019-08-30</time>
+                <time title="Modified: 2020-02-18 22:34:52" itemprop="dateModified" datetime="2020-02-18T22:34:52+08:00">2020-02-18</time>
               </span>
             
           
@@ -356,7 +372,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/移动端/" itemprop="url" rel="index"><span itemprop="name">移动端</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
 
                 
                 
@@ -375,10 +391,112 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <ol>
-<li><p>Web APP<br>在浏览器中访问，入口临时<br>优点<br> （1）开发成本低，<br> （2）更新快，<br> （3）更新无需通知用户，不需要手动升级，<br> （4）能够跨多个平台和终端。</p>
-<p>缺点：<br> （1）临时性的入口、用户留存率低<br> （2）无法获取系统级别的通知，提醒，动效等等<br> （4）设计受限制诸多<br> （5）体验较差<br>更多地看<a href="https://www.uisdc.com/web-hybrid-native-app" target="_blank" rel="noopener">https://www.uisdc.com/web-hybrid-native-app</a></p>
+          <p>polyfill  包含js语言的polyfill  和 html（例如document.head） 、DOM等各种的polyfill</p>
+<p>Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 API，比如 Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise 等全局对象，以及一些定义在全局对象上的方法（比如 Object.assign ）都不会转码</p>
+<p>babel-runtime和babel-plugin-transform-runtime</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/前端性能&优化/白屏/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/09/17/前端性能&优化/白屏/" class="post-title-link" itemprop="url">解决白屏</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-17 21:13:51" itemprop="dateCreated datePublished" datetime="2019-09-17T21:13:51+08:00">2019-09-17</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 21:26:57" itemprop="dateModified" datetime="2020-02-18T21:26:57+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>解决白屏的方法</p>
+<ol>
+<li>服务器端渲染（SSR）<br>优点：<ul>
+<li>利于seo<br>缺点：</li>
+<li>前端需要了解一定的后端知识才能够解决问题，维护成本高（虽然有Nuxt.js这类的SSR框架帮我们简化了服务端的部分）</li>
+<li>增加了服务端压力</li>
+</ul>
 </li>
+<li>预渲染 </li>
+<li><a href="https://juejin.im/post/5d7468db5188253264365017" target="_blank" rel="noopener">https://juejin.im/post/5d7468db5188253264365017</a>   继续</li>
 </ol>
 
         
@@ -404,7 +522,7 @@
   
   
   <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/测试相关/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/小程序/积累/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lether-jdd">
@@ -418,7 +536,294 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/08/23/测试相关/" class="post-title-link" itemprop="url">测试相关</a>
+            <a href="/2019/09/17/小程序/积累/" class="post-title-link" itemprop="url">小程序</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-17 12:56:00" itemprop="dateCreated datePublished" datetime="2019-09-17T12:56:00+08:00">2019-09-17</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-10-30 13:28:31" itemprop="dateModified" datetime="2019-10-30T13:28:31+08:00">2019-10-30</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1  关于setData的原理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">小程序的视图层目前使用 WebView 作为渲染载体，而逻辑层是由独立的 JavascriptCore 作为运行环境。在架构上，WebView 和 JavascriptCore 都是独立的模块，并不具备数据直接共享的通道。当前，视图层和逻辑层的数据传输，实际上通过两边提供的 evaluateJavascript 所实现。即用户传输的数据，需要将其转换为字符串形式传递，同时把转换后的数据内容拼接成一份 JS 脚本，再通过执行 JS 脚本的形式传递到两边独立环境。</span><br><span class="line"></span><br><span class="line">而 evaluateJavascript 的执行会受很多方面的影响，数据到达视图层并不是实时的。</span><br></pre></td></tr></table></figure>
+
+<p>这是官网给出的解释，其实没大看懂，但是可联想出JSCore,但是又感觉不太一样，需要查一下。</p>
+<p>2  滚动加载组价</p>
+<p>3  悬浮球组件</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/小程序/小程序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/09/17/小程序/小程序/" class="post-title-link" itemprop="url">小程序</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-17 12:56:00" itemprop="dateCreated datePublished" datetime="2019-09-17T12:56:00+08:00">2019-09-17</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:47:37" itemprop="dateModified" datetime="2019-11-21T11:47:37+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/小程序/" itemprop="url" rel="index"><span itemprop="name">小程序</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/17/日记/20190917/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/09/17/日记/20190917/" class="post-title-link" itemprop="url">20190917</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-09-17 12:56:00" itemprop="dateCreated datePublished" datetime="2019-09-17T12:56:00+08:00">2019-09-17</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/日记/" itemprop="url" rel="index"><span itemprop="name">日记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天听别人说起潮州这个城市，记得有个感兴趣的人的故乡就是潮州的，顿时充满了好奇。<br>据说这个城市是个挺传统又老旧的城市，那里的人生活安逸且幸福，大部分人做生意家里条件挺好，但还是保持着女孩子在家做家务等的习惯，对女性要求较传统，而且还有喝茶文化，对待吃饭很认真。更令我震惊的是竟然也是个瓷都，我印象中只有景德镇，孤陋寡闻了，hiahiahia。顿时很想去看看这个城市。又想到自己的人生这么短暂，见识不了太多，体验不了太多，但是还是想尽我所能多去看看不同的活法，所以也很想当个演员，演绎一些心中的美好，短暂地体验一下不同的人生。</p>
+<p>中秋在家追了两天的电视剧（亲爱的热爱的），小猴子把那种感觉演的真好，太可爱了。莫名其妙就迷上了这部剧。尽管知道现实没有这样的爱情，我也不相信爱情，但还是表示憧憬。</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/前端部署演化史/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/前端部署演化史/" class="post-title-link" itemprop="url">前端部署演化史</a>
           
         </h1>
 
@@ -444,7 +849,117 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-08-30 14:12:27" itemprop="dateModified" datetime="2019-08-30T14:12:27+08:00">2019-08-30</time>
+                <time title="Modified: 2019-12-05 14:06:31" itemprop="dateModified" datetime="2019-12-05T14:06:31+08:00">2019-12-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建/" itemprop="url" rel="index"><span itemprop="name">构建</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://mp.weixin.qq.com/s/qyNT-p-hpMvWL6yDIKNoyw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/qyNT-p-hpMvWL6yDIKNoyw</a></p>
+<h2 id="1-nginx"><a href="#1-nginx" class="headerlink" title="1 nginx"></a>1 nginx</h2><p>try-files指令   可以避免非root路径404  可实现跳转<br>proxy_pass  可解决跨域  nginx缓存里拿不到资源，向该地址转发请求，拿到新的资源，并进行缓存<br>rewrite<br>proxy_cache 将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了<br>proxy_redirect 设置后端服务器“Location”响应头和“Refresh”响应头的替换文本</p>
+<h2 id="2-docker-构建镜像"><a href="#2-docker-构建镜像" class="headerlink" title="2 docker  构建镜像"></a>2 docker  构建镜像</h2><p>dockerfile 即部署脚本<br>docker-compose.yaml<br>docker-compose up -d 启动前端应用<br>dockerfile   示例 ：主要是指明环境  执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FROM node:alpine</span><br><span class="line"></span><br><span class="line"><span class="comment"># 代表生产环境</span></span><br><span class="line">ENV PROJECT_ENV production</span><br><span class="line"><span class="comment"># 许多 package 会根据此环境变量，做出不同的行为</span></span><br><span class="line"><span class="comment"># 另外，在 webpack 中打包也会根据此环境变量做出优化，但是 create-react-app 在打包时会写死该环境变量</span></span><br><span class="line">ENV NODE_ENV production</span><br><span class="line">WORKDIR /code</span><br><span class="line">ADD . /code</span><br><span class="line">RUN npm install &amp;&amp; npm run build &amp;&amp; npm install -g http-server</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">CMD http-server ./public -p 80</span><br></pre></td></tr></table></figure>
+
+<p>dockerfile的改进：<br>构建镜像体积过大<br>构建镜像时间过长</p>
+<p>docker-compose.yaml  让运维运行</p>
+<p>做法：<br>1 减少 npm install（npm cache 的基础镜像或者 npm 私有仓库）<br>2 npm install –production 只装必要的包</p>
+<h2 id="3-CI-CD（Continuous-Integration-Continuous-Delivery）"><a href="#3-CI-CD（Continuous-Integration-Continuous-Delivery）" class="headerlink" title="3 CI/CD（Continuous Integration/Continuous Delivery）"></a>3 CI/CD（Continuous Integration/Continuous Delivery）</h2><p>运维不用重复拉代码，docker-compose up -d，重启 nginx这三个步骤<br>而是用ci/cd自动化部署</p>
+<p>.gitlab-ci.yml等</p>
+<h2 id="4-kubernetes部署"><a href="#4-kubernetes部署" class="headerlink" title="4 kubernetes部署"></a>4 kubernetes部署</h2><p><a href="https://kubernetes.io/zh/docs/concepts/services-networking/ingress/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/services-networking/ingress/</a><br>随着业务越来越大，镜像越来越多，docker-compose 已经不太能应付，kubernetes 应时而出。这时服务器也从1台变成了多台，多台服务器就会有分布式问题<br>以前的流程:<br>1 前端配置 dockerfile 与 docker-compose<br>2 生产环境服务器的 CI runner 拉代码(可以看做以前的运维)，docker-compose up -d 启动服务。然后再重启 nginx，做反向代理，对外提供服务<br>以前的流程有一个问题: 构建镜像的服务器，提供容器服务的服务器，做持续集成的服务器是一台！<br>所以需要一个私有的镜像仓库，一个能够访问 k8s 集群的持续集成服务器</p>
+<p>流程改进之后结合 k8s 的流程如下<br>前端配置 dockerfile，构建镜像，推到镜像仓库<br>运维为前端应用配置 k8s 的资源配置文件，kubectl apply -f 时会重新拉取镜像，部署资源</p>
+<h2 id="5-helm"><a href="#5-helm" class="headerlink" title="5 helm"></a>5 helm</h2><p>bitnami/nginx<br><a href="https://whmzsu.github.io/helm-doc-zh-cn/chart/charts-zh_cn.html" target="_blank" rel="noopener">https://whmzsu.github.io/helm-doc-zh-cn/chart/charts-zh_cn.html</a></p>
+<h2 id="devops"><a href="#devops" class="headerlink" title="devops"></a>devops</h2><p><a href="https://aws.amazon.com/cn/devops/what-is-devops/" target="_blank" rel="noopener">https://aws.amazon.com/cn/devops/what-is-devops/</a><br>工具集<br><a href="https://library.prof.wang/handbook/h/hdbk-MWnS99ThmLVDi7U5mVFrB9" target="_blank" rel="noopener">https://library.prof.wang/handbook/h/hdbk-MWnS99ThmLVDi7U5mVFrB9</a></p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>前端构建主要考虑：缓存和跨域</p>
+<p>最开始的时候让sre在nginx层对静态文件进行缓存和跨域<br>后来前端提供服务，编写docker<br>再后来ci/cd  解放sre<br>再后来随着机器的增多，引入k8s</p>
+<p>之后前端不再仅仅提供静态资源，而是提供服务</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/测试相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/前端工程化相关/测试相关/" class="post-title-link" itemprop="url">测试相关</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
               </span>
             
           
@@ -494,11 +1009,209 @@
   </article>
 
     
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/后端相关/ORM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/后端相关/ORM/" class="post-title-link" itemprop="url">ORM</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:06:29" itemprop="dateModified" datetime="2020-02-18T22:06:29+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/后端/" itemprop="url" rel="index"><span itemprop="name">后端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>ORM (object relationship mapping)就是通过实例对象的语法，完成关系型数据库的操作的技术，是”对象-关系映射”（Object/Relational Mapping） 的缩写。<br>数据库的表（table） –&gt; 类（class）<br>记录（record，行数据）–&gt; 对象（object）<br>字段（field）–&gt; 对象的属性（attribute）</p>
+<p>ORM 使用对象，封装了数据库操作，因此可以不碰 SQL 语言。开发者只使用面向对象编程，与数据对象直接交互，不用关心底层数据库。</p>
+<p>ORM 写法</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p = Person.get(10);</span><br><span class="line">name = p.first_name;</span><br></pre></td></tr></table></figure>
+
+<p>sql</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sql =<span class="string">'SELECT id, first_name, last_name, phone, birth_date, sex</span></span><br><span class="line"><span class="string"> FROM persons </span></span><br><span class="line"><span class="string"> WHERE id = 10'</span></span><br><span class="line">res = db.execSql(sql);</span><br><span class="line">name = res[0][<span class="string">"FIRST_NAME"</span>];</span><br></pre></td></tr></table></figure>
+
+<p>优点<br>数据模型都在一个地方定义，更容易更新和维护，也利于重用代码。<br>ORM 有现成的工具，很多功能都可以自动完成，比如数据消毒、预处理、事务等等。<br>它迫使你使用 MVC 架构，ORM 就是天然的 Model，最终使代码更清晰。<br>基于 ORM 的业务代码比较简单，代码量少，语义性好，容易理解。<br>你不必编写性能不佳的 SQL。</p>
+<p>缺点<br>数据模型都在一个地方定义，更容易更新和维护，也利于重用代码。<br>ORM 有现成的工具，很多功能都可以自动完成，比如数据消毒、预处理、事务等等。<br>它迫使你使用 MVC 架构，ORM 就是天然的 Model，最终使代码更清晰。<br>基于 ORM 的业务代码比较简单，代码量少，语义性好，容易理解。<br>你不必编写性能不佳的 SQL。</p>
+<p>Sequelize 就是一种node的ORM库</p>
+<p>很多语言都有自己的ORM库</p>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/后端相关/elk/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2019/08/23/后端相关/elk/" class="post-title-link" itemprop="url">elk</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:06:17" itemprop="dateModified" datetime="2020-02-18T22:06:17+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/后端/" itemprop="url" rel="index"><span itemprop="name">后端</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
   </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -543,7 +1256,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -572,7 +1285,55 @@
         
           
         
-        <span class="site-state-item-count">7</span>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">categories</span>
         </a>
       </div>
@@ -591,7 +1352,87 @@
         
           
         
-        <span class="site-state-item-count">2</span>
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">tags</span>
         </a>
       </div>
@@ -612,7 +1453,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>

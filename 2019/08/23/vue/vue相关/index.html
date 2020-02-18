@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数computed有缓存async computed插件vue-rx 用这个可以实现，所以尤大大觉得不用支持https://github.com/vuejs/vue-rx/blob/master/README-CN.md 2 https://juejin.im/post/5be01d0ce51d">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue相关（编码习惯）">
+<meta property="og:url" content="http://yoursite.com/2019/08/23/vue/vue相关/index.html">
+<meta property="og:site_name" content="lether-jdd">
+<meta property="og:description" content="1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数computed有缓存async computed插件vue-rx 用这个可以实现，所以尤大大觉得不用支持https://github.com/vuejs/vue-rx/blob/master/README-CN.md 2 https://juejin.im/post/5be01d0ce51d">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-02-18T14:28:43.765Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vue相关（编码习惯）">
+<meta name="twitter:description" content="1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数computed有缓存async computed插件vue-rx 用这个可以实现，所以尤大大觉得不用支持https://github.com/vuejs/vue-rx/blob/master/README-CN.md 2 https://juejin.im/post/5be01d0ce51d">
+  <link rel="canonical" href="http://yoursite.com/2019/08/23/vue/vue相关/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>vue相关（编码习惯） | lether-jdd</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lether-jdd</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/vue/vue相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">vue相关（编码习惯）
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:28:43" itemprop="dateModified" datetime="2020-02-18T22:28:43+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="1-computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数"><a href="#1-computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数" class="headerlink" title="1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数"></a>1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数</h1><p>computed有缓存<br>async computed插件<br>vue-rx 用这个可以实现，所以尤大大觉得不用支持<a href="https://github.com/vuejs/vue-rx/blob/master/README-CN.md" target="_blank" rel="noopener">https://github.com/vuejs/vue-rx/blob/master/README-CN.md</a></p>
+<h1 id="2-https-juejin-im-post-5be01d0ce51d450700084925（使用小技巧）"><a href="#2-https-juejin-im-post-5be01d0ce51d450700084925（使用小技巧）" class="headerlink" title="2 https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）"></a>2 <a href="https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）" target="_blank" rel="noopener">https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）</a></h1><h1 id="3-陆文总结"><a href="#3-陆文总结" class="headerlink" title="3 陆文总结"></a>3 陆文总结</h1><p>1 遵守Vue的单向数据流；<br>   不要直接修改 props，这样会使得数据的变化让人迷惑，难以维护；<br>   节制地使用 $parent 和 $children - 它们的主要目的是作为访问组件的应急方法（这里是文档中描述的，算是强调了不推荐用于访问数据），当你直接使用或者直接改变他们，同样会使得数据的变化让人迷惑，难以维护。<br>   推荐使用 props 传递数据，用 event 达到改变数据的目的，在复杂的场景下，（仔细）考虑（是否需要）引入Vuex<br>2 在data中添加的属性应该都是在template中使用的；<br>  不该把data看成”变量存储地”(例如你只是想声明一个变量用来在几个方法中公用)；因为这样除了会使得一些普通变量被vue添加了get跟set使得它不纯洁了(还浪费内存)，还使得data中的属性太多，使得业务逻辑变得不清晰了。<br>3 尽量少直接操作dom；<br>  当然有不得不这样做的场景，这里就另外思考是不是真的“不得不这样做”了），这与vue的理念不符，尽量使用vue的语法完成相关功能。（换句话说就是，是不是真的需要vue项目里引用jQuery呢？）<br>4 v-for尽量与key同时使用，并且尽量不要用index作key；否则，在你对v-for的数组进行更新操作的时候，很可能会有因为key的问题导致渲染出错。<br>   <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">// App.vue</span><br><span class="line">   &lt;template&gt;</span><br><span class="line">     &lt;div&gt;</span><br><span class="line">       &lt;son v-for=<span class="string">"(item, index) in list"</span> :key=<span class="string">"index"</span>&gt;&#123;&#123;item&#125;&#125;&lt;/son&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">   &lt;/template&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">   import Son from <span class="string">'./Son.vue'</span>;</span><br><span class="line">   <span class="built_in">export</span> default &#123;</span><br><span class="line">     <span class="function"><span class="title">data</span></span>() &#123;</span><br><span class="line">       <span class="built_in">return</span> &#123;</span><br><span class="line">         list: [<span class="string">'b'</span>, <span class="string">'c'</span>]</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;, </span><br><span class="line">     components: &#123; Son &#125;,</span><br><span class="line">     <span class="function"><span class="title">mounted</span></span>() &#123;</span><br><span class="line">       // 延时1s，模拟点击事件</span><br><span class="line">       setTimeout(() =&gt; &#123;</span><br><span class="line">         this.list.unshift(<span class="string">'a'</span>);</span><br><span class="line">       &#125;, 1000);</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;;</span><br><span class="line">   &lt;/script&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   // Son.vue</span><br><span class="line">   &lt;template&gt;</span><br><span class="line">     &lt;div ref=<span class="string">"item"</span>&gt;&lt;slot /&gt;&lt;/div&gt;</span><br><span class="line">   &lt;/template&gt;</span><br><span class="line">   &lt;script&gt;</span><br><span class="line">   <span class="built_in">export</span> default &#123;</span><br><span class="line">     <span class="function"><span class="title">mounted</span></span>() &#123;</span><br><span class="line">       console.log(this.<span class="variable">$refs</span>.item);</span><br><span class="line">     &#125;,</span><br><span class="line">   &#125;;</span><br><span class="line">   &lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>5 避免 v-if 和 v-for 用在一起；<br>  这种场景下，我们一般是为了过滤某些项，推荐的做法是：<br>  使用计算属性计算出过滤后的列表；<br>  将v-if放在v-for之上。这是因为当 Vue 处理指令时，v-for 比 v-if 具有更高的优先级，所以哪怕我们只需要渲染列表中的几项，也会在重渲染的时候遍历整个列表，无论原本的几项是否发生改变。<br>6 节制地使用mixins，因为很可能只有你知道mixin了哪些方法；并且妙用指令，可以使得很多非业务类型的代码更清晰通用。<br>7 尽量少用 magic number，统一写到constant的文件中，实在项目忙想偷懒也简单写个注释吧</p>
+<h1 id="4-官方"><a href="#4-官方" class="headerlink" title="4 官方"></a>4 官方</h1><p><a href="https://cn.vuejs.org/v2/style-guide/#%E9%81%BF%E5%85%8D-v-if-%E5%92%8C-v-for-%E7%94%A8%E5%9C%A8%E4%B8%80%E8%B5%B7-%E5%BF%85%E8%A6%81" target="_blank" rel="noopener">https://cn.vuejs.org/v2/style-guide/#%E9%81%BF%E5%85%8D-v-if-%E5%92%8C-v-for-%E7%94%A8%E5%9C%A8%E4%B8%80%E8%B5%B7-%E5%BF%85%E8%A6%81</a></p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/vue/" rel="tag"># vue</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/23/lambda演算/" rel="next" title="lambda演算">
+                  <i class="fa fa-chevron-left"></i> lambda演算
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/23/前端工程化相关/benchmark/" rel="prev" title="benchmark">
+                  benchmark <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数"><span class="nav-number">1.</span> <span class="nav-text">1 computed中不要写异步，且箭头函数中的this指针指向undefined，所以尽量不要写箭头函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-https-juejin-im-post-5be01d0ce51d450700084925（使用小技巧）"><span class="nav-number">2.</span> <span class="nav-text">2 https://juejin.im/post/5be01d0ce51d450700084925（使用小技巧）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-陆文总结"><span class="nav-number">3.</span> <span class="nav-text">3 陆文总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-官方"><span class="nav-number">4.</span> <span class="nav-text">4 官方</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lether-jdd</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lether-jdd</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

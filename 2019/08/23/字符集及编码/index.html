@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="背景在日常开发中很少接触到字符的概念，大部分语言对字符的转换都已经封装的足够好，不需要开发人员过多考虑编码解码的问题。但是字符编码又经常在开发中遇见，所以这一篇文章就是解决，到底什么是字符集以及其编码。举个很简单的例子，调用字符串的length函数，其中的英文，汉字，emoji,长度分别是多少？length长度是如何计算的？iOS中的NSString，Javascript中的String在内存中的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符集及编码">
+<meta property="og:url" content="http://yoursite.com/2019/08/23/字符集及编码/index.html">
+<meta property="og:site_name" content="lether-jdd">
+<meta property="og:description" content="背景在日常开发中很少接触到字符的概念，大部分语言对字符的转换都已经封装的足够好，不需要开发人员过多考虑编码解码的问题。但是字符编码又经常在开发中遇见，所以这一篇文章就是解决，到底什么是字符集以及其编码。举个很简单的例子，调用字符串的length函数，其中的英文，汉字，emoji,长度分别是多少？length长度是如何计算的？iOS中的NSString，Javascript中的String在内存中的">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-02-18T14:31:29.082Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="字符集及编码">
+<meta name="twitter:description" content="背景在日常开发中很少接触到字符的概念，大部分语言对字符的转换都已经封装的足够好，不需要开发人员过多考虑编码解码的问题。但是字符编码又经常在开发中遇见，所以这一篇文章就是解决，到底什么是字符集以及其编码。举个很简单的例子，调用字符串的length函数，其中的英文，汉字，emoji,长度分别是多少？length长度是如何计算的？iOS中的NSString，Javascript中的String在内存中的">
+  <link rel="canonical" href="http://yoursite.com/2019/08/23/字符集及编码/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>字符集及编码 | lether-jdd</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lether-jdd</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/字符集及编码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">字符集及编码
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-02-18 22:31:29" itemprop="dateModified" datetime="2020-02-18T22:31:29+08:00">2020-02-18</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/字符集及编码/" itemprop="url" rel="index"><span itemprop="name">字符集及编码</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在日常开发中很少接触到字符的概念，大部分语言对字符的转换都已经封装的足够好，不需要开发人员过多考虑编码解码的问题。但是字符编码又经常在开发中遇见，所以这一篇文章就是解决，到底什么是字符集以及其编码。举个很简单的例子，调用字符串的length函数，其中的英文，汉字，emoji,长度分别是多少？length长度是如何计算的？iOS中的NSString，Javascript中的String在内存中的编码方式是什么？搞懂了字符编码，这些问题就迎刃而解了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>UTF-8、UTF-16、UTF-32 是对unicode进行编码（二进制进行存储和传输）的方式<br>unicode 统一所有的字符集，对世界上大多数书写系统中表示的文本进行一致的编码(用于表示意思)。</p>
+<h1 id="编码、ASCII"><a href="#编码、ASCII" class="headerlink" title="编码、ASCII"></a>编码、ASCII</h1><p>我们知道计算机只处理0和1，所有可见的文件，视频，音频等都是以二进制的形式存储和运算的。我们用八个二进制位表示一个字节，那么一个字节就可以代表256种“字符”。举个例子，字母“A”定义为65，用二进制表示是0100 0001。<br>这种把A转换成0100 0001的形式就是一次映射的过程。再来看ASCII码一共有128个字符，那么就有128个映射。一个字节就足足的可以表示了。ASCII就是最早期的字符集。</p>
+<h1 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h1><p>随着计算机的普及，需要做映射的字符越来越多，光常用汉字就几千个了，这时候ASCII码已经不够用了，涌现了很多字符集，ISO-8859，GB2312,GBK等，直到后来为了解决各个字符集各自为战的问题，分别产生了Unicode 组织和 ISO-10646工作小组，最后这两家组织也合并了，形成现如今的Unicode.</p>
+<h1 id="Unicode"><a href="#Unicode" class="headerlink" title="Unicode"></a>Unicode</h1><p>Unicode是一种计算行业标准，用于对世界上大多数书写系统中表示的文本进行一致的编码，表示和处理。该标准由Unicode联盟维护，截至2019年5月，最新版本Unicode 12.1包含137994个字符的库，涵盖150个现代和历史脚本以及多个符号集和表情符号。Unicode标准的字符库与ISO / IEC 10646同步，并且两者的代码相同。Unicode也是一种字符集。通常会用U+十六进制表示，可存储0000 ~ 10FFFF 共 1114112 个值，2^16(65536)个号码组成一个平面，一共有17个平面，其中第一个0号平面占了绝大部分常用的字符。看下图可以比较直观的了解，其中每个最小的格子是一个字节即代表256个编码点，每个大格子有65536个编码点，蓝色区域是已被使用的区域，绿色是自用区，红色区域是代理区。</p>
+<p>​</p>
+<p>再将前三个格子放大，蓝绿色部分是汉字，棕色部分是朝鲜语，由这两张图可以最直观的了解Unicode存储空间。Unicode的实现方式由多种，其中最常用的是UTF-8和UTF-16,下面逐一介绍两个实现原理。</p>
+<p>​</p>
+<h1 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h1><p>UTF-8是目前使用最广的Unicode编码方式，它是一种可变长的编码方式，从1个字节到4个字节不等。下图是它的编码规则：</p>
+<p>1.对于单字节的符号，字节的第一位设为0，后面7位为这个符号的 Unicode 码。因此对于英语字母，UTF-8 编码和 ASCII 码是相同的。</p>
+<p>2.对于n字节的符号（n &gt; 1），第一个字节的前n位都设为1，第n + 1位设为0，后面字节的前两位一律设为10。剩下的没有提及的二进制位，全部为这个符号的 Unicode 码。</p>
+<table>
+<thead>
+<tr>
+<th>UTF-8 (binary)</th>
+<th>Code Point (binary)</th>
+<th>Range</th>
+<th>需要的字节个数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0xxxxxxx</td>
+<td>xxxxxxx</td>
+<td>U+0000–U+007F</td>
+<td>1</td>
+</tr>
+<tr>
+<td>110xxxxx 10yyyyyy</td>
+<td>xxxxxyyyyyy</td>
+<td>U+0080–U+07FF</td>
+<td>2</td>
+</tr>
+<tr>
+<td>1110xxxx 10yyyyyy 10zzzzzz</td>
+<td>xxxxyyyyyyzzzzzz</td>
+<td>U+0800–U+FFFF</td>
+<td>3</td>
+</tr>
+<tr>
+<td>11110xxx 10yyyyyy 10zzzzzz 10wwwwww</td>
+<td>xxxyyyyyyzzzzzzwwwwww</td>
+<td>U+10000–U+10FFFF</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>根据上表，解读 UTF-8 编码非常简单。如果一个字节的第一位是0，则这个字节单独就是一个字符；如果第一位是1，则连续有多少个1，就表示当前字符占用多少个字节。</p>
+<p>下面，还是以汉字“严”为例，演示如何实现 UTF-8 编码。</p>
+<p>“严”的 Unicode 是4E25（100111000100101），根据上表，可以发现4E25处在第三行的范围内（0000 0800 - 0000 FFFF），因此“严”的 UTF-8 编码需要三个字节，即格式是1110xxxx 10xxxxxx 10xxxxxx。然后，从“严”的最后一个二进制位开始，依次从后向前填入格式中的x，多出的位补0。这样就得到了，“严”的 UTF-8 编码是11100100 10111000 10100101，转换成十六进制就是E4B8A5。</p>
+<p>优点：</p>
+<p>1.兼容ASCII.</p>
+<p>2.没有字节序问题。（后面会讲到字节序）</p>
+<p>3.对于英文编码较短，占用空间小。</p>
+<p>4.可变长，空间足够大</p>
+<p>5.容错性好，中间丢失字节，后面的字节还是可以根据编码规则解码，不影响后面的字符生成。</p>
+<p>缺点：</p>
+<p>1.对于中日韩的语言，一个字符需要三个字节表示，占用空间大。</p>
+<p>2.计算长度效率低，由于是变长的，所以在计算字符串长度的时候执行效率比较低。</p>
+<h1 id="UTF-16"><a href="#UTF-16" class="headerlink" title="UTF-16"></a>UTF-16</h1><p>UTF-16也是经常用到的编码方式，同样它也是可变长的编码方式，下图是编码规则，字符长度2个字节或者4个字节表示一个字符。</p>
+<table>
+<thead>
+<tr>
+<th>UTF-16 (binary)</th>
+<th>Code point (binary)</th>
+<th>Range</th>
+<th>需要的字节个数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>xxxxxxxxxxxxxxxx</td>
+<td>xxxxxxxxxxxxxxxx</td>
+<td>U+0000–U+FFFF</td>
+<td>2</td>
+</tr>
+<tr>
+<td>110110xxxxxxxxxx 110111yyyyyyyyyy</td>
+<td>xxxxxxxxxxyyyyyyyyyy + 0x10000</td>
+<td>U+10000–U+10FFFF</td>
+<td>4</td>
+</tr>
+</tbody></table>
+<p>随即就有了一个问题，当我们遇到两个字节，怎么看出它本身是一个字符，还是需要跟其他两个字节放在一起解读形成一个字符？</p>
+<p>U+D800到U+DFFF是一个空段，这些码点不对应任何字符，编号大于U+0FFFF的字符，一半在U+D800到U+DBFF之间，一半在U+DC00到U+DFFF之间，当我们遇到两个字节，发现它的码点在U+D800到U+DBFF之间，就可以断定，紧跟在后面的两个字节的码点，应该在U+DC00到U+DFFF之间，这四个字节必须放在一起形成一个字节。刚好可以涵盖辅助面的字符。</p>
+<p>优点：</p>
+<p>1.由于是固定2个字节和4个字节，所以在计算字符串长度、执行索引操作时速度很快。</p>
+<p>缺点：</p>
+<p>1.UTF-16 能表示的字符数有 6 万多，但是实际上目前 Unicode 5.0 收录的字符已经达到 99024 个字符，早已超过 UTF-16 的存储范围。</p>
+<p>2.UTF-16 存在字节序问题（大端和小端）使用时需要提前协定好。</p>
+<p>3.容错性差，因为存在字节序的问题，如果中间某一个字节丢失时可能会导致后面的解码错误。</p>
+<h1 id="UTF-32"><a href="#UTF-32" class="headerlink" title="UTF-32"></a>UTF-32</h1><p>4 个字节表示一个代码值，固定长度,多出来的部分前面补0,这种编码方式占空间较多，使用场景很少。</p>
+<p>字节序<br>字节序是指数据在存储器中的存放顺序，分为大端和小端两种。之所以会存在字节序的问题是因为寄存器的长度要大于一个字节，不同的操作系统读取字节的顺序不一样，</p>
+<p>大端模式，是指数据的高字节在前，保存在内存的低地址中，与人类的读写法一致，数据的低字节在后，保存在内存的高地址中,文件前缀FE FF。（Mac OS是大端模式）</p>
+<p>小端模式，是指数据的高字节在后，保存在内存的高地址中，而数据的低字节在前，保存在内存的低地址中,文件前缀FF FE。（x86和一般的OS（如windows，FreeBSD,Linux）使用的是小端模式）。</p>
+<p>​</p>
+<p>所以UTF-16存在一个字节序的问题，需要在文件前面声明，而UTF-8不存在这个问题，原因在于UTF-8的最小编码单位是1个字节，不会存在两个字节谁在高位谁在地位的问题。</p>
+<p>还是以汉字“严”为例，Unicode 码是4E25，需要用两个字节存储，一个字节是4E，另一个字节是25。存储的时候，4E在前，25在后，这就是 Big endian 方式（4E 25）。25在前，4E在后，这是 Little endian 方式（25 4E）。</p>
+<h1 id="用途"><a href="#用途" class="headerlink" title="用途"></a>用途</h1><p>UTF-8，广泛用于数据存储及传输：例如html文档中的<meta charset="UTF-8">，以及python文件当出现中文的时候会在顶部加上“# coding: UTF-8”等。</p>
+<p>UTF-16，而一些流行语言比如Java、Javascript、Python、Objective-C等字符串内部字符串都用UTF-16编码.在计算字符串长度搜索是的效率较好。</p>
+<p>实践<br>1.日常字母，汉字，表情分别用UTF-8和UTF-16表示分别用多少字节？</p>
+<p>字母UTF-8用一个字节，UTF-16用两个字节。</p>
+<p>大部分的汉字UTF-8编码后由三个字节如下图的“严”是e4b8a5,而用UTF-16编码仅用2个字节即4e25。</p>
+<p>大部分表情等特殊符号UTF-8编码后占4个字节，UTF-16编码后也占4个字节。</p>
+<p>​</p>
+<p>2.字符计算长度length方法是怎么计算的?</p>
+<p>像NSString,java,javascript等语言，由于是UTF-16编码的，在计算长度的时候由总字节/2得来的。</p>
+<p>3.实际开发时，如果想计算字符实际长度该怎么计算？</p>
+<p>1）一种是通过判断码点所在位置进行判断,只要落在0xD800到0xDBFF的区间，就要连同后面2个字节一起读取.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">var index = -1;</span><br><span class="line">var string = &apos;𠁒12&apos;;</span><br><span class="line">var length = string.length;</span><br><span class="line">var output = [];</span><br><span class="line">while (++index &lt; length) &#123;</span><br><span class="line">  var charCode = string.charCodeAt(index);</span><br><span class="line">  var character = string.charAt(index);</span><br><span class="line">  if (charCode &gt;= 55296 &amp;&amp; charCode &lt;= 56319) &#123;</span><br><span class="line">    output.push(character + string.charAt(++index));</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    output.push(character);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">console.log(output) //[&quot;𠁒&quot;, &quot;1&quot;, &quot;2&quot;]</span><br><span class="line">consolo.log(0xD800 ===55296) // true</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+
+<p>2.）ECMAScript 6版本 增强了对Unicode的支持，基本解决了这个问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">let s = &apos;𠁒12&apos;;</span><br><span class="line">let output = [];</span><br><span class="line">for(let s of string )&#123; </span><br><span class="line">    output.push(s)</span><br><span class="line">&#125;</span><br><span class="line">console.log(output) //[&quot;𠁒&quot;, &quot;1&quot;, &quot;2&quot;]</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">Array.from(string).length</span><br><span class="line">​</span><br><span class="line">3.javascript字符串和码点之间的转换方法？</span><br><span class="line"></span><br><span class="line">String.fromCodePoint()：从Unicode码点返回对应字符</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">console.log(String.fromCodePoint(9731, 9733, 9842, 0x2F804));</span><br><span class="line">// expected output: &quot;☃★♲你&quot;</span><br><span class="line">​</span><br><span class="line">String.prototype.codePointAt()：从字符返回对应的码点</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">代码块</span><br><span class="line">Plain Text</span><br><span class="line">var icons = &apos;☃★♲&apos;;</span><br><span class="line">console.log(icons.codePointAt(1));</span><br><span class="line">// expected output: &quot;9733&quot;</span><br><span class="line">​</span><br></pre></td></tr></table></figure>
+
+<p>4.文件编码是UTF-8,和字符串UTF-16编码之间有什么关系？</p>
+<p>这里以python为例，我们都知道，磁盘上的文件都是以二进制格式存放的，其中文本文件都是以某种特定编码的字节形式存放的。对于程序源代码文件的字符编码是由编辑器指定的，比如我们使用Pycharm来编写Python程序时会指定工程编码和文件编码为UTF-8，那么Python代码被保存到磁盘时就会被转换为UTF-8编码对应的字节（encode过程）后写入磁盘。当执行Python代码文件中的代码时，Python解释器在读取Python代码文件中的字节串之后，需要将其转换为Unicode字符串（decode过程）之后才执行后续操作。</p>
+<p>​</p>
+<h1 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h1><p>上面讲了Unicode字符集的起源，它的三种编码方式，UTF-8,UTF-16,UTF-32,编码空间，编码规则，优缺点以及用途，之后结合实际场景应用介绍了js中一些实践方法，不同语言会有自己的方式，还有就是文件编码和执行时字符编码。这些知识点在实际开发中不常见，但是深入了解其原理，对日常开发和解决问题会有帮助。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/23/前端工程化相关/babel/babel插件开发/" rel="next" title="babel插件开发">
+                  <i class="fa fa-chevron-left"></i> babel插件开发
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/23/后端相关/GraphQL/" rel="prev" title="graphQl">
+                  graphQl <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编码、ASCII"><span class="nav-number">3.</span> <span class="nav-text">编码、ASCII</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#字符集"><span class="nav-number">4.</span> <span class="nav-text">字符集</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Unicode"><span class="nav-number">5.</span> <span class="nav-text">Unicode</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UTF-8"><span class="nav-number">6.</span> <span class="nav-text">UTF-8</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UTF-16"><span class="nav-number">7.</span> <span class="nav-text">UTF-16</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UTF-32"><span class="nav-number">8.</span> <span class="nav-text">UTF-32</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用途"><span class="nav-number">9.</span> <span class="nav-text">用途</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结-1"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lether-jdd</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lether-jdd</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

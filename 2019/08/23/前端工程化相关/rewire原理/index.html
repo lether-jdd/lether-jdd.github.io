@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="莫名的缘分使我看到了rewire这个库，于是就好奇怎么实现的，接下来就围绕这个库展开。 背景知识介绍github地址：https://github.com/jhnns/rewire  rewire做了什么？rewire给每个模块增加了setter和getter方法，以便可以访问内部的变量。  review可以用来干什么？  inject mocks for other modules or glo">
+<meta name="keywords" content="rewire,测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rewire原理">
+<meta property="og:url" content="http://yoursite.com/2019/08/23/前端工程化相关/rewire原理/index.html">
+<meta property="og:site_name" content="lether-jdd">
+<meta property="og:description" content="莫名的缘分使我看到了rewire这个库，于是就好奇怎么实现的，接下来就围绕这个库展开。 背景知识介绍github地址：https://github.com/jhnns/rewire  rewire做了什么？rewire给每个模块增加了setter和getter方法，以便可以访问内部的变量。  review可以用来干什么？  inject mocks for other modules or glo">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-21T03:45:09.336Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="rewire原理">
+<meta name="twitter:description" content="莫名的缘分使我看到了rewire这个库，于是就好奇怎么实现的，接下来就围绕这个库展开。 背景知识介绍github地址：https://github.com/jhnns/rewire  rewire做了什么？rewire给每个模块增加了setter和getter方法，以便可以访问内部的变量。  review可以用来干什么？  inject mocks for other modules or glo">
+  <link rel="canonical" href="http://yoursite.com/2019/08/23/前端工程化相关/rewire原理/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>rewire原理 | lether-jdd</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lether-jdd</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/rewire原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">rewire原理
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/测试相关/" itemprop="url" rel="index"><span itemprop="name">测试相关</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>莫名的缘分使我看到了rewire这个库，于是就好奇怎么实现的，接下来就围绕这个库展开。</p>
+<h2 id="背景知识介绍"><a href="#背景知识介绍" class="headerlink" title="背景知识介绍"></a>背景知识介绍</h2><p>github地址：<a href="https://github.com/jhnns/rewire" target="_blank" rel="noopener">https://github.com/jhnns/rewire</a></p>
+<ol>
+<li><p>rewire做了什么？<br>rewire给每个模块增加了setter和getter方法，以便可以访问内部的变量。</p>
+</li>
+<li><p>review可以用来干什么？</p>
+<ul>
+<li>inject mocks for other modules or globals like process</li>
+<li>inspect private variables</li>
+<li>override variables within the module. </li>
+</ul>
+</li>
+<li><p>review怎么用？<br>参考github链接</p>
+<h2 id="原理剖析"><a href="#原理剖析" class="headerlink" title="原理剖析"></a>原理剖析</h2><p><code>源码版本号：rewire@4.0.0   node@12.9.0</code></p>
+</li>
+<li><p>怎么给每个模块加上setter 和 getter ？<br>rewire.js文件中可看到：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">appendix = <span class="string">"\n"</span> + getDefinePropertySrc();</span><br><span class="line">appendix += <span class="string">"&#125;)();"</span>;</span><br><span class="line">moduleEnv.inject(prelude, appendix);</span><br></pre></td></tr></table></figure>
+
+<p>getDefinePropertySrc：<br>该函数的作用就是拼接setter、getter、with函数。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var __get__ = require(<span class="string">"./__get__.js"</span>);</span><br><span class="line">var __set__ = require (<span class="string">"./__set__.js"</span>);</span><br><span class="line">var __with__ = require(<span class="string">"./__with__.js"</span>);</span><br><span class="line"></span><br><span class="line">var srcs = &#123;</span><br><span class="line">    <span class="string">"__get__"</span>: __get__.toString(),</span><br><span class="line">    <span class="string">"__set__"</span>: __set__.toString(),</span><br><span class="line">    <span class="string">"__with__"</span>: __with__.toString()</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">getDefinePropertySrc</span></span>() &#123;</span><br><span class="line">    var src = <span class="string">"if (typeof(module.exports) === 'function' || \n"</span> +</span><br><span class="line">            <span class="string">"(typeof(module.exports) === 'object' &amp;&amp; module.exports !== null &amp;&amp; Object.isExtensible(module.exports))) &#123;\n"</span>;</span><br><span class="line"></span><br><span class="line">    src += Object.keys(srcs).reduce(<span class="keyword">function</span> forEachSrc(preValue, value) &#123;</span><br><span class="line">        <span class="built_in">return</span> preValue += <span class="string">"Object.defineProperty(module.exports, '"</span> +</span><br><span class="line">            value +</span><br><span class="line">            <span class="string">"', &#123;enumerable: false, value: "</span> +</span><br><span class="line">            srcs[value] +</span><br><span class="line">            <span class="string">", "</span>+</span><br><span class="line">            <span class="string">"writable: true&#125;); "</span>;</span><br><span class="line">    &#125;, <span class="string">""</span>);</span><br><span class="line"></span><br><span class="line">    src += <span class="string">"\n&#125;"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> src;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>inject方法：<br>将拼接好setter和getter的内容拼接到Module的wrapper属性中，方便之后_compile函数通过wrapSafe函数对模块进行拼接(在node源码中)。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var Module = require(<span class="string">"module"</span>),</span><br><span class="line"><span class="keyword">function</span> inject(prelude, appendix) &#123;</span><br><span class="line">    Module.wrapper[0] = moduleWrapper0 + prelude;</span><br><span class="line">    Module.wrapper[1] = appendix + moduleWrapper1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接下来rewire文件进入到load方法中，这个方法才真正将模块内容拼接好。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">moduleEnv.load(targetModule);</span><br></pre></td></tr></table></figure>
+
+<p>load方法中调用module的load对模块进行装载（targetModule.load(targetModule.id);）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> load(targetModule) &#123;</span><br><span class="line">  nodeRequire = targetModule.require;</span><br><span class="line">  targetModule.require = requireProxy;</span><br><span class="line">  currentModule = targetModule;</span><br><span class="line"></span><br><span class="line">  registerExtensions();</span><br><span class="line">  targetModule.load(targetModule.id);</span><br><span class="line"></span><br><span class="line">  // This is only necessary <span class="keyword">if</span> nothing has been required within the module</span><br><span class="line">  reset();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>module的load方法可在node源码中找到,通过执行Module._extensions[extension](this, filename);方法然后调用_compile方法对模块进行装载。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Module.prototype.load = <span class="keyword">function</span>(filename) &#123;</span><br><span class="line">  debug(<span class="string">'load %j for module %j'</span>, filename, this.id);</span><br><span class="line"></span><br><span class="line">  assert(!this.loaded);</span><br><span class="line">  this.filename = filename;</span><br><span class="line">  this.paths = Module._nodeModulePaths(path.dirname(filename));</span><br><span class="line"></span><br><span class="line">  const extension = findLongestRegisteredExtension(filename);</span><br><span class="line">  Module._extensions[extension](this, filename);</span><br><span class="line">  this.loaded = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (experimentalModules) &#123;</span><br><span class="line">    const ESMLoader = asyncESM.ESMLoader;</span><br><span class="line">    const url = `<span class="variable">$&#123;pathToFileURL(filename)&#125;</span>`;</span><br><span class="line">    const module = ESMLoader.moduleMap.get(url);</span><br><span class="line">    // Create module entry at load time to snapshot exports correctly</span><br><span class="line">    const exports = this.exports;</span><br><span class="line">    <span class="keyword">if</span> (module !== undefined) &#123; // Called from cjs translator</span><br><span class="line">      <span class="keyword">if</span> (module.reflect) &#123;</span><br><span class="line">        module.reflect.onReady((reflect) =&gt; &#123;</span><br><span class="line">          reflect.exports.default.set(exports);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123; // preemptively cache</span><br><span class="line">      ESMLoader.moduleMap.set(</span><br><span class="line">        url,</span><br><span class="line">        new ModuleJob(ESMLoader, url, async () =&gt; &#123;</span><br><span class="line">          <span class="built_in">return</span> createDynamicModule(</span><br><span class="line">            [], [<span class="string">'default'</span>], url, (reflect) =&gt; &#123;</span><br><span class="line">              reflect.exports.default.set(exports);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;)</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Module._extensions[<span class="string">'.js'</span>] = <span class="keyword">function</span>(module, filename) &#123;</span><br><span class="line">  const content = fs.readFileSync(filename, <span class="string">'utf8'</span>);</span><br><span class="line">  module._compile(content, filename);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>接下来看一下registerExtensions（require.extensions这个api已经废弃）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">registerExtensions</span></span>() &#123;</span><br><span class="line">  var originalJsExtension = require.extensions[<span class="string">".js"</span>];</span><br><span class="line">    var originalCoffeeExtension = require.extensions[<span class="string">".coffee"</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (originalJsExtension) &#123;</span><br><span class="line">        originalExtensions.js = originalJsExtension;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (originalCoffeeExtension) &#123;</span><br><span class="line">        originalExtensions.coffee = originalCoffeeExtension;</span><br><span class="line">    &#125;</span><br><span class="line">    require.extensions[<span class="string">".js"</span>] = jsExtension;</span><br><span class="line">    require.extensions[<span class="string">".coffee"</span>] = coffeeExtension;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>jsExtension函数，在该函数中重写了module的_compile函数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> jsExtension(module, filename) &#123;</span><br><span class="line">  var _compile = module._compile;</span><br><span class="line"></span><br><span class="line">  module._compile = <span class="keyword">function</span> (content, filename) &#123;</span><br><span class="line">      var noConstAssignMessage = linter.verify(content, eslintOptions).find(isNoConstAssignMessage);</span><br><span class="line">      var line;</span><br><span class="line">      var column;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (noConstAssignMessage !== undefined) &#123;</span><br><span class="line">          line = noConstAssignMessage.line;</span><br><span class="line">          column = noConstAssignMessage.column;</span><br><span class="line">          throw new TypeError(`Assignment to constant variable at <span class="variable">$&#123; filename &#125;</span>:<span class="variable">$&#123; line &#125;</span>:<span class="variable">$&#123; column &#125;</span>`);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      _compile.call(</span><br><span class="line">          module,</span><br><span class="line">          content.replace(matchConst, <span class="string">"<span class="variable">$1let</span>  <span class="variable">$2</span>"</span>), // replace const with <span class="built_in">let</span>, <span class="keyword">while</span> maintaining the column width</span><br><span class="line">          filename</span><br><span class="line">      );</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  restoreExtensions();</span><br><span class="line">  originalExtensions.js(module, filename);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>而Module的wrapper，看node源码（path:node/lib/internal/modules/cjs/loader.js）可找到如下代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> wrap = <span class="keyword">function</span>(script) &#123;</span><br><span class="line">  <span class="built_in">return</span> Module.wrapper[0] + script + Module.wrapper[1];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const wrapper = [</span><br><span class="line">  <span class="string">'(function (exports, require, module, __filename, __dirname) &#123; '</span>,</span><br><span class="line">  <span class="string">'\n&#125;);'</span></span><br><span class="line">];</span><br><span class="line"><span class="built_in">let</span> wrapperProxy = new Proxy(wrapper, &#123;</span><br><span class="line">  <span class="built_in">set</span>(target, property, value, receiver) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    <span class="built_in">return</span> Reflect.set(target, property, value, receiver);</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  defineProperty(target, property, descriptor) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    <span class="built_in">return</span> Object.defineProperty(target, property, descriptor);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">Object.defineProperty(Module, <span class="string">'wrap'</span>, &#123;</span><br><span class="line">  <span class="function"><span class="title">get</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> wrap;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">set</span>(value) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    wrap = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Object.defineProperty(Module, <span class="string">'wrapper'</span>, &#123;</span><br><span class="line">  <span class="function"><span class="title">get</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> wrapperProxy;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="built_in">set</span>(value) &#123;</span><br><span class="line">    patched = <span class="literal">true</span>;</span><br><span class="line">    wrapperProxy = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>总结</strong><br>rewire主要是通过更改Module的wrapper实现的对模块的拼接。<br>rewire一个文件的路径：注入wrapper，调用Module的load<br>而require函数也是通过调用load方法加载模块。</p>
+</li>
+<li><p>怎么通过getter实现对内部的访问</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">__get__</span></span>() &#123;</span><br><span class="line">    arguments.varName = arguments[0];</span><br><span class="line">    <span class="keyword">if</span> (arguments.varName &amp;&amp; typeof arguments.varName === <span class="string">"string"</span>) &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="built_in">eval</span>(arguments.varName);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        throw new TypeError(<span class="string">"__get__ expects a non-empty string"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>原理同</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="function"><span class="title">a</span></span>()&#123;</span><br><span class="line">  <span class="built_in">let</span> private =<span class="function"><span class="title">function</span></span>()&#123;</span><br><span class="line">    console.log(<span class="string">'111'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">let</span> exports = &#123;</span><br><span class="line">    get(name)&#123;</span><br><span class="line">      <span class="built_in">return</span> <span class="built_in">eval</span>(name)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">return</span> exports</span><br><span class="line">&#125;</span><br><span class="line">a().get(<span class="string">'private'</span>)</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>遗留<br>在node的module源码中也能看到require,这个require指的是？<br>还有了解了proxy,<br>Reflect.set(target, property, value, receiver);<br>除了拦截get\set还可以拦截defineProperty</li>
+</ol>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/rewire/" rel="tag"># rewire</a>
+            
+              <a href="/tags/测试/" rel="tag"># 测试</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/23/node/线程学习/" rel="next" title="node线程学习">
+                  <i class="fa fa-chevron-left"></i> node线程学习
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/23/面试/头条算法/" rel="prev" title="头条算法刷题">
+                  头条算法刷题 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景知识介绍"><span class="nav-number">1.</span> <span class="nav-text">背景知识介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理剖析"><span class="nav-number">2.</span> <span class="nav-text">原理剖析</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lether-jdd</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lether-jdd</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

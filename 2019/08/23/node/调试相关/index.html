@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="node调试inspect + chrome执行node –inspect index.js然后在Chrome中访问chrome://inspect，找到对应的Remote Target  –inspect: 启动debug模式，并监听9229端口（默认端口）；–inspect-brk： 启动debug模式，并监听9229端口（默认端口），并在开始处进行断点；  vscode 调试npm调试配置1">
+<meta name="keywords" content="调试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="调试相关">
+<meta property="og:url" content="http://yoursite.com/2019/08/23/node/调试相关/index.html">
+<meta property="og:site_name" content="lether-jdd">
+<meta property="og:description" content="node调试inspect + chrome执行node –inspect index.js然后在Chrome中访问chrome://inspect，找到对应的Remote Target  –inspect: 启动debug模式，并监听9229端口（默认端口）；–inspect-brk： 启动debug模式，并监听9229端口（默认端口），并在开始处进行断点；  vscode 调试npm调试配置1">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-11-21T03:45:09.343Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="调试相关">
+<meta name="twitter:description" content="node调试inspect + chrome执行node –inspect index.js然后在Chrome中访问chrome://inspect，找到对应的Remote Target  –inspect: 启动debug模式，并监听9229端口（默认端口）；–inspect-brk： 启动debug模式，并监听9229端口（默认端口），并在开始处进行断点；  vscode 调试npm调试配置1">
+  <link rel="canonical" href="http://yoursite.com/2019/08/23/node/调试相关/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>调试相关 | lether-jdd</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lether-jdd</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/node/调试相关/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">调试相关
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-21 11:45:09" itemprop="dateModified" datetime="2019-11-21T11:45:09+08:00">2019-11-21</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/调试/" itemprop="url" rel="index"><span itemprop="name">调试</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="node调试"><a href="#node调试" class="headerlink" title="node调试"></a>node调试</h1><h2 id="inspect-chrome"><a href="#inspect-chrome" class="headerlink" title="inspect + chrome"></a>inspect + chrome</h2><p>执行node –inspect index.js<br>然后在Chrome中访问chrome://inspect，找到对应的Remote Target</p>
+<blockquote>
+<p>–inspect: 启动debug模式，并监听9229端口（默认端口）；<br>–inspect-brk： 启动debug模式，并监听9229端口（默认端口），并在开始处进行断点；</p>
+</blockquote>
+<h2 id="vscode-调试"><a href="#vscode-调试" class="headerlink" title="vscode 调试"></a>vscode 调试</h2><h3 id="npm调试配置"><a href="#npm调试配置" class="headerlink" title="npm调试配置"></a>npm调试配置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span>: <span class="string">"Launch via NPM"</span>,</span><br><span class="line">  <span class="string">"type"</span>: <span class="string">"node"</span>,</span><br><span class="line">  <span class="string">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">  <span class="string">"runtimeExecutable"</span>: <span class="string">"npm"</span>,</span><br><span class="line">  <span class="string">"runtimeArgs"</span>: [</span><br><span class="line">    <span class="string">"run-script"</span>, <span class="string">"build"</span> //这里的dev就对应package.json中的scripts中的dev</span><br><span class="line">  ],</span><br><span class="line">  <span class="string">"port"</span>: 9229 //这个端口是调试的端口，不是项目启动的端口</span><br><span class="line">&#125;</span><br><span class="line">其中要注意script脚本中的build命令要是node --inspect-brk=9229  xx.js，不然的进不去断点</span><br></pre></td></tr></table></figure>
+
+<h3 id="Launch-Program调试配置"><a href="#Launch-Program调试配置" class="headerlink" title="Launch Program调试配置"></a>Launch Program调试配置</h3><pre><code class="bash">{
+  <span class="string">"type"</span>: <span class="string">"node"</span>,
+  <span class="string">"request"</span>: <span class="string">"launch"</span>,
+  <span class="string">"name"</span>: <span class="string">"launch webpack-dev-server"</span>,
+  <span class="string">"program"</span>: <span class="string">"<span class="variable">${workspaceFolder}</span>/node_modules/webpack-dev-server/bin/webpack-dev-server.js"</span>,
+  <span class="string">"args"</span>: [<span class="string">"--progress"</span>, <span class="string">"--inline"</span>, <span class="string">"--config"</span>, <span class="string">"build/webpack.dev.conf.js"</span>]
+}
+针对一些npm中不是通过node启动的，可以采用这种方式
+例如：<span class="string">"script"</span>:{
+  <span class="string">"dev"</span>: <span class="string">"webpack-dev-server --inline --progress --config  build/webpack.dev.conf.js"</span>,
+}
+此处运行的webpack-dev-server实际是/node_modules/webpack-dev-server/bin/webpack-dev-server.js文件（该文件在node_module/.bin中的软链接）【关于node_module/.bin目录可详见https://juejin.im/post/5ab3f77df265da2392364341<span class="comment">#heading-16 5.2节】</span>
+参数可写在args中</code></pre>
+<p>遗留问题：<br>1 怎么创建软链接<br>2 扩展将本地包作为node_module的方法（npm install file:./config）  见<a href="https://juejin.im/post/5ab3f77df265da2392364341#heading-16" target="_blank" rel="noopener">https://juejin.im/post/5ab3f77df265da2392364341#heading-16</a>   2.2章节（这个链接值得好好读）</p>
+<h3 id="attach配置"><a href="#attach配置" class="headerlink" title="attach配置"></a>attach配置</h3>
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/调试/" rel="tag"># 调试</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/23/前端工程化相关/benchmark/" rel="next" title="benchmark">
+                  <i class="fa fa-chevron-left"></i> benchmark
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/08/23/移动端/web&hybrid&native app/" rel="prev" title="web&hybrid&native">
+                  web&hybrid&native <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#node调试"><span class="nav-number">1.</span> <span class="nav-text">node调试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#inspect-chrome"><span class="nav-number">1.1.</span> <span class="nav-text">inspect + chrome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vscode-调试"><span class="nav-number">1.2.</span> <span class="nav-text">vscode 调试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#npm调试配置"><span class="nav-number">1.2.1.</span> <span class="nav-text">npm调试配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Launch-Program调试配置"><span class="nav-number">1.2.2.</span> <span class="nav-text">Launch Program调试配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#attach配置"><span class="nav-number">1.2.3.</span> <span class="nav-text">attach配置</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lether-jdd</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lether-jdd</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

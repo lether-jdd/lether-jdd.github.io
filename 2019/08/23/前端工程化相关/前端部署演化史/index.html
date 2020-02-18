@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.3.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.3.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.3.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.3.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.3.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="https://mp.weixin.qq.com/s/qyNT-p-hpMvWL6yDIKNoyw 1 nginxtry-files指令   可以避免非root路径404  可实现跳转proxy_pass  可解决跨域  nginx缓存里拿不到资源，向该地址转发请求，拿到新的资源，并进行缓存rewriteproxy_cache 将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就">
+<meta name="keywords" content="部署,nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端部署演化史">
+<meta property="og:url" content="http://yoursite.com/2019/08/23/前端工程化相关/前端部署演化史/index.html">
+<meta property="og:site_name" content="lether-jdd">
+<meta property="og:description" content="https://mp.weixin.qq.com/s/qyNT-p-hpMvWL6yDIKNoyw 1 nginxtry-files指令   可以避免非root路径404  可实现跳转proxy_pass  可解决跨域  nginx缓存里拿不到资源，向该地址转发请求，拿到新的资源，并进行缓存rewriteproxy_cache 将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-05T06:06:31.345Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端部署演化史">
+<meta name="twitter:description" content="https://mp.weixin.qq.com/s/qyNT-p-hpMvWL6yDIKNoyw 1 nginxtry-files指令   可以避免非root路径404  可实现跳转proxy_pass  可解决跨域  nginx缓存里拿不到资源，向该地址转发请求，拿到新的资源，并进行缓存rewriteproxy_cache 将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就">
+  <link rel="canonical" href="http://yoursite.com/2019/08/23/前端工程化相关/前端部署演化史/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>前端部署演化史 | lether-jdd</title>
+  <meta name="generator" content="Hexo 3.9.0">
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lether-jdd</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/23/前端工程化相关/前端部署演化史/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">前端部署演化史
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-08-23 21:13:51" itemprop="dateCreated datePublished" datetime="2019-08-23T21:13:51+08:00">2019-08-23</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-05 14:06:31" itemprop="dateModified" datetime="2019-12-05T14:06:31+08:00">2019-12-05</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建/" itemprop="url" rel="index"><span itemprop="name">构建</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a href="https://mp.weixin.qq.com/s/qyNT-p-hpMvWL6yDIKNoyw" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/qyNT-p-hpMvWL6yDIKNoyw</a></p>
+<h2 id="1-nginx"><a href="#1-nginx" class="headerlink" title="1 nginx"></a>1 nginx</h2><p>try-files指令   可以避免非root路径404  可实现跳转<br>proxy_pass  可解决跨域  nginx缓存里拿不到资源，向该地址转发请求，拿到新的资源，并进行缓存<br>rewrite<br>proxy_cache 将用户的请求缓存到本地一个目录。下一个相同请求可以直接调取缓存文件，就不用去请求服务器了<br>proxy_redirect 设置后端服务器“Location”响应头和“Refresh”响应头的替换文本</p>
+<h2 id="2-docker-构建镜像"><a href="#2-docker-构建镜像" class="headerlink" title="2 docker  构建镜像"></a>2 docker  构建镜像</h2><p>dockerfile 即部署脚本<br>docker-compose.yaml<br>docker-compose up -d 启动前端应用<br>dockerfile   示例 ：主要是指明环境  执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FROM node:alpine</span><br><span class="line"></span><br><span class="line"><span class="comment"># 代表生产环境</span></span><br><span class="line">ENV PROJECT_ENV production</span><br><span class="line"><span class="comment"># 许多 package 会根据此环境变量，做出不同的行为</span></span><br><span class="line"><span class="comment"># 另外，在 webpack 中打包也会根据此环境变量做出优化，但是 create-react-app 在打包时会写死该环境变量</span></span><br><span class="line">ENV NODE_ENV production</span><br><span class="line">WORKDIR /code</span><br><span class="line">ADD . /code</span><br><span class="line">RUN npm install &amp;&amp; npm run build &amp;&amp; npm install -g http-server</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">CMD http-server ./public -p 80</span><br></pre></td></tr></table></figure>
+
+<p>dockerfile的改进：<br>构建镜像体积过大<br>构建镜像时间过长</p>
+<p>docker-compose.yaml  让运维运行</p>
+<p>做法：<br>1 减少 npm install（npm cache 的基础镜像或者 npm 私有仓库）<br>2 npm install –production 只装必要的包</p>
+<h2 id="3-CI-CD（Continuous-Integration-Continuous-Delivery）"><a href="#3-CI-CD（Continuous-Integration-Continuous-Delivery）" class="headerlink" title="3 CI/CD（Continuous Integration/Continuous Delivery）"></a>3 CI/CD（Continuous Integration/Continuous Delivery）</h2><p>运维不用重复拉代码，docker-compose up -d，重启 nginx这三个步骤<br>而是用ci/cd自动化部署</p>
+<p>.gitlab-ci.yml等</p>
+<h2 id="4-kubernetes部署"><a href="#4-kubernetes部署" class="headerlink" title="4 kubernetes部署"></a>4 kubernetes部署</h2><p><a href="https://kubernetes.io/zh/docs/concepts/services-networking/ingress/" target="_blank" rel="noopener">https://kubernetes.io/zh/docs/concepts/services-networking/ingress/</a><br>随着业务越来越大，镜像越来越多，docker-compose 已经不太能应付，kubernetes 应时而出。这时服务器也从1台变成了多台，多台服务器就会有分布式问题<br>以前的流程:<br>1 前端配置 dockerfile 与 docker-compose<br>2 生产环境服务器的 CI runner 拉代码(可以看做以前的运维)，docker-compose up -d 启动服务。然后再重启 nginx，做反向代理，对外提供服务<br>以前的流程有一个问题: 构建镜像的服务器，提供容器服务的服务器，做持续集成的服务器是一台！<br>所以需要一个私有的镜像仓库，一个能够访问 k8s 集群的持续集成服务器</p>
+<p>流程改进之后结合 k8s 的流程如下<br>前端配置 dockerfile，构建镜像，推到镜像仓库<br>运维为前端应用配置 k8s 的资源配置文件，kubectl apply -f 时会重新拉取镜像，部署资源</p>
+<h2 id="5-helm"><a href="#5-helm" class="headerlink" title="5 helm"></a>5 helm</h2><p>bitnami/nginx<br><a href="https://whmzsu.github.io/helm-doc-zh-cn/chart/charts-zh_cn.html" target="_blank" rel="noopener">https://whmzsu.github.io/helm-doc-zh-cn/chart/charts-zh_cn.html</a></p>
+<h2 id="devops"><a href="#devops" class="headerlink" title="devops"></a>devops</h2><p><a href="https://aws.amazon.com/cn/devops/what-is-devops/" target="_blank" rel="noopener">https://aws.amazon.com/cn/devops/what-is-devops/</a><br>工具集<br><a href="https://library.prof.wang/handbook/h/hdbk-MWnS99ThmLVDi7U5mVFrB9" target="_blank" rel="noopener">https://library.prof.wang/handbook/h/hdbk-MWnS99ThmLVDi7U5mVFrB9</a></p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>前端构建主要考虑：缓存和跨域</p>
+<p>最开始的时候让sre在nginx层对静态文件进行缓存和跨域<br>后来前端提供服务，编写docker<br>再后来ci/cd  解放sre<br>再后来随着机器的增多，引入k8s</p>
+<p>之后前端不再仅仅提供静态资源，而是提供服务</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/部署/" rel="tag"># 部署</a>
+            
+              <a href="/tags/nginx/" rel="tag"># nginx</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/08/23/前端工程化相关/测试相关/" rel="next" title="测试相关">
+                  <i class="fa fa-chevron-left"></i> 测试相关
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/17/日记/20190917/" rel="prev" title="20190917">
+                  20190917 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-nginx"><span class="nav-number">1.</span> <span class="nav-text">1 nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-docker-构建镜像"><span class="nav-number">2.</span> <span class="nav-text">2 docker  构建镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-CI-CD（Continuous-Integration-Continuous-Delivery）"><span class="nav-number">3.</span> <span class="nav-text">3 CI/CD（Continuous Integration/Continuous Delivery）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-kubernetes部署"><span class="nav-number">4.</span> <span class="nav-text">4 kubernetes部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-helm"><span class="nav-number">5.</span> <span class="nav-text">5 helm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#devops"><span class="nav-number">6.</span> <span class="nav-text">devops</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过程"><span class="nav-number">7.</span> <span class="nav-text">过程</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">lether-jdd</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">tags</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lether-jdd</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.3.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.3.0"></script><script src="/js/motion.js?v=7.3.0"></script>
+<script src="/js/schemes/pisces.js?v=7.3.0"></script>
+<script src="/js/next-boot.js?v=7.3.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
