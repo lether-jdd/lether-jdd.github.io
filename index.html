@@ -213,6 +213,113 @@
   
   
   <div class="post-block home">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/20/ts&js/ts学习资料/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lether-jdd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lether-jdd">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+            
+            <a href="/2020/02/20/ts&js/ts学习资料/" class="post-title-link" itemprop="url">ts学习资料</a>
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2020-02-20 00:00:00 / Modified: 16:45:03" itemprop="dateCreated datePublished" datetime="2020-02-20T00:00:00+08:00">2020-02-20</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ts/" itemprop="url" rel="index"><span itemprop="name">ts</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-资料"><a href="#1-资料" class="headerlink" title="1 资料"></a>1 资料</h1><p><a href="https://ts.xcatliu.com/advanced/further-reading" target="_blank" rel="noopener">https://ts.xcatliu.com/advanced/further-reading</a></p>
+<h1 id="2-笔记"><a href="#2-笔记" class="headerlink" title="2 笔记"></a>2 笔记</h1><ul>
+<li><input checked disabled type="checkbox"> <p>泛型Generics:<br>  Array<t>  当每一项输出要与输入一致，且输入类型不一致时可以用泛型</t></p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> createArray&lt;T&gt;(length: number, value: T): Array&lt;T&gt;</span><br><span class="line">//多个类型</span><br><span class="line"><span class="keyword">function</span> swap&lt;T, U&gt;(tuple: [T, U]): [U, T] </span><br><span class="line">//泛型约束</span><br><span class="line">interface Lengthwise &#123;</span><br><span class="line">    length: number;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> loggingIdentity&lt;T extends Lengthwise&gt;(arg: T): T &#123;</span><br></pre></td></tr></table></figure>
+</li>
+<li><input disabled type="checkbox"> <p>联合类型Union Types：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">let</span> myFavoriteNumber: string | number;</span><br></pre></td></tr></table></figure>
+</li>
+<li><input disabled type="checkbox"> <p>接口Interfaces:<br> 定义对象的类型</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">interface Person &#123;</span><br><span class="line">  name: string;</span><br><span class="line">  age: number;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">let</span> tom: Person = &#123;</span><br><span class="line">    name: <span class="string">'Tom'</span>,</span><br><span class="line">    age: 25</span><br><span class="line">&#125;;</span><br><span class="line">//任意属性</span><br><span class="line">interface Person &#123;</span><br><span class="line">  name: string;</span><br><span class="line">  <span class="built_in">readonly</span> id: number; //只读</span><br><span class="line">  age?: number; //可选</span><br><span class="line">  [propName: string]: any; //任意属性</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><input disabled type="checkbox"> <p>类型断言Assertion<br> 使用场景：不确定类型的时候就访问其中一个类型的属性或方法(类型断言不是类型转换，断言成一个联合类型中不存在的类型是不允许的)</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> getLength(something: string | number): number &#123;</span><br><span class="line">  <span class="keyword">if</span> ((&lt;string&gt;something).length) &#123;</span><br><span class="line">      <span class="built_in">return</span> (&lt;string&gt;something).length;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">return</span> something.toString().length;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><input disabled type="checkbox"> <p>类型别名</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> NameOrResolver = Name | NameResolver;</span><br><span class="line"><span class="keyword">function</span> getName(n: NameOrResolver): string</span><br></pre></td></tr></table></figure>
+</li>
+<li><input disabled type="checkbox"> <p>声明及声明文件<br>  xxx.d.ts就是声明文件</p>
+</li>
+<li><input disabled type="checkbox"> <p>类与接口</p>
+</li>
+</ul>
+
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+          <div class="post-eof"></div>
+        
+      </footer>
+  </div>
+  
+  
+  
+  </article>
+
+    
+        <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block home">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/18/前端性能&优化/service worker/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -933,102 +1040,6 @@
   </article>
 
     
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/11/前端工程化相关/polyfill/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lether-jdd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lether-jdd">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/11/前端工程化相关/polyfill/" class="post-title-link" itemprop="url">polyfill  && babel-polyfill</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              
-                
-              
-
-              <time title="Created: 2019-10-11 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-11T00:00:00+08:00">2019-10-11</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-02-18 22:34:52" itemprop="dateModified" datetime="2020-02-18T22:34:52+08:00">2020-02-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/构建-其他/" itemprop="url" rel="index"><span itemprop="name">构建&其他</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>polyfill  包含js语言的polyfill  和 html（例如document.head） 、DOM等各种的polyfill</p>
-<p>Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 API，比如 Iterator、Generator、Set、Maps、Proxy、Reflect、Symbol、Promise 等全局对象，以及一些定义在全局对象上的方法（比如 Object.assign ）都不会转码</p>
-<p>babel-runtime和babel-plugin-transform-runtime</p>
-
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
   </div>
 
   
@@ -1078,7 +1089,7 @@
         
           <a href="/archives">
         
-          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1151,7 +1162,9 @@
         
           
         
-        <span class="site-state-item-count">29</span>
+          
+        
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">categories</span>
         </a>
       </div>
@@ -1248,7 +1261,9 @@
         
           
         
-        <span class="site-state-item-count">41</span>
+          
+        
+        <span class="site-state-item-count">42</span>
         <span class="site-state-item-name">tags</span>
         </a>
       </div>
